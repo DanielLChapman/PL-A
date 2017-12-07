@@ -1,0 +1,27 @@
+extends layout
+
+include mixins/_playlistForm
+
+block content
+	.inner
+		.login-page-container 
+			if playlist
+				h2 Editing #{playlist.name}
+				.login-form
+					+playlistForm(playlist)
+			else 
+				h2 Create A New Playlist
+				.login-form
+					+playlistForm()
+			
+
+	script.
+		$('.pivate-check-box').on('click', function() {
+			$(this).siblings('.private-text-area').text($(this).prop("checked")).css('textTransform', 'capitalize');
+			if ($(this).prop("checked")) {
+				$(this).siblings('.password-field').fadeIn(500);
+			}
+			else {
+				$(this).siblings('.password-field').fadeOut(500);
+			}
+		});

@@ -1,0 +1,63 @@
+extends layout
+
+block content
+	.inner
+		.video-container(reactID = ''+id, order = order)
+
+	script(src="/dist/View.bundle.js")
+	script(src="https://player.vimeo.com/api/player.js")
+	script(src="https://api.dmcdn.net/all.js")
+	script(src="http://www.youtube.com/player_api")
+	script( type="text/javascript").
+		function nextVideo() {
+			document.querySelector('.next-video-box').click();
+		}
+		function onPlayerStateChange(event) {
+			if(event.data == 0) {            
+				nextVideo()
+			}
+		};
+		function tempFunction(type, videoID) {
+			let player = null;
+			$('.video-switch-button').css('opacity', '0');
+			$('body').css('background-color', 'black');
+			$('.navbar').css('opacity', '0');
+			$('.main-content').css('marginTop', '-25px');
+			switch(type) {
+				case ('dailymotion'):
+					//- player = DM.player(document.querySelector('#player'), {
+					//-     video: videoID,
+					//-     width: "100%",
+					//-     height: "100%",
+					//-     params: {
+					//-         autoplay: true
+					//-     }
+					//- });
+					//- player.addEventListener('ended', function (evt) { 	
+					//- 	nextVideo();
+					//- } );
+					break;
+				case ('youtube'):
+					player = new YT.Player('iframe', {
+				        events: {
+				          'onStateChange': onPlayerStateChange
+				        }
+				    });
+					break;
+				case ('vimeo'):
+					var iframe = document.querySelector('iframe');
+				    player = new Vimeo.Player(iframe);
+				    /*player.on('ended', function(data) {
+				   		console.log('here');
+						nextVideo();
+					});*/
+					player.on('timeupdate', function(data) {
+					  if (data.percent === 1) {
+					    nextVideo();
+					  }
+					});
+					break;
+				default:
+					break;
+			}
+		}

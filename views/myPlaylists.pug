@@ -1,0 +1,24 @@
+extends layout
+
+block content
+	.inner
+		.edit-page-container
+			h2 Your Playlists
+			table.table.table-hover
+				thead
+					tr
+						th Name
+						th View
+						th Edit
+						th Delete
+				tbody
+					each playlist in playlists
+						tr
+							td
+								h4= playlist.name
+							td
+								a(href=`/viewPlaylist/${playlist.slug}`) View
+							td
+								a(href=`/editVideos/${playlist._id}`) Edit
+							td
+								a(href=`/editVideos/${playlist._id}`) Delete
