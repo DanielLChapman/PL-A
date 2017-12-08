@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 111);
+/******/ 	return __webpack_require__(__webpack_require__.s = 113);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -1119,19 +1119,57 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
+/* WEBPACK VAR INJECTION */(function(process) {/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+if (process.env.NODE_ENV !== 'production') {
+  var REACT_ELEMENT_TYPE = (typeof Symbol === 'function' &&
+    Symbol.for &&
+    Symbol.for('react.element')) ||
+    0xeac7;
+
+  var isValidElement = function(object) {
+    return typeof object === 'object' &&
+      object !== null &&
+      object.$$typeof === REACT_ELEMENT_TYPE;
+  };
+
+  // By explicitly using `prop-types` you are opting into new development behavior.
+  // http://fb.me/prop-types-in-prod
+  var throwOnDirectAccess = true;
+  module.exports = __webpack_require__(52)(isValidElement, throwOnDirectAccess);
+} else {
+  // By explicitly using `prop-types` you are opting into new production behavior.
+  // http://fb.me/prop-types-in-prod
+  module.exports = __webpack_require__(54)();
+}
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+
+/***/ }),
+/* 15 */
+/***/ (function(module, exports, __webpack_require__) {
+
 "use strict";
 
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.REGEX_OBJ = exports.SEARCH_PLAYLISTS = exports.GET_VIDEOS_TO_VIEW = exports.DELETE_VIDEO = exports.GRAB_VIDEOS = exports.VIDEO_MOVE_DOWN = exports.VIDEO_MOVE_UP = exports.VIDEO_SCRUB = undefined;
+exports.REGEX_OBJ = exports.DELETE_API_KEY = exports.GENERATE_API_KEY = exports.GRAB_API_KEYS = exports.SEARCH_PLAYLISTS = exports.GET_VIDEOS_TO_VIEW = exports.DELETE_VIDEO = exports.GRAB_VIDEOS = exports.VIDEO_MOVE_DOWN = exports.VIDEO_MOVE_UP = exports.VIDEO_SCRUB = undefined;
 exports.scrubURL = scrubURL;
 exports.grabVideos = grabVideos;
 exports.searchVideos = searchVideos;
 exports.moveVideoUp = moveVideoUp;
 exports.moveVideoDown = moveVideoDown;
 exports.deleteVideo = deleteVideo;
+exports.grabAPIKeys = grabAPIKeys;
+exports.generateNewAPIKey = generateNewAPIKey;
+exports.deleteAPIKey = deleteAPIKey;
 
 var _axios = __webpack_require__(38);
 
@@ -1146,6 +1184,9 @@ var GRAB_VIDEOS = exports.GRAB_VIDEOS = 'GRAB_VIDEOS';
 var DELETE_VIDEO = exports.DELETE_VIDEO = 'DELETE_VIDEO';
 var GET_VIDEOS_TO_VIEW = exports.GET_VIDEOS_TO_VIEW = 'GET_VIDEOS_TO_VIEW';
 var SEARCH_PLAYLISTS = exports.SEARCH_PLAYLISTS = 'SEARCH_PLAYLISTS';
+var GRAB_API_KEYS = exports.GRAB_API_KEYS = 'GRAB_API_KEYS';
+var GENERATE_API_KEY = exports.GENERATE_API_KEY = 'GENERATE_API_KEY';
+var DELETE_API_KEY = exports.DELETE_API_KEY = 'DELETE_API_KEY';
 
 var REGEX_OBJ = exports.REGEX_OBJ = {
 	regYouTubeCom: /^(https?:\/\/)?(www\.)youtube.com\/(watch\?v=)\S{11}/,
@@ -1292,40 +1333,39 @@ function deleteVideo(elementID) {
 	};
 }
 
-/***/ }),
-/* 15 */
-/***/ (function(module, exports, __webpack_require__) {
+function grabAPIKeys() {
+	var url = '/api/grabUsersAPIKeys';
+	var data = _axios2.default.get(url);
 
-/* WEBPACK VAR INJECTION */(function(process) {/**
- * Copyright (c) 2013-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-
-if (process.env.NODE_ENV !== 'production') {
-  var REACT_ELEMENT_TYPE = (typeof Symbol === 'function' &&
-    Symbol.for &&
-    Symbol.for('react.element')) ||
-    0xeac7;
-
-  var isValidElement = function(object) {
-    return typeof object === 'object' &&
-      object !== null &&
-      object.$$typeof === REACT_ELEMENT_TYPE;
-  };
-
-  // By explicitly using `prop-types` you are opting into new development behavior.
-  // http://fb.me/prop-types-in-prod
-  var throwOnDirectAccess = true;
-  module.exports = __webpack_require__(52)(isValidElement, throwOnDirectAccess);
-} else {
-  // By explicitly using `prop-types` you are opting into new production behavior.
-  // http://fb.me/prop-types-in-prod
-  module.exports = __webpack_require__(54)();
+	return {
+		type: GRAB_API_KEYS,
+		payload: data
+	};
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+function generateNewAPIKey() {
+	var url = '/api/generateNewAPIKey';
+	var data = _axios2.default.get(url);
+
+	return {
+		type: GENERATE_API_KEY,
+		payload: data
+	};
+}
+
+function deleteAPIKey(key) {
+	var url = '/api/deleteAPIKey';
+	var data = _axios2.default.delete(url, {
+		params: {
+			apiKey: key
+		}
+	});
+
+	return {
+		type: DELETE_API_KEY,
+		payload: data
+	};
+}
 
 /***/ }),
 /* 16 */
@@ -1834,7 +1874,7 @@ module.exports = focusNode;
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return subscriptionShape; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return storeShape; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_prop_types__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_prop_types__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_prop_types__);
 
 
@@ -20426,7 +20466,7 @@ module.exports = camelize;
 /* WEBPACK VAR INJECTION */(function(process) {/* harmony export (immutable) */ __webpack_exports__["a"] = createProvider;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_PropTypes__ = __webpack_require__(24);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__utils_warning__ = __webpack_require__(10);
@@ -23862,7 +23902,8 @@ module.exports = isArray;
 
 
 /***/ }),
-/* 104 */
+/* 104 */,
+/* 105 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23878,7 +23919,7 @@ var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactDailymotion = __webpack_require__(105);
+var _reactDailymotion = __webpack_require__(106);
 
 var _reactDailymotion2 = _interopRequireDefault(_reactDailymotion);
 
@@ -24004,16 +24045,16 @@ var Video = function (_Component) {
 exports.default = Video;
 
 /***/ }),
-/* 105 */
+/* 106 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* WEBPACK VAR INJECTION */(function(process) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_load_script2__ = __webpack_require__(106);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_load_script2__ = __webpack_require__(107);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_load_script2___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_load_script2__);
 
 
@@ -24657,7 +24698,7 @@ Dailymotion.propTypes = process.env.NODE_ENV !== "production" ? {
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(0)))
 
 /***/ }),
-/* 106 */
+/* 107 */
 /***/ (function(module, exports) {
 
 module.exports = load
@@ -24686,11 +24727,12 @@ function load (src, cb) {
 
 
 /***/ }),
-/* 107 */,
 /* 108 */,
 /* 109 */,
 /* 110 */,
-/* 111 */
+/* 111 */,
+/* 112 */,
+/* 113 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24712,11 +24754,11 @@ var _reduxPromise = __webpack_require__(98);
 
 var _reduxPromise2 = _interopRequireDefault(_reduxPromise);
 
-var _EditVideosApp = __webpack_require__(112);
+var _EditVideosApp = __webpack_require__(114);
 
 var _EditVideosApp2 = _interopRequireDefault(_EditVideosApp);
 
-var _editVideos = __webpack_require__(116);
+var _editVideos = __webpack_require__(118);
 
 var _editVideos2 = _interopRequireDefault(_editVideos);
 
@@ -24731,7 +24773,7 @@ _reactDom2.default.render(_react2.default.createElement(
 ), document.querySelector('.editVideos'));
 
 /***/ }),
-/* 112 */
+/* 114 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24747,15 +24789,15 @@ var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _video_bar = __webpack_require__(113);
+var _video_bar = __webpack_require__(115);
 
 var _video_bar2 = _interopRequireDefault(_video_bar);
 
-var _playlist_list = __webpack_require__(114);
+var _playlist_list = __webpack_require__(116);
 
 var _playlist_list2 = _interopRequireDefault(_playlist_list);
 
-var _edit_form = __webpack_require__(115);
+var _edit_form = __webpack_require__(117);
 
 var _edit_form2 = _interopRequireDefault(_edit_form);
 
@@ -24763,7 +24805,7 @@ var _reactRedux = __webpack_require__(13);
 
 var _redux = __webpack_require__(5);
 
-var _index = __webpack_require__(14);
+var _index = __webpack_require__(15);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -24991,7 +25033,7 @@ function mapStateToProps(_ref) {
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(EditVideosApp);
 
 /***/ }),
-/* 113 */
+/* 115 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25011,7 +25053,7 @@ var _reactRedux = __webpack_require__(13);
 
 var _redux = __webpack_require__(5);
 
-var _index = __webpack_require__(14);
+var _index = __webpack_require__(15);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -25116,7 +25158,7 @@ function mapDispatchToProps(dispatch) {
 exports.default = (0, _reactRedux.connect)(null, mapDispatchToProps)(VideoBar);
 
 /***/ }),
-/* 114 */
+/* 116 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25136,9 +25178,9 @@ var _reactRedux = __webpack_require__(13);
 
 var _redux = __webpack_require__(5);
 
-var _index = __webpack_require__(14);
+var _index = __webpack_require__(15);
 
-var _Video = __webpack_require__(104);
+var _Video = __webpack_require__(105);
 
 var _Video2 = _interopRequireDefault(_Video);
 
@@ -25347,7 +25389,7 @@ function mapDispatchToProps(dispatch) {
 exports.default = (0, _reactRedux.connect)(null, mapDispatchToProps)(PlayListList);
 
 /***/ }),
-/* 115 */
+/* 117 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25558,7 +25600,7 @@ var EditForm = function (_Component) {
 exports.default = EditForm;
 
 /***/ }),
-/* 116 */
+/* 118 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25570,7 +25612,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _redux = __webpack_require__(5);
 
-var _reducer_video = __webpack_require__(117);
+var _reducer_video = __webpack_require__(119);
 
 var _reducer_video2 = _interopRequireDefault(_reducer_video);
 
@@ -25583,7 +25625,7 @@ var rootReducer = (0, _redux.combineReducers)({
 exports.default = rootReducer;
 
 /***/ }),
-/* 117 */
+/* 119 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25655,7 +25697,7 @@ exports.default = function () {
 	}
 };
 
-var _index = __webpack_require__(14);
+var _index = __webpack_require__(15);
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 

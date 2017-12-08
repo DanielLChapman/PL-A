@@ -69,6 +69,19 @@ router.post('/register',
 router.get('/api', 
 	authController.isLoggedIn, 
 	catchErrors(userController.apiIntroPage));
+
+router.get('/api/grabUsersAPIKeys',
+	authController.isLoggedIn,
+	catchErrors(userController.apiGrabAPIKeys));
+
+router.get('/api/generateNewAPIKey',
+	authController.isLoggedIn,
+	catchErrors(userController.generateNewAPIKey));
+
+router.delete('/api/deleteAPIKey', 
+	authController.isLoggedIn,
+	catchErrors(userController.deleteAPIKey));
+
 router.post('/api/v1/grabPlaylist/:playlist_id/:type', 
 	catchErrors(playlistController.checkPermissions),
 	catchErrors(playlistController.grabPlaylist));

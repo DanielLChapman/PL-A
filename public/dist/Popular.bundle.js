@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 125);
+/******/ 	return __webpack_require__(__webpack_require__.s = 127);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -1119,19 +1119,57 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
+/* WEBPACK VAR INJECTION */(function(process) {/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+if (process.env.NODE_ENV !== 'production') {
+  var REACT_ELEMENT_TYPE = (typeof Symbol === 'function' &&
+    Symbol.for &&
+    Symbol.for('react.element')) ||
+    0xeac7;
+
+  var isValidElement = function(object) {
+    return typeof object === 'object' &&
+      object !== null &&
+      object.$$typeof === REACT_ELEMENT_TYPE;
+  };
+
+  // By explicitly using `prop-types` you are opting into new development behavior.
+  // http://fb.me/prop-types-in-prod
+  var throwOnDirectAccess = true;
+  module.exports = __webpack_require__(52)(isValidElement, throwOnDirectAccess);
+} else {
+  // By explicitly using `prop-types` you are opting into new production behavior.
+  // http://fb.me/prop-types-in-prod
+  module.exports = __webpack_require__(54)();
+}
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+
+/***/ }),
+/* 15 */
+/***/ (function(module, exports, __webpack_require__) {
+
 "use strict";
 
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.REGEX_OBJ = exports.SEARCH_PLAYLISTS = exports.GET_VIDEOS_TO_VIEW = exports.DELETE_VIDEO = exports.GRAB_VIDEOS = exports.VIDEO_MOVE_DOWN = exports.VIDEO_MOVE_UP = exports.VIDEO_SCRUB = undefined;
+exports.REGEX_OBJ = exports.DELETE_API_KEY = exports.GENERATE_API_KEY = exports.GRAB_API_KEYS = exports.SEARCH_PLAYLISTS = exports.GET_VIDEOS_TO_VIEW = exports.DELETE_VIDEO = exports.GRAB_VIDEOS = exports.VIDEO_MOVE_DOWN = exports.VIDEO_MOVE_UP = exports.VIDEO_SCRUB = undefined;
 exports.scrubURL = scrubURL;
 exports.grabVideos = grabVideos;
 exports.searchVideos = searchVideos;
 exports.moveVideoUp = moveVideoUp;
 exports.moveVideoDown = moveVideoDown;
 exports.deleteVideo = deleteVideo;
+exports.grabAPIKeys = grabAPIKeys;
+exports.generateNewAPIKey = generateNewAPIKey;
+exports.deleteAPIKey = deleteAPIKey;
 
 var _axios = __webpack_require__(38);
 
@@ -1146,6 +1184,9 @@ var GRAB_VIDEOS = exports.GRAB_VIDEOS = 'GRAB_VIDEOS';
 var DELETE_VIDEO = exports.DELETE_VIDEO = 'DELETE_VIDEO';
 var GET_VIDEOS_TO_VIEW = exports.GET_VIDEOS_TO_VIEW = 'GET_VIDEOS_TO_VIEW';
 var SEARCH_PLAYLISTS = exports.SEARCH_PLAYLISTS = 'SEARCH_PLAYLISTS';
+var GRAB_API_KEYS = exports.GRAB_API_KEYS = 'GRAB_API_KEYS';
+var GENERATE_API_KEY = exports.GENERATE_API_KEY = 'GENERATE_API_KEY';
+var DELETE_API_KEY = exports.DELETE_API_KEY = 'DELETE_API_KEY';
 
 var REGEX_OBJ = exports.REGEX_OBJ = {
 	regYouTubeCom: /^(https?:\/\/)?(www\.)youtube.com\/(watch\?v=)\S{11}/,
@@ -1292,40 +1333,39 @@ function deleteVideo(elementID) {
 	};
 }
 
-/***/ }),
-/* 15 */
-/***/ (function(module, exports, __webpack_require__) {
+function grabAPIKeys() {
+	var url = '/api/grabUsersAPIKeys';
+	var data = _axios2.default.get(url);
 
-/* WEBPACK VAR INJECTION */(function(process) {/**
- * Copyright (c) 2013-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-
-if (process.env.NODE_ENV !== 'production') {
-  var REACT_ELEMENT_TYPE = (typeof Symbol === 'function' &&
-    Symbol.for &&
-    Symbol.for('react.element')) ||
-    0xeac7;
-
-  var isValidElement = function(object) {
-    return typeof object === 'object' &&
-      object !== null &&
-      object.$$typeof === REACT_ELEMENT_TYPE;
-  };
-
-  // By explicitly using `prop-types` you are opting into new development behavior.
-  // http://fb.me/prop-types-in-prod
-  var throwOnDirectAccess = true;
-  module.exports = __webpack_require__(52)(isValidElement, throwOnDirectAccess);
-} else {
-  // By explicitly using `prop-types` you are opting into new production behavior.
-  // http://fb.me/prop-types-in-prod
-  module.exports = __webpack_require__(54)();
+	return {
+		type: GRAB_API_KEYS,
+		payload: data
+	};
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+function generateNewAPIKey() {
+	var url = '/api/generateNewAPIKey';
+	var data = _axios2.default.get(url);
+
+	return {
+		type: GENERATE_API_KEY,
+		payload: data
+	};
+}
+
+function deleteAPIKey(key) {
+	var url = '/api/deleteAPIKey';
+	var data = _axios2.default.delete(url, {
+		params: {
+			apiKey: key
+		}
+	});
+
+	return {
+		type: DELETE_API_KEY,
+		payload: data
+	};
+}
 
 /***/ }),
 /* 16 */
@@ -1834,7 +1874,7 @@ module.exports = focusNode;
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return subscriptionShape; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return storeShape; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_prop_types__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_prop_types__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_prop_types__);
 
 
@@ -20192,7 +20232,7 @@ module.exports = camelize;
 /* WEBPACK VAR INJECTION */(function(process) {/* harmony export (immutable) */ __webpack_exports__["a"] = createProvider;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_PropTypes__ = __webpack_require__(24);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__utils_warning__ = __webpack_require__(10);
@@ -23080,7 +23120,8 @@ module.exports = function spread(callback) {
 /* 104 */,
 /* 105 */,
 /* 106 */,
-/* 107 */
+/* 107 */,
+/* 108 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23099,7 +23140,7 @@ var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _search_bar = __webpack_require__(108);
+var _search_bar = __webpack_require__(109);
 
 var _search_bar2 = _interopRequireDefault(_search_bar);
 
@@ -23107,7 +23148,7 @@ var _reactRedux = __webpack_require__(13);
 
 var _redux = __webpack_require__(5);
 
-var _index = __webpack_require__(14);
+var _index = __webpack_require__(15);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -23288,7 +23329,7 @@ function mapStateToProps(_ref) {
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(SearchPageApp);
 
 /***/ }),
-/* 108 */
+/* 109 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23308,7 +23349,7 @@ var _reactRedux = __webpack_require__(13);
 
 var _redux = __webpack_require__(5);
 
-var _index = __webpack_require__(14);
+var _index = __webpack_require__(15);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -23376,7 +23417,6 @@ function mapDispatchToProps(dispatch) {
 exports.default = (0, _reactRedux.connect)(null, mapDispatchToProps)(VideoBar);
 
 /***/ }),
-/* 109 */,
 /* 110 */,
 /* 111 */,
 /* 112 */,
@@ -23392,7 +23432,9 @@ exports.default = (0, _reactRedux.connect)(null, mapDispatchToProps)(VideoBar);
 /* 122 */,
 /* 123 */,
 /* 124 */,
-/* 125 */
+/* 125 */,
+/* 126 */,
+/* 127 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23406,7 +23448,7 @@ var _reactDom = __webpack_require__(42);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _PopularPage = __webpack_require__(126);
+var _PopularPage = __webpack_require__(128);
 
 var _PopularPage2 = _interopRequireDefault(_PopularPage);
 
@@ -23415,7 +23457,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 _reactDom2.default.render(_react2.default.createElement(_PopularPage2.default, null), document.querySelector('.popular-container'));
 
 /***/ }),
-/* 126 */
+/* 128 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23436,7 +23478,7 @@ var _axios = __webpack_require__(38);
 
 var _axios2 = _interopRequireDefault(_axios);
 
-var _SearchPage = __webpack_require__(107);
+var _SearchPage = __webpack_require__(108);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

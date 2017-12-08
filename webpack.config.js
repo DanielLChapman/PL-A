@@ -57,7 +57,8 @@ const config = {
     Edit: './public/react/editVideos.js',
     View: './public/react/viewPlaylist.js',
     Search: './public/react/Search.js',
-    Popular: './public/react/Popular.js'
+    Popular: './public/react/Popular.js',
+    Api: './public/react/API.js'
   },
   // we're using sourcemaps and here is where we specify which kind of sourcemap to use
   devtool: 'source-map',

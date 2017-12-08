@@ -9,5 +9,5 @@
 - **Build Tool**: webpack
 - **Unit Testing**: none
 - **Database**: mongodb
-- **Authentication**: 
+- **Authentication**: passport
 - **Deployment**: none

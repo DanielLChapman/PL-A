@@ -7,6 +7,9 @@ export const GRAB_VIDEOS = 'GRAB_VIDEOS';
 export const DELETE_VIDEO = 'DELETE_VIDEO';
 export const GET_VIDEOS_TO_VIEW = 'GET_VIDEOS_TO_VIEW';
 export const SEARCH_PLAYLISTS = 'SEARCH_PLAYLISTS';
+export const GRAB_API_KEYS = 'GRAB_API_KEYS';
+export const GENERATE_API_KEY = 'GENERATE_API_KEY';
+export const DELETE_API_KEY = 'DELETE_API_KEY';
 
 export const REGEX_OBJ = {
 	regYouTubeCom: /^(https?:\/\/)?(www\.)youtube.com\/(watch\?v=)\S{11}/,
@@ -149,4 +152,38 @@ export function deleteVideo (elementID) {
 		type: DELETE_VIDEO,
 		payload: data
 	};
+}
+
+export function grabAPIKeys () {
+	const url = '/api/grabUsersAPIKeys';
+	const data = axios.get(url);
+
+	return {
+		type: GRAB_API_KEYS,
+		payload: data
+	}
+}
+
+export function generateNewAPIKey () {
+	const url = '/api/generateNewAPIKey';
+	const data = axios.get(url);
+
+	return {
+		type: GENERATE_API_KEY,
+		payload: data
+	}
+}
+
+export function deleteAPIKey (key) {
+	const url = '/api/deleteAPIKey';
+	const data = axios.delete(url, {
+		params: {
+			apiKey: key
+		}
+	});
+
+	return {
+		type: DELETE_API_KEY,
+		payload: data
+	}
 }

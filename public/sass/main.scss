@@ -401,3 +401,22 @@ iframe {
   height: 100% !important;
 }
 
+
+.API-Window {
+  min-height: 90vh;
+  height: 100%;
+}
+
+.rt-tr {
+  @media screen and (min-width: 640px) {
+
+  }
+  div {
+    width: 300px !important;
+    @media screen and (min-width: 640px) {
+      &:nth-child(even) {
+        width: 100px !important;
+      }; 
+    }
+  }
+}

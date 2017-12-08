@@ -61,7 +61,42 @@ exports.updateAccount = async (req, res) => {
 }
 
 exports.apiIntroPage = async(req, res) => {
-	res.render('api');
+	res.render('api', {title: 'API'});
 }
 
+exports.apiGrabAPIKeys = async(req, res) => {
+	const userAPI = await User.findOne({email: req.user.email}, {
+			apiKeys: true,
+	});
+	res.json(userAPI);
+}
+
+exports.generateNewAPIKey = async(req, res) => {
+	if (req.user.apiKeys.length < 10) {
+		const hat = require('hat');
+		const newAPIKey = hat();
+		const user = await User.findOneAndUpdate(
+			{_id: req.user._id}, 
+			{ $push: {
+				apiKeys: newAPIKey
+			}}
+		);
+		return res.json({'apiKey': newAPIKey});
+	} else {
+		return res.json('Error, API Keys are limited to 10 per user, contact us if you need more');
+	}
+}
+
+exports.deleteAPIKey = async(req, res) => {
+	const apiKey = req.query.apiKey;
+	var user = await User.findOne({_id: req.user._id, apiKeys: apiKey});
+	user.apiKeys.pull(apiKey);
+	await user.save(function(err) {
+		if (err) {
+			return res.send(400, err);
+		}
+	});
+
+	res.json({'api key': apiKey, 'success': 'Successfully'});
+}
 

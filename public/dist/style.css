@@ -318,4 +318,14 @@ iframe {
   width: 100% !important;
   height: 100% !important; }
 
+.API-Window {
+  min-height: 90vh;
+  height: 100%; }
+
+.rt-tr div {
+  width: 300px !important; }
+  @media screen and (min-width: 640px) {
+    .rt-tr div:nth-child(even) {
+      width: 100px !important; } }
+
 /*# sourceMappingURL=style.css.map*/
