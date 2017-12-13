@@ -28,6 +28,10 @@ const userSchema = new Schema({
 	resetPasswordExpires: Date
 });
 
+userSchema.index({
+	apiKeys: 'text'
+});
+
 userSchema.plugin(passportLocalMongoose, {usernameField: 'email' });
 userSchema.plugin(mongodbErrorHandler);
 

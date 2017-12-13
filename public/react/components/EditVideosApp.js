@@ -4,8 +4,7 @@ import VideoBar from '../containers/video_bar';
 import PlayListList from '../containers/playlist_list';
 import EditForm from '../containers/edit_form';
 
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+ 
 
 import { grabVideos } from '../actions/index';
 
@@ -75,7 +74,7 @@ class EditVideosApp extends Component {
 		let url = null;
 		let urlDisplay = {display: 'none'};
 		if (this.props.playlist[0] != null) {
-			url = '/viewPlaylist/' + this.props.playlist[0].slug;
+			url = '/watch/' + this.props.playlist[0].slug;
 		}
 		if (this.state.checkURLS) {
 			urlDisplay = {display: 'block'};

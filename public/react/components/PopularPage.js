@@ -57,7 +57,7 @@ export default class PopularPageApp extends Component {
 					<h4>{tempP.name}</h4>
 					<h6 style={{color: "rgba(17,17,17,.4"}}>{tempP.user.name} || {getTimePast(tempP)}</h6>
 					<h5>{tempP.description}</h5>
-					<a href={`/viewPlaylist/${tempP.slug}`}><h6 style={{paddingBottom: '5px'}}>Click Here To Watch!</h6></a>
+					<a href={`/watch/${tempP.slug}`}><h6 style={{paddingBottom: '5px'}}>Click Here To Watch!</h6></a>
 				</div>
 			)
 		}

@@ -3,6 +3,7 @@ const router = express.Router();
 const playlistController = require('../controllers/playlistController');
 const userController = require('../controllers/userController');
 const authController = require('../controllers/authController');
+const apiController = require('../controllers/apiController');
 const { catchErrors } = require('../handlers/errorHandlers');
 
 /* GET home page. */
@@ -12,9 +13,6 @@ router.get('/', playlistController.homePage);
 router.get('/addPlayList', 
 			authController.isLoggedIn, 
 			playlistController.newPlayList);
-
-router.get('/popular', 
-	playlistController.getPopularPlaylists);
 
 /* GET Edit page. */
 router.get('/editPlayList/:playlist_id', 
@@ -31,8 +29,20 @@ router.get('/editVideos/:playlist_id', catchErrors(playlistController.editVideos
 
 router.get('/myPlaylists', authController.isLoggedIn, catchErrors(playlistController.getMyPlaylists));
 
-router.get('/viewPlaylist/:slug', catchErrors(playlistController.watchPlaylist));
+router.get('/watch/:slug', catchErrors(playlistController.watchPlaylist));
 
+router.get('/search/', playlistController.search);
+
+router.get('/popular', 
+	playlistController.getPopularPlaylists);
+
+router.get('/api', 
+	authController.isLoggedIn, 
+	catchErrors(userController.apiIntroPage));
+
+//Verify
+//Register
+//Login
 router.get('/login', userController.login);
 router.post('/login', authController.login);
 
@@ -56,43 +66,48 @@ router.post('/account/reset/:token',
 	catchErrors(authController.update)
 );
 
-router.get('/search/', playlistController.search);
-//Verify
-//Register
-//Login
 router.post('/register', 
 	userController.validateRegister,
 	userController.actualRegister,
 	authController.login);
 
-/* API */
-router.get('/api', 
-	authController.isLoggedIn, 
-	catchErrors(userController.apiIntroPage));
 
-router.get('/api/grabUsersAPIKeys',
+/* API */
+/* internal */
+router.get('/internal/api/v1/grabUsersAPIKeys',
 	authController.isLoggedIn,
 	catchErrors(userController.apiGrabAPIKeys));
 
-router.get('/api/generateNewAPIKey',
+router.get('/internal/api/v1/generateNewAPIKey',
 	authController.isLoggedIn,
 	catchErrors(userController.generateNewAPIKey));
 
-router.delete('/api/deleteAPIKey', 
+router.delete('/internal/api/v1/deleteAPIKey', 
 	authController.isLoggedIn,
 	catchErrors(userController.deleteAPIKey));
-
-router.post('/api/v1/grabPlaylist/:playlist_id/:type', 
-	catchErrors(playlistController.checkPermissions),
-	catchErrors(playlistController.grabPlaylist));
-
-router.post('/api/v1/editVideosForPlayList/:playlist_id', 
-	authController.isLoggedIn, 
-	catchErrors(playlistController.updatePlayList));
 
 router.get('/api/v1/search', catchErrors(playlistController.searchPlaylists));
 
 router.get('/api/v1/getPopularVideos', catchErrors(playlistController.getPopularPlaylistsAPI));
+
+router.post('/internal/api/v1/grabPlaylist/:playlist_id/:type', 
+	catchErrors(playlistController.checkPermissions),
+	catchErrors(playlistController.grabPlaylist));
+
+router.post('/internal/api/v1/editVideosForPlayList/:playlist_id', 
+	authController.isLoggedIn, 
+	catchErrors(playlistController.updatePlayList));
+
+/* Public Use */
+
+/* Key Required */
+
+router.post('/api/v1/createPlaylist/',
+	catchErrors(apiController.logEntry),
+	apiController.sanitizeInfo,
+	catchErrors(apiController.findUser),
+	catchErrors(playlistController.createPlayList));
+
 
 
 module.exports = router;

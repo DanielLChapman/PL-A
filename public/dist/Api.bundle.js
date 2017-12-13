@@ -1098,60 +1098,6 @@ module.exports = defaults;
 
 /***/ }),
 /* 13 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Provider__ = __webpack_require__(51);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_connectAdvanced__ = __webpack_require__(25);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__connect_connect__ = __webpack_require__(58);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Provider", function() { return __WEBPACK_IMPORTED_MODULE_0__components_Provider__["b"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createProvider", function() { return __WEBPACK_IMPORTED_MODULE_0__components_Provider__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "connectAdvanced", function() { return __WEBPACK_IMPORTED_MODULE_1__components_connectAdvanced__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "connect", function() { return __WEBPACK_IMPORTED_MODULE_2__connect_connect__["a"]; });
-
-
-
-
-
-
-/***/ }),
-/* 14 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(process) {/**
- * Copyright (c) 2013-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-
-if (process.env.NODE_ENV !== 'production') {
-  var REACT_ELEMENT_TYPE = (typeof Symbol === 'function' &&
-    Symbol.for &&
-    Symbol.for('react.element')) ||
-    0xeac7;
-
-  var isValidElement = function(object) {
-    return typeof object === 'object' &&
-      object !== null &&
-      object.$$typeof === REACT_ELEMENT_TYPE;
-  };
-
-  // By explicitly using `prop-types` you are opting into new development behavior.
-  // http://fb.me/prop-types-in-prod
-  var throwOnDirectAccess = true;
-  module.exports = __webpack_require__(52)(isValidElement, throwOnDirectAccess);
-} else {
-  // By explicitly using `prop-types` you are opting into new production behavior.
-  // http://fb.me/prop-types-in-prod
-  module.exports = __webpack_require__(54)();
-}
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
-
-/***/ }),
-/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1334,7 +1280,7 @@ function deleteVideo(elementID) {
 }
 
 function grabAPIKeys() {
-	var url = '/api/grabUsersAPIKeys';
+	var url = '/internal/api/v1/grabUsersAPIKeys';
 	var data = _axios2.default.get(url);
 
 	return {
@@ -1344,7 +1290,7 @@ function grabAPIKeys() {
 }
 
 function generateNewAPIKey() {
-	var url = '/api/generateNewAPIKey';
+	var url = '/internal/api/v1/generateNewAPIKey';
 	var data = _axios2.default.get(url);
 
 	return {
@@ -1354,7 +1300,7 @@ function generateNewAPIKey() {
 }
 
 function deleteAPIKey(key) {
-	var url = '/api/deleteAPIKey';
+	var url = '/internal/api/v1/deleteAPIKey';
 	var data = _axios2.default.delete(url, {
 		params: {
 			apiKey: key
@@ -1366,6 +1312,60 @@ function deleteAPIKey(key) {
 		payload: data
 	};
 }
+
+/***/ }),
+/* 14 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Provider__ = __webpack_require__(51);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_connectAdvanced__ = __webpack_require__(25);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__connect_connect__ = __webpack_require__(58);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Provider", function() { return __WEBPACK_IMPORTED_MODULE_0__components_Provider__["b"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createProvider", function() { return __WEBPACK_IMPORTED_MODULE_0__components_Provider__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "connectAdvanced", function() { return __WEBPACK_IMPORTED_MODULE_1__components_connectAdvanced__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "connect", function() { return __WEBPACK_IMPORTED_MODULE_2__connect_connect__["a"]; });
+
+
+
+
+
+
+/***/ }),
+/* 15 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(process) {/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+if (process.env.NODE_ENV !== 'production') {
+  var REACT_ELEMENT_TYPE = (typeof Symbol === 'function' &&
+    Symbol.for &&
+    Symbol.for('react.element')) ||
+    0xeac7;
+
+  var isValidElement = function(object) {
+    return typeof object === 'object' &&
+      object !== null &&
+      object.$$typeof === REACT_ELEMENT_TYPE;
+  };
+
+  // By explicitly using `prop-types` you are opting into new development behavior.
+  // http://fb.me/prop-types-in-prod
+  var throwOnDirectAccess = true;
+  module.exports = __webpack_require__(52)(isValidElement, throwOnDirectAccess);
+} else {
+  // By explicitly using `prop-types` you are opting into new production behavior.
+  // http://fb.me/prop-types-in-prod
+  module.exports = __webpack_require__(54)();
+}
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
 /* 16 */
@@ -1874,7 +1874,7 @@ module.exports = focusNode;
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return subscriptionShape; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return storeShape; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_prop_types__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_prop_types__ = __webpack_require__(15);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_prop_types__);
 
 
@@ -20466,7 +20466,7 @@ module.exports = camelize;
 /* WEBPACK VAR INJECTION */(function(process) {/* harmony export (immutable) */ __webpack_exports__["a"] = createProvider;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(15);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_PropTypes__ = __webpack_require__(24);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__utils_warning__ = __webpack_require__(10);
@@ -24240,7 +24240,7 @@ var _reactDom = __webpack_require__(42);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _reactRedux = __webpack_require__(13);
+var _reactRedux = __webpack_require__(14);
 
 var _redux = __webpack_require__(5);
 
@@ -24287,11 +24287,11 @@ var _axios = __webpack_require__(38);
 
 var _axios2 = _interopRequireDefault(_axios);
 
-var _reactRedux = __webpack_require__(13);
+var _reactRedux = __webpack_require__(14);
 
 var _redux = __webpack_require__(5);
 
-var _index = __webpack_require__(15);
+var _index = __webpack_require__(13);
 
 var _api_table = __webpack_require__(131);
 
@@ -24313,14 +24313,19 @@ var APIApp = function (_Component) {
 
 		var _this = _possibleConstructorReturn(this, (APIApp.__proto__ || Object.getPrototypeOf(APIApp)).call(this, props));
 
-		_this.state = {};
+		_this.state = {
+			view: 'Information'
+		};
 		_this.handleButtonClick = _this.handleButtonClick.bind(_this);
+		_this.renderInitialView = _this.renderInitialView.bind(_this);
+		//this.handleAXIOS = this.handleAXIOS.bind(this);
 		return _this;
 	}
 
 	_createClass(APIApp, [{
 		key: 'componentWillMount',
 		value: function componentWillMount() {
+			//this.handleAXIOS();
 			this.props.grabAPIKeys();
 		}
 	}, {
@@ -24329,21 +24334,31 @@ var APIApp = function (_Component) {
 			this.props.generateNewAPIKey();
 		}
 	}, {
-		key: 'render',
-		value: function render() {
+		key: 'renderInitialView',
+		value: function renderInitialView() {
 			var _this2 = this;
 
 			return _react2.default.createElement(
 				'section',
 				{ className: 'API-Window  col-xs-10 col-xs-offset-1 col-md-8 col-md-offset-2' },
 				_react2.default.createElement(
+					'h3',
+					{ style: { textAlign: 'center' } },
+					'Generate API Keys for use in projects'
+				),
+				_react2.default.createElement(
+					'h4',
+					{ style: { textAlign: 'center' } },
+					'Do Not Share These Unless You Are Sure You Want Someone To Be Able To Act As You'
+				),
+				_react2.default.createElement(
 					'div',
-					{ style: { width: '100%', float: 'left' } },
+					{ style: { width: '100%', float: 'left', marginBottom: '25px' } },
 					_react2.default.createElement(
 						'button',
 						{ onClick: function onClick(e) {
 								return _this2.handleButtonClick(e);
-							}, className: 'btn btn-primary col-md-4 col-md-offset-4' },
+							}, className: 'btn btn-primary col-xs-12 col-xs-offset-0  col-md-4 col-md-offset-4' },
 						'Generare New Key'
 					)
 				),
@@ -24352,6 +24367,151 @@ var APIApp = function (_Component) {
 					{ style: { width: '100%', float: 'left' } },
 					_react2.default.createElement(_api_table2.default, null)
 				)
+			);
+		}
+	}, {
+		key: 'renderInformation',
+		value: function renderInformation() {
+			return _react2.default.createElement(
+				'div',
+				{ style: { textAlign: 'center' } },
+				_react2.default.createElement(
+					'h2',
+					null,
+					'How To Use'
+				),
+				_react2.default.createElement(
+					'h4',
+					null,
+					'First, Generate an API Key from the previous page, click HERE to return'
+				),
+				_react2.default.createElement('br', null),
+				_react2.default.createElement(
+					'h2',
+					null,
+					'Create A New Playlist'
+				),
+				_react2.default.createElement(
+					'h3',
+					null,
+					'How To Prepare Data: '
+				),
+				_react2.default.createElement(
+					'h5',
+					null,
+					'JSON:'
+				),
+				_react2.default.createElement(
+					'section',
+					{ className: 'col-xs-4 col-xs-offset-4 col-md-3 col-md-offset-5' },
+					_react2.default.createElement(
+						'h5',
+						{ style: { textAlign: 'left' } },
+						' ',
+						_react2.default.createElement(
+							'code',
+							null,
+							_react2.default.createElement('br', null),
+							'{',
+							_react2.default.createElement('br', null),
+							'\xA0"apiKey": "XXXXXX",',
+							_react2.default.createElement('br', null),
+							'\xA0"playlist": ',
+							'{',
+							_react2.default.createElement('br', null),
+							'\xA0\xA0"name": "XXXXXX",',
+							_react2.default.createElement('br', null),
+							'\xA0\xA0"description": "XXXXXX",',
+							_react2.default.createElement('br', null),
+							'\xA0\xA0"tags": [',
+							_react2.default.createElement('br', null),
+							'\xA0\xA0\xA0  "xxx",',
+							_react2.default.createElement('br', null),
+							'\xA0\xA0\xA0  "xxx",',
+							_react2.default.createElement('br', null),
+							'\xA0\xA0\xA0  "xxx",',
+							_react2.default.createElement('br', null),
+							'\xA0\xA0\xA0  "xxx",',
+							_react2.default.createElement('br', null),
+							'\xA0\xA0\xA0  "xxx",',
+							_react2.default.createElement('br', null),
+							'\xA0\xA0\xA0  "xxx"',
+							_react2.default.createElement('br', null),
+							'\xA0\xA0],',
+							_react2.default.createElement('br', null),
+							'\xA0\xA0"private": false,',
+							_react2.default.createElement('br', null),
+							'\xA0\xA0"password": "xxxxxx",',
+							_react2.default.createElement('br', null),
+							'\xA0\xA0"sharedEdit": false,',
+							_react2.default.createElement('br', null),
+							'\xA0\xA0"editPassword": "xxxxxxx",',
+							_react2.default.createElement('br', null),
+							'\xA0\xA0"videos": [',
+							_react2.default.createElement('br', null),
+							'\xA0\xA0\xA0 "URL",',
+							_react2.default.createElement('br', null),
+							'\xA0\xA0\xA0 "URL",',
+							_react2.default.createElement('br', null),
+							'\xA0\xA0\xA0 "URL",',
+							_react2.default.createElement('br', null),
+							'\xA0\xA0\xA0 "URL",',
+							_react2.default.createElement('br', null),
+							'\xA0\xA0\xA0 "URL"',
+							_react2.default.createElement('br', null),
+							'\xA0\xA0]',
+							_react2.default.createElement('br', null),
+							'\xA0',
+							'}',
+							_react2.default.createElement('br', null),
+							'}'
+						)
+					)
+				),
+				_react2.default.createElement(
+					'section',
+					{ className: 'col-xs-4 col-xs-offset-4 col-md-4 ' },
+					_react2.default.createElement(
+						'h6',
+						null,
+						'If Private or sharedEdit are false, then password or editPassword respectfully will be discarded'
+					),
+					_react2.default.createElement(
+						'h6',
+						null,
+						'Videos will be validated and in the response any that dont pass validation will be kicked back. Playlist wont save unless at least 1 video works.'
+					)
+				),
+				_react2.default.createElement(
+					'section',
+					{ className: 'col-xs-4 col-xs-offset-4 col-md-4 ' },
+					_react2.default.createElement(
+						'h3',
+						null,
+						'Post Data To: /api/createPlaylist/'
+					),
+					_react2.default.createElement(
+						'h5',
+						null,
+						'Response will be either a JSON Object with the new playlist object, a url, and any invalid URLs. Or an error with messages of what is missing.'
+					)
+				)
+			);
+		}
+	}, {
+		key: 'render',
+		value: function render() {
+			var viewState = this.state.view;
+			var display = null;
+			if (viewState === 'Initial') {
+				display = this.renderInitialView();
+			} else if (viewState === 'Information') {
+				display = this.renderInformation();
+			}
+			return _react2.default.createElement(
+				'div',
+				null,
+				display
 			);
 		}
 	}]);
@@ -24382,7 +24542,7 @@ var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRedux = __webpack_require__(13);
+var _reactRedux = __webpack_require__(14);
 
 var _redux = __webpack_require__(5);
 
@@ -24390,7 +24550,7 @@ var _reactTable = __webpack_require__(132);
 
 var _reactTable2 = _interopRequireDefault(_reactTable);
 
-var _index = __webpack_require__(15);
+var _index = __webpack_require__(13);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -26764,7 +26924,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _propTypes = __webpack_require__(14);
+var _propTypes = __webpack_require__(15);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
@@ -26999,7 +27159,7 @@ exports.default = function () {
 	}
 };
 
-var _index = __webpack_require__(15);
+var _index = __webpack_require__(13);
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 

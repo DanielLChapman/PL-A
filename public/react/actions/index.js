@@ -155,7 +155,7 @@ export function deleteVideo (elementID) {
 }
 
 export function grabAPIKeys () {
-	const url = '/api/grabUsersAPIKeys';
+	const url = '/internal/api/v1/grabUsersAPIKeys';
 	const data = axios.get(url);
 
 	return {
@@ -165,7 +165,7 @@ export function grabAPIKeys () {
 }
 
 export function generateNewAPIKey () {
-	const url = '/api/generateNewAPIKey';
+	const url = '/internal/api/v1/generateNewAPIKey';
 	const data = axios.get(url);
 
 	return {
@@ -175,7 +175,7 @@ export function generateNewAPIKey () {
 }
 
 export function deleteAPIKey (key) {
-	const url = '/api/deleteAPIKey';
+	const url = '/internal/api/v1/deleteAPIKey';
 	const data = axios.delete(url, {
 		params: {
 			apiKey: key

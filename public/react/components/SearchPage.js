@@ -87,7 +87,7 @@ class SearchPageApp extends Component {
 					<h6 style={{color: "rgba(17,17,17,.4"}}>{this.state.selectedObject.user.name} || {timePast}</h6>
 					<h4>{this.state.selectedObject.description}</h4>
 					<br />
-					<a href={`/viewPlaylist/${this.state.selectedObject.slug}`}><h5>Click Here To View</h5></a>
+					<a href={`/watch/${this.state.selectedObject.slug}`}><h5>Click Here To View</h5></a>
 				</div>
 			);
 		}

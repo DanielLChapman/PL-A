@@ -22,7 +22,7 @@ exports.editPlayList = async(req, res) => {
 	}
 }
 
-exports.checkPlayList = async (req,res) => {
+exports.checkAndCreate = async (req,res) => {
 	if (req.body.private === "on") {
 		req.body.private = true;
 	}
@@ -43,7 +43,6 @@ exports.checkPlayList = async (req,res) => {
 		tempTags[x] = tempTags[x].trim();
 	}
 	req.body.tags = tempTags;
-
 	const playlist = new Playlist(req.body);
 	await playlist.save();
 
@@ -217,3 +216,13 @@ exports.getPopularPlaylistsAPI = async(req, res) => {
 
 }
 
+exports.createPlayList = async(req, res) => {
+	const playlist = new Playlist(req.body.playlist);
+	await playlist.save();
+	const returnObj = {
+		playlist,
+		url: `/watch/${playlist.slug}`,
+		invalidURLS: req.body.invalidURLS
+	}
+	res.json(returnObj);
+}
