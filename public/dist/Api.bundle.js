@@ -24318,10 +24318,11 @@ var APIApp = function (_Component) {
 		var _this = _possibleConstructorReturn(this, (APIApp.__proto__ || Object.getPrototypeOf(APIApp)).call(this, props));
 
 		_this.state = {
-			view: 'Information'
+			view: 'Initial'
 		};
 		_this.handleButtonClick = _this.handleButtonClick.bind(_this);
 		_this.renderInitialView = _this.renderInitialView.bind(_this);
+		_this.switchRendering = _this.switchRendering.bind(_this);
 		return _this;
 	}
 
@@ -24336,21 +24337,34 @@ var APIApp = function (_Component) {
 			this.props.generateNewAPIKey();
 		}
 	}, {
+		key: 'switchRendering',
+		value: function switchRendering(e) {
+			if (this.state.view === 'Initial') {
+				this.setState({
+					view: 'Information'
+				});
+			} else {
+				this.setState({
+					view: 'Initial'
+				});
+			}
+		}
+	}, {
 		key: 'renderInitialView',
 		value: function renderInitialView() {
 			var _this2 = this;
 
 			return _react2.default.createElement(
 				'section',
-				{ className: 'API-Window  col-xs-10 col-xs-offset-1 col-md-8 col-md-offset-2' },
+				{ style: { textAlign: 'center' }, className: 'API-Window  col-xs-10 col-xs-offset-1 col-md-8 col-md-offset-2' },
 				_react2.default.createElement(
 					'h3',
-					{ style: { textAlign: 'center' } },
+					null,
 					'Generate API Keys for use in projects'
 				),
 				_react2.default.createElement(
 					'h4',
-					{ style: { textAlign: 'center' } },
+					null,
 					'Do Not Share These Unless You Are Sure You Want Someone To Be Able To Act As You'
 				),
 				_react2.default.createElement(
@@ -24365,6 +24379,13 @@ var APIApp = function (_Component) {
 					)
 				),
 				_react2.default.createElement(
+					'h4',
+					{ onClick: function onClick(e) {
+							return _this2.switchRendering(e);
+						} },
+					'For information on how to use the API, click here'
+				),
+				_react2.default.createElement(
 					'div',
 					{ style: { width: '100%', float: 'left' } },
 					_react2.default.createElement(_api_table2.default, null)
@@ -24374,7 +24395,7 @@ var APIApp = function (_Component) {
 	}, {
 		key: 'renderInformation',
 		value: function renderInformation() {
-			return _react2.default.createElement(_api_information2.default, null);
+			return _react2.default.createElement(_api_information2.default, { switchRender: this.switchRendering });
 		}
 	}, {
 		key: 'render',
@@ -27006,7 +27027,7 @@ var jsonGetMyPlaylists = '\n[ { \n\t_id: \'This is the playlist ID\',\n\tslug: \
 
 var jsonPatch = '{\n\t"apiKey": "XXXXX",\n\t"slug": "XXXX", //this is the current one\n\t"changes": \n\t  {\n\t  "playlistChanges": {\n\t\t//Only use whichever is needed. \n\t\t//EXAMPLE: If the name isnt being changed, then omit it\n\t\t"name": "XXXXXX",\n\t\t"description": "XXXXXX",\n\t\t"tags": [\n\t\t "xxx",\n\t\t "xxx",\n\t\t "xxx",\n\t\t "xxx",\n\t\t "xxx",\n\t\t "xxx"\n\t\t],\n\t\t"private": false,\n\t\t"password": "xxxxxx",\n\t\t"sharedEdit": false,\n\t\t"editPassword": "xxxxxxx",\n\t\t"videos": [\n\t\t "https://www.youtube.com/watch?v=_Pom2EYv3NM",\n\t\t "https://www.youtube.com/watch?v=_Pom2EYv3NM",\n\t\t "https://www.youtube.com/watch?v=_Pom2EYv3NM",\n\t\t "https://www.youtube.com/watch?v=_Pom2EYv3NM",\n\t\t "https://www.youtube.com/watch?v=_Pom2EYv3NM"\n\t\t]\n\t  }\n\t}\n}\n';
 
-var jsonPachResponse = '{\n\tsuccess: \'Success\',\n\tplaylist: { \n\t\t_id: \'This is the playlist ID\',\n\t\tslug: \'This is the slug\',\n\t\tupdatedAt: \'\',\n\t\tcreatedAt: \'\',\n\t\tname: \'Name of the Playlist\',\n\t\tdescription: \'Description of Playlist\',\n\t\ttags: [ \'string\', \'string\' ],\n\t\tsharedEdit: false,\n\t\tprivate: false,\n\t\tvideos: [ [Object] ],\n\t\tviews: 0 } ,\n\tinvalidURLS: []\n}';
+var jsonPatchResponse = '{\n\tsuccess: \'Success\',\n\tplaylist: { \n\t\t_id: \'This is the playlist ID\',\n\t\tslug: \'This is the slug\',\n\t\tupdatedAt: \'\',\n\t\tcreatedAt: \'\',\n\t\tname: \'Name of the Playlist\',\n\t\tdescription: \'Description of Playlist\',\n\t\ttags: [ \'string\', \'string\' ],\n\t\tsharedEdit: false,\n\t\tprivate: false,\n\t\tvideos: [ [Object] ],\n\t\tviews: 0 } ,\n\tinvalidURLS: []\n}';
 
 var API_Information = function (_Component) {
 	_inherits(API_Information, _Component);
@@ -27021,7 +27042,8 @@ var API_Information = function (_Component) {
 			openGrab: false,
 			openGrab2: false,
 			openGrab3: false,
-			openUpdate: false
+			openUpdate: false,
+			openDelete: false
 		};
 		_this.switchSectionStyling = _this.switchSectionStyling.bind(_this);
 		return _this;
@@ -27056,6 +27078,11 @@ var API_Information = function (_Component) {
 						openUpdate: !this.state.openUpdate
 					});
 					break;
+				case 'openDelete':
+					this.setState({
+						openDelete: !this.state.openDelete
+					});
+					break;
 				default:
 					return 'Error';
 			}
@@ -27070,6 +27097,7 @@ var API_Information = function (_Component) {
 			var openGrabStyle2 = { display: 'none' };
 			var openGrabStyle3 = { display: 'none' };
 			var openUpdateStyle = { display: 'none' };
+			var openDeleteStyle = { display: 'none' };
 			if (this.state.openCreate) {
 				openCreateStyle = { display: 'block' };
 			}
@@ -27085,6 +27113,9 @@ var API_Information = function (_Component) {
 			if (this.state.openUpdate) {
 				openUpdateStyle = { display: 'block' };
 			}
+			if (this.state.openDelete) {
+				openDeleteStyle = { display: 'block' };
+			}
 			return _react2.default.createElement(
 				'section',
 				{ style: { textAlign: 'center' } },
@@ -27095,7 +27126,7 @@ var API_Information = function (_Component) {
 				),
 				_react2.default.createElement(
 					'h4',
-					null,
+					{ onClick: this.props.switchRender },
 					'First, Generate an API Key from the previous page, click HERE to return'
 				),
 				_react2.default.createElement('br', null),
@@ -27397,7 +27428,7 @@ var API_Information = function (_Component) {
 						_react2.default.createElement(
 							'pre',
 							{ style: { textAlign: 'left' } },
-							jsonPachResponse
+							jsonPatchResponse
 						),
 						_react2.default.createElement(
 							'h5',
@@ -27434,6 +27465,16 @@ var API_Information = function (_Component) {
 							'h6',
 							null,
 							'Playlist ID can be found through one of the previous calls'
+						),
+						_react2.default.createElement(
+							'h6',
+							null,
+							'You also must include your apiKey like: '
+						),
+						_react2.default.createElement(
+							'pre',
+							{ style: { width: '100%' } },
+							'{\n\t\'apiKey\': \'Insert apiKey\'\n}'
 						)
 					),
 					_react2.default.createElement(

@@ -13,10 +13,11 @@ class APIApp extends Component {
 	constructor (props) {
 		super(props);
 		this.state = {
-			view: 'Information'
+			view: 'Initial'
 		};
 		this.handleButtonClick = this.handleButtonClick.bind(this);
 		this.renderInitialView = this.renderInitialView.bind(this);
+		this.switchRendering = this.switchRendering.bind(this);
 	}
 
 	componentWillMount () {
@@ -27,16 +28,29 @@ class APIApp extends Component {
 		this.props.generateNewAPIKey();
 	}
 
+	switchRendering(e) {
+		if (this.state.view === 'Initial') {
+			this.setState({
+				view: 'Information' 
+			});
+		}
+		else {
+			this.setState({
+				view: 'Initial'
+			})
+		}
+	}
+
 
 	renderInitialView () {
 		return (
-			<section className='API-Window  col-xs-10 col-xs-offset-1 col-md-8 col-md-offset-2'>
-				<h3 style={{textAlign: 'center'}}>Generate API Keys for use in projects</h3>					
-				<h4 style={{textAlign: 'center'}}>Do Not Share These Unless You Are Sure You Want Someone To Be Able To Act As You</h4>
+			<section style={{textAlign: 'center'}} className='API-Window  col-xs-10 col-xs-offset-1 col-md-8 col-md-offset-2'>
+				<h3>Generate API Keys for use in projects</h3>					
+				<h4>Do Not Share These Unless You Are Sure You Want Someone To Be Able To Act As You</h4>
 				<div style={{width: '100%', float: 'left', marginBottom: '25px'}}>
 					<button onClick={(e) => this.handleButtonClick(e)} className="btn btn-primary col-xs-12 col-xs-offset-0  col-md-4 col-md-offset-4">Generare New Key</button>
 				</div>
-
+				<h4 onClick={(e) => this.switchRendering(e) }>For information on how to use the API, click here</h4>
 				<div style={{width: '100%', float: 'left'}}>
 					<API_table />
 				</div>
@@ -44,7 +58,7 @@ class APIApp extends Component {
 		)
 	}
 	renderInformation () {
-		return <API_Information />;
+		return <API_Information switchRender={this.switchRendering}/>;
 	}
 
 	render () {

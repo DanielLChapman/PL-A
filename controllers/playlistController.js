@@ -3,8 +3,12 @@ const User = mongoose.model('User');
 const Playlist = mongoose.model('Playlist');
 const promisify = require('es6-promisify');
 const url = require('url');
-
+const crypto = require('crypto');
 /* Plain Page Rendering */
+
+function hashPass(pass, salt) {
+	return crypto.pbkdf2Sync(pass, salt, 10000, 256, 'sha').toString('hex');
+}
 
 exports.homePage = async (req, res) => {
 	res.render('index', {title: 'Index'});
@@ -106,6 +110,8 @@ exports.checkPermissions = async(req, res, next) => {
 	if (playlist == null) {
 		return res.json('Cant find specific playlist, please check the slug or id');
 	}
+	let salt = playlist.salt;
+
 	res.locals.playlist = playlist;
 	//If there is a user
 	if (req.user != null) {
@@ -139,7 +145,7 @@ exports.checkPermissions = async(req, res, next) => {
 	//If param is to edit
 	if (req.params.type === 'edit') {
 		//check for a shared edit password and check if there is one in the body and if they match up
-		if (playlist.sharedEdit && req.body.password.toString() === playlist.editPassword.toString()) {
+		if (playlist.sharedEdit && hashPass(req.body.password.toString(), salt) === playlist.editPassword.toString()) {
 			return next();
 		} 
 		else {
@@ -158,7 +164,7 @@ exports.checkPermissions = async(req, res, next) => {
 				//If no password, kick them out
 				return res.json('Password Required');
 			}
-			else if ( req.body.password.toString() === playlist.password.toString() ) {
+			else if ( hashPass(req.body.password.toString(), salt) === playlist.password.toString() ) {
 				//If the password matches, let them view
 				return next();
 			} else {
@@ -167,7 +173,7 @@ exports.checkPermissions = async(req, res, next) => {
 			}
 		} 
 	} else if (req.body.apiModel.action === "delete") {
-		if (playlist.sharedEdit && req.body.password.toString() === playlist.editPassword.toString()) {
+		if (playlist.sharedEdit && hashPass(req.body.password.toString(), salt) === playlist.editPassword.toString()) {
 			return next();
 		} 
 		else {
@@ -323,8 +329,8 @@ exports.indexPlaylists = async(req, res) => {
 		x.user._id = undefined;
 		x.user.email = undefined;
 		x.user.apiKeys = undefined;
+		x._id = undefined;
 	})
-
 	res.json(playlists);
 }
 
@@ -361,6 +367,7 @@ exports.grabPlaylist = async(req,res) => {
 			name: returnValue.user.name,
 			email: returnValue.user.email
 		};
+		returnValue.salt = undefined;
 	}
 	res.json(returnValue);
 }
@@ -393,7 +400,6 @@ exports.searchPlaylists = async(req, res) => {
 		x.user._id = undefined;
 		x.user.email = undefined;
 	})
-
 	res.json(playlists);
 }
 
@@ -424,7 +430,6 @@ exports.getPopularPlaylistsAPI = async(req, res) => {
 		x.user.email = undefined;
 		x.user.apiKeys = undefined;
 	})
-
 	res.json(playlists);
 
 }

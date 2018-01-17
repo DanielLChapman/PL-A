@@ -126,7 +126,7 @@ const jsonPatch = `{
 }
 `
 
-const jsonPachResponse = `{
+const jsonPatchResponse = `{
 	success: 'Success',
 	playlist: { 
 		_id: 'This is the playlist ID',
@@ -187,7 +187,7 @@ export default class API_Information extends Component {
 				break;
 			case 'openDelete':
 				this.setState({
-					openDelete: !this.state.openUpdate
+					openDelete: !this.state.openDelete
 				});
 				break;
 			default:
@@ -224,7 +224,7 @@ export default class API_Information extends Component {
 		return (
 			<section style={{textAlign: 'center'}}>	
 				<h2>How To Use</h2>
-				<h4>First, Generate an API Key from the previous page, click HERE to return</h4>
+				<h4 onClick={this.props.switchRender}>First, Generate an API Key from the previous page, click HERE to return</h4>
 				<br />
 				<h2 onClick={() => this.switchSectionStyling('openGrab')}>Grab All Playlist <i className="fas fa-caret-down"></i></h2>
 				<section style={openGrabStyle} className="col-xs-12 col-md-12 ">
@@ -340,7 +340,9 @@ export default class API_Information extends Component {
 						<h6>Playlist ID can be found through one of the previous calls</h6>
 						<h6>You also must include your apiKey like: </h6>
 						<pre style={{width: '100%'}}>
-							{jsonGetMyPlaylists}
+{`{
+	'apiKey': 'Insert apiKey'
+}`}
 						</pre>
 					</div>
 					<div className="col-xs-4 col-xs-offset-4 col-md-4 ">

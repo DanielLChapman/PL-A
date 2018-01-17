@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 const slug = require('slugs');
-
+const crypto = require('crypto');
 
 const playlistSchema = new mongoose.Schema({
 	name: {
@@ -41,7 +41,8 @@ const playlistSchema = new mongoose.Schema({
 	tags: [{
 		type: String,
 		trim: true
-	}]
+	}],
+	salt: String,
 }, {
   timestamps: true
 });
@@ -64,6 +65,16 @@ playlistSchema.pre('save', async function(next) {
 	const playlistsWithSlug = await this.constructor.find({slug: slugRegEx });
 	if (playlistsWithSlug.length) {
 		this.slug = `${this.slug}-${playlistsWithSlug.length+1}`;
+	}
+
+	if (this.salt == null) {
+		this.salt = crypto.randomBytes(16).toString('hex');
+	}
+	if (this.isModified('password')) {
+		this.password = crypto.pbkdf2Sync(this.password, this.salt, 10000, 256, 'sha').toString('hex');
+	}
+	if (this.isModified('editPassword')) {
+		this.editPassword = crypto.pbkdf2Sync(this.editPassword, this.salt, 10000, 256, 'sha').toString('hex');
 	}
 	next();
 });
