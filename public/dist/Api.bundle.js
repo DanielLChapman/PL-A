@@ -1098,6 +1098,25 @@ module.exports = defaults;
 
 /***/ }),
 /* 13 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Provider__ = __webpack_require__(51);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_connectAdvanced__ = __webpack_require__(25);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__connect_connect__ = __webpack_require__(58);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Provider", function() { return __WEBPACK_IMPORTED_MODULE_0__components_Provider__["b"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createProvider", function() { return __WEBPACK_IMPORTED_MODULE_0__components_Provider__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "connectAdvanced", function() { return __WEBPACK_IMPORTED_MODULE_1__components_connectAdvanced__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "connect", function() { return __WEBPACK_IMPORTED_MODULE_2__connect_connect__["a"]; });
+
+
+
+
+
+
+/***/ }),
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1227,7 +1246,7 @@ function scrubURL(element) {
 }
 
 function grabVideos(reactID, type, password) {
-	var url = '/api/v1/grabPlaylist/' + reactID + '/' + type;
+	var url = '/internal/api/v1/grabPlaylist/' + reactID + '/' + type;
 
 	var data = _axios2.default.post(url, {
 		password: password
@@ -1312,25 +1331,6 @@ function deleteAPIKey(key) {
 		payload: data
 	};
 }
-
-/***/ }),
-/* 14 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Provider__ = __webpack_require__(51);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_connectAdvanced__ = __webpack_require__(25);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__connect_connect__ = __webpack_require__(58);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Provider", function() { return __WEBPACK_IMPORTED_MODULE_0__components_Provider__["b"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createProvider", function() { return __WEBPACK_IMPORTED_MODULE_0__components_Provider__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "connectAdvanced", function() { return __WEBPACK_IMPORTED_MODULE_1__components_connectAdvanced__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "connect", function() { return __WEBPACK_IMPORTED_MODULE_2__connect_connect__["a"]; });
-
-
-
-
-
 
 /***/ }),
 /* 15 */
@@ -24240,7 +24240,7 @@ var _reactDom = __webpack_require__(42);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _reactRedux = __webpack_require__(14);
+var _reactRedux = __webpack_require__(13);
 
 var _redux = __webpack_require__(5);
 
@@ -24252,7 +24252,7 @@ var _APIApp = __webpack_require__(130);
 
 var _APIApp2 = _interopRequireDefault(_APIApp);
 
-var _apiKeys = __webpack_require__(138);
+var _apiKeys = __webpack_require__(139);
 
 var _apiKeys2 = _interopRequireDefault(_apiKeys);
 
@@ -24287,15 +24287,19 @@ var _axios = __webpack_require__(38);
 
 var _axios2 = _interopRequireDefault(_axios);
 
-var _reactRedux = __webpack_require__(14);
+var _reactRedux = __webpack_require__(13);
 
 var _redux = __webpack_require__(5);
 
-var _index = __webpack_require__(13);
+var _index = __webpack_require__(14);
 
 var _api_table = __webpack_require__(131);
 
 var _api_table2 = _interopRequireDefault(_api_table);
+
+var _api_information = __webpack_require__(138);
+
+var _api_information2 = _interopRequireDefault(_api_information);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -24318,20 +24322,47 @@ var APIApp = function (_Component) {
 		};
 		_this.handleButtonClick = _this.handleButtonClick.bind(_this);
 		_this.renderInitialView = _this.renderInitialView.bind(_this);
-		//this.handleAXIOS = this.handleAXIOS.bind(this);
+		_this.handleAXIOS = _this.handleAXIOS.bind(_this);
 		return _this;
 	}
 
 	_createClass(APIApp, [{
 		key: 'componentWillMount',
 		value: function componentWillMount() {
-			//this.handleAXIOS();
+			this.handleAXIOS();
 			this.props.grabAPIKeys();
 		}
 	}, {
 		key: 'handleButtonClick',
 		value: function handleButtonClick(e) {
 			this.props.generateNewAPIKey();
+		}
+	}, {
+		key: 'handleAXIOS',
+		value: function handleAXIOS() {
+			var data = {
+				"apiKey": "f612eabc136492b9526893464c186c22",
+				"slug": "test-2",
+				"changes": {
+					"playlistChanges": {
+						//Only use whichever is needed. 
+						//If the name isnt being changed, then omit it
+						"name": "YYYYYY",
+						"description": "XXXXXX",
+						"tags": ["xxx", "xxx", "xxx", "xxx", "xxx", "xxx"],
+						"private": false,
+						"password": "xxxxxx",
+						"sharedEdit": false,
+						"editPassword": "xxxxxxx",
+						"videos": ["https://www.youtube.com/watch?v=_Pom2EYv3NM"]
+					}
+				}
+			};
+			_axios2.default.patch('/api/v1/playlist', data).then(function (response) {
+				console.log(response);
+			}).catch(function (error) {
+				console.log(error.response);
+			});
 		}
 	}, {
 		key: 'renderInitialView',
@@ -24372,131 +24403,7 @@ var APIApp = function (_Component) {
 	}, {
 		key: 'renderInformation',
 		value: function renderInformation() {
-			return _react2.default.createElement(
-				'div',
-				{ style: { textAlign: 'center' } },
-				_react2.default.createElement(
-					'h2',
-					null,
-					'How To Use'
-				),
-				_react2.default.createElement(
-					'h4',
-					null,
-					'First, Generate an API Key from the previous page, click HERE to return'
-				),
-				_react2.default.createElement('br', null),
-				_react2.default.createElement(
-					'h2',
-					null,
-					'Create A New Playlist'
-				),
-				_react2.default.createElement(
-					'h3',
-					null,
-					'How To Prepare Data: '
-				),
-				_react2.default.createElement(
-					'h5',
-					null,
-					'JSON:'
-				),
-				_react2.default.createElement(
-					'section',
-					{ className: 'col-xs-4 col-xs-offset-4 col-md-3 col-md-offset-5' },
-					_react2.default.createElement(
-						'h5',
-						{ style: { textAlign: 'left' } },
-						' ',
-						_react2.default.createElement(
-							'code',
-							null,
-							_react2.default.createElement('br', null),
-							'{',
-							_react2.default.createElement('br', null),
-							'\xA0"apiKey": "XXXXXX",',
-							_react2.default.createElement('br', null),
-							'\xA0"playlist": ',
-							'{',
-							_react2.default.createElement('br', null),
-							'\xA0\xA0"name": "XXXXXX",',
-							_react2.default.createElement('br', null),
-							'\xA0\xA0"description": "XXXXXX",',
-							_react2.default.createElement('br', null),
-							'\xA0\xA0"tags": [',
-							_react2.default.createElement('br', null),
-							'\xA0\xA0\xA0  "xxx",',
-							_react2.default.createElement('br', null),
-							'\xA0\xA0\xA0  "xxx",',
-							_react2.default.createElement('br', null),
-							'\xA0\xA0\xA0  "xxx",',
-							_react2.default.createElement('br', null),
-							'\xA0\xA0\xA0  "xxx",',
-							_react2.default.createElement('br', null),
-							'\xA0\xA0\xA0  "xxx",',
-							_react2.default.createElement('br', null),
-							'\xA0\xA0\xA0  "xxx"',
-							_react2.default.createElement('br', null),
-							'\xA0\xA0],',
-							_react2.default.createElement('br', null),
-							'\xA0\xA0"private": false,',
-							_react2.default.createElement('br', null),
-							'\xA0\xA0"password": "xxxxxx",',
-							_react2.default.createElement('br', null),
-							'\xA0\xA0"sharedEdit": false,',
-							_react2.default.createElement('br', null),
-							'\xA0\xA0"editPassword": "xxxxxxx",',
-							_react2.default.createElement('br', null),
-							'\xA0\xA0"videos": [',
-							_react2.default.createElement('br', null),
-							'\xA0\xA0\xA0 "URL",',
-							_react2.default.createElement('br', null),
-							'\xA0\xA0\xA0 "URL",',
-							_react2.default.createElement('br', null),
-							'\xA0\xA0\xA0 "URL",',
-							_react2.default.createElement('br', null),
-							'\xA0\xA0\xA0 "URL",',
-							_react2.default.createElement('br', null),
-							'\xA0\xA0\xA0 "URL"',
-							_react2.default.createElement('br', null),
-							'\xA0\xA0]',
-							_react2.default.createElement('br', null),
-							'\xA0',
-							'}',
-							_react2.default.createElement('br', null),
-							'}'
-						)
-					)
-				),
-				_react2.default.createElement(
-					'section',
-					{ className: 'col-xs-4 col-xs-offset-4 col-md-4 ' },
-					_react2.default.createElement(
-						'h6',
-						null,
-						'If Private or sharedEdit are false, then password or editPassword respectfully will be discarded'
-					),
-					_react2.default.createElement(
-						'h6',
-						null,
-						'Videos will be validated and in the response any that dont pass validation will be kicked back. Playlist wont save unless at least 1 video works.'
-					)
-				),
-				_react2.default.createElement(
-					'section',
-					{ className: 'col-xs-4 col-xs-offset-4 col-md-4 ' },
-					_react2.default.createElement(
-						'h3',
-						null,
-						'Post Data To: /api/createPlaylist/'
-					),
-					_react2.default.createElement(
-						'h5',
-						null,
-						'Response will be either a JSON Object with the new playlist object, a url, and any invalid URLs. Or an error with messages of what is missing.'
-					)
-				)
-			);
+			return _react2.default.createElement(_api_information2.default, null);
 		}
 	}, {
 		key: 'render',
@@ -24542,7 +24449,7 @@ var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRedux = __webpack_require__(14);
+var _reactRedux = __webpack_require__(13);
 
 var _redux = __webpack_require__(5);
 
@@ -24550,7 +24457,7 @@ var _reactTable = __webpack_require__(132);
 
 var _reactTable2 = _interopRequireDefault(_reactTable);
 
-var _index = __webpack_require__(13);
+var _index = __webpack_require__(14);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -27104,9 +27011,289 @@ Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(2);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var jsonCreateString = '{\n "apiKey": "XXXXXX",\n "playlist": {\n  "name": "XXXXXX",\n  "description": "XXXXXX",\n  "tags": [\n    "xxx",\n    "xxx",\n    "xxx",\n    "xxx",\n    "xxx",\n    "xxx"\n  ],\n  "private": false,\n  "password": "xxxxxx",\n  "sharedEdit": false,\n  "editPassword": "xxxxxxx",\n  "videos": [\n    "URL",\n    "URL",\n    "URL",\n    "URL",\n    "URL"\n  ]\n }\n}';
+
+var jsonCreateResponseString = '{\n"playlist": {\n  "user": "XXXX",\n  "slug": "XXXX",\n  "name": "XXXX",\n  "description": "XXXXX",\n  "tags": [\n  \t"XX",\n  \t"XX"\n  ]\n},\n"url": "https://example.com/watch/:slug",\n"invalidURLS": [\n  "URL",\n  "URL"\n  ]\n}';
+
+var jsonGetPlaylistIndex = '{\n  "data": [\n   {\n\t"slug": "xxxxxx",\n\t"name": "xxxxxxxx",\n\t"description": "xxxxxxx",\n\t"user": {\n\t\t"name": "xxxxx"\n\t},\n\t"views": Y,\n\t"tags": [\n\t\t"XX",\n\t\t"XX"\n\t]\n\n   }\n  ]\n}';
+
+var jsonPatch = '{\n   "apiKey": "f612eabc136492b9526893464c186c22",\n   "slug": "XXXX", //this is the current one\n   "changes": \n   \t {\n   \t    "playlistChanges": {\n   \t    \t//Only use whichever is needed. \n   \t    \t//EXAMPLE: If the name isnt being changed, then omit it\n   \t    \t"name": "XXXXXX",\n   \t    \t"slug": "test-2", //put a new one here if you wish to change it\n\t\t    "description": "XXXXXX",\n\t\t    "tags": [\n\t\t     "xxx",\n\t\t     "xxx",\n\t\t     "xxx",\n\t\t     "xxx",\n\t\t     "xxx",\n\t\t     "xxx"\n\t\t    ],\n\t\t    "private": false,\n\t\t    "password": "xxxxxx",\n\t\t    "sharedEdit": false,\n\t\t    "editPassword": "xxxxxxx",\n\t\t    "videos": [\n\t\t     "https://www.youtube.com/watch?v=_Pom2EYv3NM",\n\t\t     "https://www.youtube.com/watch?v=_Pom2EYv3NM",\n\t\t     "https://www.youtube.com/watch?v=_Pom2EYv3NM",\n\t\t     "https://www.youtube.com/watch?v=_Pom2EYv3NM",\n\t\t     "https://www.youtube.com/watch?v=_Pom2EYv3NM"\n\t\t    ]\n   \t    }\n   \t }\n}\n';
+
+var API_Information = function (_Component) {
+	_inherits(API_Information, _Component);
+
+	function API_Information(props) {
+		_classCallCheck(this, API_Information);
+
+		var _this = _possibleConstructorReturn(this, (API_Information.__proto__ || Object.getPrototypeOf(API_Information)).call(this, props));
+
+		_this.state = {
+			openCreate: false,
+			openGrab: false,
+			openGrab2: false
+		};
+		_this.switchSectionStyling = _this.switchSectionStyling.bind(_this);
+		return _this;
+	}
+
+	_createClass(API_Information, [{
+		key: 'switchSectionStyling',
+		value: function switchSectionStyling(type) {
+			switch (type) {
+				case 'openCreate':
+					this.setState({
+						openCreate: !this.state.openCreate
+					});
+					break;
+				case 'openGrab':
+					this.setState({
+						openGrab: !this.state.openGrab
+					});
+					break;
+				case 'openGrab2':
+					this.setState({
+						openGrab2: !this.state.openGrab2
+					});
+					break;
+				default:
+					return 'Error';
+			}
+		}
+	}, {
+		key: 'render',
+		value: function render() {
+			var _this2 = this;
+
+			var openCreateStyle = { display: 'none' };
+			var openGrabStyle = { display: 'none' };
+			var openGrabStyle2 = { display: 'none' };
+			if (this.state.openCreate) {
+				openCreateStyle = { display: 'block' };
+			}
+			if (this.state.openGrab) {
+				openGrabStyle = { display: 'block' };
+			}
+			if (this.state.openGrab2) {
+				openGrabStyle2 = { display: 'block' };
+			}
+			return _react2.default.createElement(
+				'section',
+				{ style: { textAlign: 'center' } },
+				_react2.default.createElement(
+					'h2',
+					null,
+					'How To Use'
+				),
+				_react2.default.createElement(
+					'h4',
+					null,
+					'First, Generate an API Key from the previous page, click HERE to return'
+				),
+				_react2.default.createElement('br', null),
+				_react2.default.createElement(
+					'h2',
+					{ onClick: function onClick() {
+							return _this2.switchSectionStyling('openCreate');
+						} },
+					'Create A New Playlist ',
+					_react2.default.createElement('i', { className: 'fas fa-caret-down' })
+				),
+				_react2.default.createElement(
+					'section',
+					{ style: openCreateStyle, className: 'col-xs-12 col-md-12 ' },
+					_react2.default.createElement(
+						'h3',
+						null,
+						'How To Prepare Data: '
+					),
+					_react2.default.createElement(
+						'div',
+						{ className: 'tab-content' },
+						_react2.default.createElement(
+							'div',
+							{ id: 'jsonCreate', className: 'tab-pane fade in active' },
+							_react2.default.createElement(
+								'h5',
+								{ className: 'col-xs-4 col-xs-offset-4 col-md-4 col-md-offset-4' },
+								'JSON:'
+							),
+							_react2.default.createElement(
+								'section',
+								{ className: 'col-xs-4 col-xs-offset-4 col-md-4 col-md-offset-4' },
+								_react2.default.createElement(
+									'h5',
+									{ style: { textAlign: 'left' } },
+									_react2.default.createElement(
+										'pre',
+										{ style: { width: '100%' } },
+										jsonCreateString
+									)
+								)
+							)
+						)
+					),
+					_react2.default.createElement(
+						'div',
+						{ className: 'col-xs-4 col-xs-offset-4 col-md-4 ' },
+						_react2.default.createElement(
+							'h3',
+							null,
+							'Post JSON To: /api/playlist/'
+						),
+						_react2.default.createElement(
+							'h6',
+							null,
+							'If Private or sharedEdit are false, then password or editPassword respectfully will be discarded'
+						),
+						_react2.default.createElement(
+							'h6',
+							null,
+							'Videos will be validated and in the response any that dont pass validation will be kicked back. Playlist wont save unless at least 1 video works.'
+						)
+					),
+					_react2.default.createElement(
+						'div',
+						{ className: 'col-xs-4 col-xs-offset-4 col-md-4 ' },
+						_react2.default.createElement(
+							'h5',
+							null,
+							'Response: '
+						),
+						_react2.default.createElement(
+							'pre',
+							{ style: { textAlign: 'left' } },
+							jsonCreateResponseString
+						),
+						_react2.default.createElement(
+							'h5',
+							null,
+							'Response will be either a JSON Object with the new playlist object, a url, and any invalid URLs. Or an JSON error with messages of what is missing.'
+						),
+						_react2.default.createElement(
+							'h5',
+							null,
+							'Alternatives to JSON coming soon'
+						)
+					)
+				),
+				_react2.default.createElement(
+					'h2',
+					{ onClick: function onClick() {
+							return _this2.switchSectionStyling('openGrab');
+						} },
+					'Grab All Playlist ',
+					_react2.default.createElement('i', { className: 'fas fa-caret-down' })
+				),
+				_react2.default.createElement(
+					'section',
+					{ style: openGrabStyle, className: 'col-xs-12 col-md-12 ' },
+					_react2.default.createElement(
+						'div',
+						{ className: 'col-xs-4 col-xs-offset-4 col-md-4 ' },
+						_react2.default.createElement(
+							'h3',
+							null,
+							'Get Request To: /api/playlist/'
+						)
+					),
+					_react2.default.createElement(
+						'div',
+						{ className: 'col-xs-4 col-xs-offset-4 col-md-4 ' },
+						_react2.default.createElement(
+							'h5',
+							null,
+							'Response: '
+						),
+						_react2.default.createElement(
+							'pre',
+							{ style: { textAlign: 'left' } },
+							jsonGetPlaylistIndex
+						),
+						_react2.default.createElement(
+							'h5',
+							null,
+							'Alternatives to JSON coming soon'
+						)
+					)
+				),
+				_react2.default.createElement(
+					'h2',
+					{ onClick: function onClick() {
+							return _this2.switchSectionStyling('openGrab2');
+						} },
+					'Grab Information About Single Playlist ',
+					_react2.default.createElement('i', { className: 'fas fa-caret-down' })
+				),
+				_react2.default.createElement(
+					'section',
+					{ style: openGrabStyle2, className: 'col-xs-12 col-md-12 ' },
+					_react2.default.createElement(
+						'div',
+						{ className: 'col-xs-4 col-xs-offset-4 col-md-4 ' },
+						_react2.default.createElement(
+							'h3',
+							null,
+							'Get Request To: /api/playlist/:slug'
+						)
+					),
+					_react2.default.createElement(
+						'div',
+						{ className: 'col-xs-4 col-xs-offset-4 col-md-4 ' },
+						_react2.default.createElement(
+							'h5',
+							null,
+							'Response: '
+						),
+						_react2.default.createElement(
+							'pre',
+							{ style: { textAlign: 'left' } },
+							jsonGetPlaylistIndex
+						),
+						_react2.default.createElement(
+							'h5',
+							null,
+							'Alternatives to JSON coming soon'
+						)
+					)
+				)
+			);
+		}
+	}]);
+
+	return API_Information;
+}(_react.Component);
+
+exports.default = API_Information;
+;
+
+/***/ }),
+/* 139 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
 var _redux = __webpack_require__(5);
 
-var _reducer_api = __webpack_require__(139);
+var _reducer_api = __webpack_require__(140);
 
 var _reducer_api2 = _interopRequireDefault(_reducer_api);
 
@@ -27119,7 +27306,7 @@ var apiReducer = (0, _redux.combineReducers)({
 exports.default = apiReducer;
 
 /***/ }),
-/* 139 */
+/* 140 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27159,7 +27346,7 @@ exports.default = function () {
 	}
 };
 
-var _index = __webpack_require__(13);
+var _index = __webpack_require__(14);
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 

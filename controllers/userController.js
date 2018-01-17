@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const User = mongoose.model('User');
 const promisify = require('es6-promisify');
+const Playlist = mongoose.model('Playlist');
 
 exports.login = (req, res) => {
 	res.render('login', {title: 'Login'})
@@ -20,10 +21,16 @@ exports.validateRegister = (req, res, next) => {
 		gmail_remove_subaddress: false
 	});
 	req.checkBody('password', 'Password Cannot be Blank!').notEmpty();
-	req.checkBody('password-confirm', 'Confirmed Password cannot be blank!').notEmpty();
-	req.checkBody('password-confirm', 'Oops! Your passwords do not match').equals(req.body.password);
+	if (req.body.passwordConfirm) {
+		req.checkBody('passwordConfirm', 'Confirmed Password cannot be blank!').notEmpty();
+		req.checkBody('passwordConfirm', 'Oops! Your passwords do not match').equals(req.body.password);
+	} else {
+		req.checkBody('password-confirm', 'Confirmed Password cannot be blank!').notEmpty();
+		req.checkBody('password-confirm', 'Oops! Your passwords do not match').equals(req.body.password);
+	}
 	
 	const errors = req.validationErrors();
+
 	if (errors) {
 		req.flash('error', errors.map(err => err.msg));
 		res.render('register', {title: 'Register', body: req.body, flashes: req.flash() 
@@ -45,7 +52,12 @@ exports.account = (req, res) => {
 }
 
 exports.updateAccount = async (req, res) => {
-	const updates = {
+	if (typeof req.body.name == "undefined" || typeof req.body.email == "undefined") {
+		req.flash('error', 'Invalid Form Submission');
+		return res.redirect('/account');
+	}
+
+	let updates = {
 		name: req.body.name,
 		email: req.body.email
 	}
@@ -67,6 +79,7 @@ exports.apiIntroPage = async(req, res) => {
 exports.apiGrabAPIKeys = async(req, res) => {
 	const userAPI = await User.findOne({email: req.user.email}, {
 			apiKeys: true,
+			_id: false
 	});
 	res.json(userAPI);
 }
@@ -98,5 +111,27 @@ exports.deleteAPIKey = async(req, res) => {
 	});
 
 	res.json({'api key': apiKey, 'success': 'Successfully'});
+}
+
+exports.deleteAccount = async(req, res) => {
+	//DELETE
+	const user = req.user;
+	req.logout();
+	User.remove({ _id: user._id}, function(err) {
+		if (!err) {
+			Playlist.remove({user: user._id}, function(err) {
+				if (!err) {
+					console.log('deleted user: ' + user.name)
+				} else {
+					console.log(err);
+				}
+			})
+			req.flash('Success', 'You have deleted your account.');
+			res.redirect('/');
+		} else {
+			req.flash('Error', 'There was an error, try again later');
+			res.redirect('/');
+		}
+	});
 }
 

@@ -9,23 +9,24 @@ const { catchErrors } = require('../handlers/errorHandlers');
 /* GET home page. */
 router.get('/', playlistController.homePage);
 
-/* GET new page. */
+/* GET new  html page. */
 router.get('/addPlayList', 
 			authController.isLoggedIn, 
 			playlistController.newPlayList);
 
-/* GET Edit page. */
+/* GET Edit html page. */
 router.get('/editPlayList/:playlist_id', 
 			authController.isLoggedIn, 
 			catchErrors(playlistController.editPlayList));
 
-/* Post create */
+/* Post create html */
 router.post('/addPlayList', 
 	authController.isLoggedIn,
-	catchErrors(playlistController.checkPlayList));
+	catchErrors(playlistController.checkAndCreatePlayList));
 
-/* GET edit page. */
+/* GET edit html page. */
 router.get('/editVideos/:playlist_id', catchErrors(playlistController.editVideosInPlayList));
+
 
 router.get('/myPlaylists', authController.isLoggedIn, catchErrors(playlistController.getMyPlaylists));
 
@@ -51,7 +52,7 @@ router.get('/logout', authController.logout);
 router.get('/register', userController.register);
 
 router.get('/account', authController.isLoggedIn, userController.account);
-router.post('/account', catchErrors(userController.updateAccount));
+router.post('/account', authController.isLoggedIn, catchErrors(userController.updateAccount));
 
 router.post('/updatePassword', 
 	authController.isLoggedIn,
@@ -71,42 +72,11 @@ router.post('/register',
 	userController.actualRegister,
 	authController.login);
 
-
-/* API */
-/* internal */
-router.get('/internal/api/v1/grabUsersAPIKeys',
+router.delete('/delete',
 	authController.isLoggedIn,
-	catchErrors(userController.apiGrabAPIKeys));
+	catchErrors(userController.deleteAccount));
 
-router.get('/internal/api/v1/generateNewAPIKey',
-	authController.isLoggedIn,
-	catchErrors(userController.generateNewAPIKey));
 
-router.delete('/internal/api/v1/deleteAPIKey', 
-	authController.isLoggedIn,
-	catchErrors(userController.deleteAPIKey));
-
-router.get('/api/v1/search', catchErrors(playlistController.searchPlaylists));
-
-router.get('/api/v1/getPopularVideos', catchErrors(playlistController.getPopularPlaylistsAPI));
-
-router.post('/internal/api/v1/grabPlaylist/:playlist_id/:type', 
-	catchErrors(playlistController.checkPermissions),
-	catchErrors(playlistController.grabPlaylist));
-
-router.post('/internal/api/v1/editVideosForPlayList/:playlist_id', 
-	authController.isLoggedIn, 
-	catchErrors(playlistController.updatePlayList));
-
-/* Public Use */
-
-/* Key Required */
-
-router.post('/api/v1/createPlaylist/',
-	catchErrors(apiController.logEntry),
-	apiController.sanitizeInfo,
-	catchErrors(apiController.findUser),
-	catchErrors(playlistController.createPlayList));
 
 
 

@@ -102,7 +102,7 @@ export function scrubURL (element) {
 }
 
 export function grabVideos (reactID, type, password) {
-	const url = `/api/v1/grabPlaylist/${reactID}/${type}`;
+	const url = `/internal/api/v1/grabPlaylist/${reactID}/${type}`;
 
 	const data = axios.post(url, {
 		password

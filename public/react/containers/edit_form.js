@@ -31,7 +31,7 @@ export default class EditForm extends Component {
 
 	onFormSubmit (event) {
 		event.preventDefault();
-		axios.post(`/api/v1/editVideosForPlayList/${this.props.reactID}`, {
+		axios.post(`/internal/api/v1/editVideosForPlayList/${this.props.reactID}`, {
 			updateType: 'playlist',
 			playlist: this.state
 		})

@@ -4,7 +4,8 @@ import VideoBar from '../containers/video_bar';
 import PlayListList from '../containers/playlist_list';
 import EditForm from '../containers/edit_form';
 
- 
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 import { grabVideos } from '../actions/index';
 

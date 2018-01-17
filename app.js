@@ -12,9 +12,13 @@ const promisify = require('es6-promisify');
 const flash = require('connect-flash');
 const expressValidator = require('express-validator');
 const routes = require('./routes/index');
+const api = require('./routes/api');
+const internal = require('./routes/internal');
 const helpers = require('./helpers');
 const errorHandlers = require('./handlers/errorHandlers');
 require('./handlers/passport');
+// import environmental variables from our variables.env file
+require('dotenv').config({ path: './variables.env' });
 
 // create our Express app
 const app = express();
@@ -73,6 +77,8 @@ app.use((req, res, next) => {
 
 // After allllll that above middleware, we finally handle our own routes!
 app.use('/', routes);
+app.use('/api', api);
+app.use('/internal', internal);
 
 // If that above routes didnt work, we 404 them and forward to error handler
 app.use(errorHandlers.notFound);
@@ -88,6 +94,31 @@ if (app.get('env') === 'development') {
 
 // production error handler
 app.use(errorHandlers.productionErrors);
+
+// Make sure we are running node 7.6+
+const [major, minor] = process.versions.node.split('.').map(parseFloat);
+if (major < 7 || (major === 7 && minor <= 5)) {
+  console.log(' Please go to nodejs.org and download version 7.6 or greater.');
+  process.exit();
+}
+
+let database = process.env.DATABASE;
+if (app.get('env') === 'test') {
+  /* Development Error Handler - Prints stack trace */
+  database = process.env.TESTDATABASE;
+}
+// Connect to our Database and handle an bad connections
+mongoose.connect(database);
+mongoose.Promise = global.Promise; // Tell Mongoose to use ES6 promises
+mongoose.connection.on('error', (err) => {
+  console.error(`🙅 🚫 🙅 🚫 🙅 🚫 🙅 🚫 → ${err.message}`);
+});
+
+app.set('port', process.env.PORT || 7777);
+const server = app.listen(app.get('port'), () => {
+  console.log(`Express running → PORT ${server.address().port}`);
+});
+
 
 // done! we export it so we can start the site in start.js
 module.exports = app;

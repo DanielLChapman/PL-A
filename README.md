@@ -18,3 +18,5 @@ Requires a variables.env file with the following:
 NODE_ENV=
 DATABASE=
 PORT=7777
+
+Built off Wes Bos's node layout primarily for the errorHandling
