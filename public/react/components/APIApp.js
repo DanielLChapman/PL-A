@@ -17,11 +17,9 @@ class APIApp extends Component {
 		};
 		this.handleButtonClick = this.handleButtonClick.bind(this);
 		this.renderInitialView = this.renderInitialView.bind(this);
-		this.handleAXIOS = this.handleAXIOS.bind(this);
 	}
 
 	componentWillMount () {
-		this.handleAXIOS();
 		this.props.grabAPIKeys();
 	}
  
@@ -29,42 +27,6 @@ class APIApp extends Component {
 		this.props.generateNewAPIKey();
 	}
 
-	handleAXIOS() {
-		const data = {
-		   "apiKey": "f612eabc136492b9526893464c186c22",
-		   "slug": "test-2",
-		   "changes": {
-		   	    "playlistChanges": {
-		   	    	//Only use whichever is needed. 
-		   	    	//If the name isnt being changed, then omit it
-		   	    	"name": "YYYYYY",
-				    "description": "XXXXXX",
-				    "tags": [
-				     "xxx",
-				     "xxx",
-				     "xxx",
-				     "xxx",
-				     "xxx",
-				     "xxx"
-				    ],
-				    "private": false,
-				    "password": "xxxxxx",
-				    "sharedEdit": false,
-				    "editPassword": "xxxxxxx",
-				    "videos": [
-				     "https://www.youtube.com/watch?v=_Pom2EYv3NM",
-				    ]
-		   	    }
-		   	 }
-		}
-		axios.patch('/api/v1/playlist', data)
-		.then((response) => {
-			console.log(response);
-		})
-		.catch(function (error) {
-			console.log(error.response);
-		 });
-	}
 
 	renderInitialView () {
 		return (

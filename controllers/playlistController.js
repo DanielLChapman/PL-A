@@ -47,8 +47,26 @@ exports.getMyPlaylists = async(req, res) => {
 
 exports.grabMyPlaylistsAPI = async(req, res) => {
 	const user = await User.findOne({email: req.user.email});
-	var playlists = await Playlist.find({user: user._id})
-	res.json(playlists);
+	var playlists = await Playlist.find({user: user._id});
+	var playlistsToReturn = [];
+	playlists.map( (p) => {
+		let tempP = { 
+			_id: p._id,
+			slug: p.slug,
+			updatedAt: p.updatedAt,
+			createdAt: p.createdAt,
+			name: p.name,
+			description: p.description,
+			tags: p.tags,
+			sharedEdit: p.sharedEdit,
+			private: p.private,
+			videos: p.videos,
+			views: p.views
+			
+		};
+		playlistsToReturn.push(tempP);
+	})
+	res.json(playlistsToReturn);
 }
 
 exports.watchPlaylist = async(req, res) => {
@@ -208,6 +226,7 @@ exports.checkAndCreatePlayList = async (req,res) => {
 
 //API
 exports.createPlayList = async(req, res) => {
+	
 	const playlist = new Playlist(req.body.playlist);
 	await playlist.save();
 	const returnObj = {
@@ -250,7 +269,7 @@ exports.updatePlayList = async(req, res) => {
 			playlist.videos = req.body.videos;
 			await playlist.save();
 		} else if (req.body.updateType === 'playlist') {
-			if (!Array.isArray(req.body.playlist.tags) && req.body.playlist.tags!= null) {
+			if (!Array.isArray(req.body.playlist.tags) && req.body.playlist.tags != null) {
 				let tempTags = req.body.playlist.tags.split(',');
 
 				for (let x = 0; x < tempTags.length; x++) {
@@ -264,7 +283,22 @@ exports.updatePlayList = async(req, res) => {
 		} else {
 			return res.status(500).json({'Error': 'No updateType set'});
 		}
-		res.json({'success': 'Success', playlist: playlist});
+		playlistToReturn = { 
+			 
+			_id: playlist._id,
+			slug: playlist.slug,
+			updatedAt: playlist.updatedAt,
+			createdAt: playlist.createdAt,
+			name: playlist.name,
+			description: playlist.description,
+			tags: playlist.tags,
+			sharedEdit: playlist.sharedEdit,
+			private: playlist.private,
+			videos: playlist.videos,
+			views: playlist.views
+			
+		};
+		res.json({'success': 'Success', playlist: playlistToReturn, 'invalidURLS': req.body.invalidURLS });
 	}
 	else {
 		return res.json('Password Required');

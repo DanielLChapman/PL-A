@@ -26,7 +26,7 @@ router.get('/v1/playlist/:slug',
 	catchErrors(playlistController.grabPlaylist));
 
 /* get information about my playlists */
-router.get('/v1/user/playlists',
+router.post('/v1/user/playlists',
 	catchErrors(apiController.logEntry),
 	catchErrors(apiController.findUser),
 	catchErrors(playlistController.grabMyPlaylistsAPI));
@@ -49,6 +49,7 @@ router.patch('/v1/playlist/',
 //delete
 router.delete('/v1/playlist/:playlist_id',
 	catchErrors(apiController.logEntry),
+	catchErrors(apiController.findUser),
 	catchErrors(playlistController.checkPermissions),
 	catchErrors(playlistController.deletePlaylist));
 

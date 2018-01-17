@@ -24322,47 +24322,18 @@ var APIApp = function (_Component) {
 		};
 		_this.handleButtonClick = _this.handleButtonClick.bind(_this);
 		_this.renderInitialView = _this.renderInitialView.bind(_this);
-		_this.handleAXIOS = _this.handleAXIOS.bind(_this);
 		return _this;
 	}
 
 	_createClass(APIApp, [{
 		key: 'componentWillMount',
 		value: function componentWillMount() {
-			this.handleAXIOS();
 			this.props.grabAPIKeys();
 		}
 	}, {
 		key: 'handleButtonClick',
 		value: function handleButtonClick(e) {
 			this.props.generateNewAPIKey();
-		}
-	}, {
-		key: 'handleAXIOS',
-		value: function handleAXIOS() {
-			var data = {
-				"apiKey": "f612eabc136492b9526893464c186c22",
-				"slug": "test-2",
-				"changes": {
-					"playlistChanges": {
-						//Only use whichever is needed. 
-						//If the name isnt being changed, then omit it
-						"name": "YYYYYY",
-						"description": "XXXXXX",
-						"tags": ["xxx", "xxx", "xxx", "xxx", "xxx", "xxx"],
-						"private": false,
-						"password": "xxxxxx",
-						"sharedEdit": false,
-						"editPassword": "xxxxxxx",
-						"videos": ["https://www.youtube.com/watch?v=_Pom2EYv3NM"]
-					}
-				}
-			};
-			_axios2.default.patch('/api/v1/playlist', data).then(function (response) {
-				console.log(response);
-			}).catch(function (error) {
-				console.log(error.response);
-			});
 		}
 	}, {
 		key: 'renderInitialView',
@@ -27027,11 +26998,15 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 var jsonCreateString = '{\n "apiKey": "XXXXXX",\n "playlist": {\n  "name": "XXXXXX",\n  "description": "XXXXXX",\n  "tags": [\n    "xxx",\n    "xxx",\n    "xxx",\n    "xxx",\n    "xxx",\n    "xxx"\n  ],\n  "private": false,\n  "password": "xxxxxx",\n  "sharedEdit": false,\n  "editPassword": "xxxxxxx",\n  "videos": [\n    "URL",\n    "URL",\n    "URL",\n    "URL",\n    "URL"\n  ]\n }\n}';
 
-var jsonCreateResponseString = '{\n"playlist": {\n  "user": "XXXX",\n  "slug": "XXXX",\n  "name": "XXXX",\n  "description": "XXXXX",\n  "tags": [\n  \t"XX",\n  \t"XX"\n  ]\n},\n"url": "https://example.com/watch/:slug",\n"invalidURLS": [\n  "URL",\n  "URL"\n  ]\n}';
+var jsonCreateResponseString = '{\n"playlist": {\n  "id": "XXXXX"\n  "user": "XXXX",\n  "slug": "XXXX",\n  "name": "XXXX",\n  "description": "XXXXX",\n  "tags": [\n  \t"XX",\n  \t"XX"\n  ]\n},\n"url": "https://example.com/watch/:slug",\n"invalidURLS": [\n  "URL",\n  "URL"\n  ]\n}';
 
 var jsonGetPlaylistIndex = '{\n  "data": [\n   {\n\t"slug": "xxxxxx",\n\t"name": "xxxxxxxx",\n\t"description": "xxxxxxx",\n\t"user": {\n\t\t"name": "xxxxx"\n\t},\n\t"views": Y,\n\t"tags": [\n\t\t"XX",\n\t\t"XX"\n\t]\n\n   }\n  ]\n}';
 
-var jsonPatch = '{\n   "apiKey": "f612eabc136492b9526893464c186c22",\n   "slug": "XXXX", //this is the current one\n   "changes": \n   \t {\n   \t    "playlistChanges": {\n   \t    \t//Only use whichever is needed. \n   \t    \t//EXAMPLE: If the name isnt being changed, then omit it\n   \t    \t"name": "XXXXXX",\n   \t    \t"slug": "test-2", //put a new one here if you wish to change it\n\t\t    "description": "XXXXXX",\n\t\t    "tags": [\n\t\t     "xxx",\n\t\t     "xxx",\n\t\t     "xxx",\n\t\t     "xxx",\n\t\t     "xxx",\n\t\t     "xxx"\n\t\t    ],\n\t\t    "private": false,\n\t\t    "password": "xxxxxx",\n\t\t    "sharedEdit": false,\n\t\t    "editPassword": "xxxxxxx",\n\t\t    "videos": [\n\t\t     "https://www.youtube.com/watch?v=_Pom2EYv3NM",\n\t\t     "https://www.youtube.com/watch?v=_Pom2EYv3NM",\n\t\t     "https://www.youtube.com/watch?v=_Pom2EYv3NM",\n\t\t     "https://www.youtube.com/watch?v=_Pom2EYv3NM",\n\t\t     "https://www.youtube.com/watch?v=_Pom2EYv3NM"\n\t\t    ]\n   \t    }\n   \t }\n}\n';
+var jsonGetMyPlaylists = '\n[ { \n\t_id: \'This is the playlist ID\',\n\tslug: \'This is the slug\',\n\tupdatedAt: \'\',\n\tcreatedAt: \'\',\n\tname: \'Name of the Playlist\',\n\tdescription: \'Description of Playlist\',\n\ttags: [ \'string\', \'string\' ],\n\tsharedEdit: false,\n\tprivate: false,\n\tvideos: [ [Object] ],\n\tviews: 0 },\n{\n\t_id: \'This is the playlist ID\',\n\tslug: \'This is the slug\',\n\tupdatedAt: \'\',\n\tcreatedAt: \'\',\n\tname: \'Name of the Playlist\',\n\tdescription: \'Description of Playlist\',\n\ttags: [ \'string\', \'string\' ],\n\tsharedEdit: false,\n\tprivate: false,\n\tvideos: [ [Object] ],\n\tviews: 0 }\n ]';
+
+var jsonPatch = '{\n\t"apiKey": "XXXXX",\n\t"slug": "XXXX", //this is the current one\n\t"changes": \n\t  {\n\t  "playlistChanges": {\n\t\t//Only use whichever is needed. \n\t\t//EXAMPLE: If the name isnt being changed, then omit it\n\t\t"name": "XXXXXX",\n\t\t"description": "XXXXXX",\n\t\t"tags": [\n\t\t "xxx",\n\t\t "xxx",\n\t\t "xxx",\n\t\t "xxx",\n\t\t "xxx",\n\t\t "xxx"\n\t\t],\n\t\t"private": false,\n\t\t"password": "xxxxxx",\n\t\t"sharedEdit": false,\n\t\t"editPassword": "xxxxxxx",\n\t\t"videos": [\n\t\t "https://www.youtube.com/watch?v=_Pom2EYv3NM",\n\t\t "https://www.youtube.com/watch?v=_Pom2EYv3NM",\n\t\t "https://www.youtube.com/watch?v=_Pom2EYv3NM",\n\t\t "https://www.youtube.com/watch?v=_Pom2EYv3NM",\n\t\t "https://www.youtube.com/watch?v=_Pom2EYv3NM"\n\t\t]\n\t  }\n\t}\n}\n';
+
+var jsonPachResponse = '{\n\tsuccess: \'Success\',\n\tplaylist: { \n\t\t_id: \'This is the playlist ID\',\n\t\tslug: \'This is the slug\',\n\t\tupdatedAt: \'\',\n\t\tcreatedAt: \'\',\n\t\tname: \'Name of the Playlist\',\n\t\tdescription: \'Description of Playlist\',\n\t\ttags: [ \'string\', \'string\' ],\n\t\tsharedEdit: false,\n\t\tprivate: false,\n\t\tvideos: [ [Object] ],\n\t\tviews: 0 } ,\n\tinvalidURLS: []\n}';
 
 var API_Information = function (_Component) {
 	_inherits(API_Information, _Component);
@@ -27044,7 +27019,9 @@ var API_Information = function (_Component) {
 		_this.state = {
 			openCreate: false,
 			openGrab: false,
-			openGrab2: false
+			openGrab2: false,
+			openGrab3: false,
+			openUpdate: false
 		};
 		_this.switchSectionStyling = _this.switchSectionStyling.bind(_this);
 		return _this;
@@ -27069,6 +27046,16 @@ var API_Information = function (_Component) {
 						openGrab2: !this.state.openGrab2
 					});
 					break;
+				case 'openGrab3':
+					this.setState({
+						openGrab3: !this.state.openGrab3
+					});
+					break;
+				case 'openUpdate':
+					this.setState({
+						openUpdate: !this.state.openUpdate
+					});
+					break;
 				default:
 					return 'Error';
 			}
@@ -27081,6 +27068,8 @@ var API_Information = function (_Component) {
 			var openCreateStyle = { display: 'none' };
 			var openGrabStyle = { display: 'none' };
 			var openGrabStyle2 = { display: 'none' };
+			var openGrabStyle3 = { display: 'none' };
+			var openUpdateStyle = { display: 'none' };
 			if (this.state.openCreate) {
 				openCreateStyle = { display: 'block' };
 			}
@@ -27089,6 +27078,12 @@ var API_Information = function (_Component) {
 			}
 			if (this.state.openGrab2) {
 				openGrabStyle2 = { display: 'block' };
+			}
+			if (this.state.openGrab3) {
+				openGrabStyle3 = { display: 'block' };
+			}
+			if (this.state.openUpdate) {
+				openUpdateStyle = { display: 'block' };
 			}
 			return _react2.default.createElement(
 				'section',
@@ -27104,6 +27099,141 @@ var API_Information = function (_Component) {
 					'First, Generate an API Key from the previous page, click HERE to return'
 				),
 				_react2.default.createElement('br', null),
+				_react2.default.createElement(
+					'h2',
+					{ onClick: function onClick() {
+							return _this2.switchSectionStyling('openGrab');
+						} },
+					'Grab All Playlist ',
+					_react2.default.createElement('i', { className: 'fas fa-caret-down' })
+				),
+				_react2.default.createElement(
+					'section',
+					{ style: openGrabStyle, className: 'col-xs-12 col-md-12 ' },
+					_react2.default.createElement(
+						'div',
+						{ className: 'col-xs-4 col-xs-offset-4 col-md-4 ' },
+						_react2.default.createElement(
+							'h3',
+							null,
+							'Get Request To: /api/v1/playlist/'
+						)
+					),
+					_react2.default.createElement(
+						'div',
+						{ className: 'col-xs-4 col-xs-offset-4 col-md-4 ' },
+						_react2.default.createElement(
+							'h5',
+							null,
+							'Response: '
+						),
+						_react2.default.createElement(
+							'pre',
+							{ style: { textAlign: 'left' } },
+							jsonGetPlaylistIndex
+						),
+						_react2.default.createElement(
+							'h5',
+							null,
+							'Alternatives to JSON coming soon'
+						)
+					)
+				),
+				_react2.default.createElement(
+					'h2',
+					{ onClick: function onClick() {
+							return _this2.switchSectionStyling('openGrab2');
+						} },
+					'Grab Information About Single Playlist ',
+					_react2.default.createElement('i', { className: 'fas fa-caret-down' })
+				),
+				_react2.default.createElement(
+					'section',
+					{ style: openGrabStyle2, className: 'col-xs-12 col-md-12 ' },
+					_react2.default.createElement(
+						'div',
+						{ className: 'col-xs-4 col-xs-offset-4 col-md-4 ' },
+						_react2.default.createElement(
+							'h3',
+							null,
+							'Get Request To: /api/v1/playlist/:slug'
+						),
+						_react2.default.createElement(
+							'h5',
+							null,
+							'Slug is the identification at the end of the url for the particular playlist'
+						),
+						_react2.default.createElement(
+							'h5',
+							null,
+							'i.e. /watch/thisistheslug '
+						)
+					),
+					_react2.default.createElement(
+						'div',
+						{ className: 'col-xs-4 col-xs-offset-4 col-md-4 ' },
+						_react2.default.createElement(
+							'h5',
+							null,
+							'Response: '
+						),
+						_react2.default.createElement(
+							'pre',
+							{ style: { textAlign: 'left' } },
+							jsonGetPlaylistIndex
+						),
+						_react2.default.createElement(
+							'h5',
+							null,
+							'Alternatives to JSON coming soon'
+						)
+					)
+				),
+				_react2.default.createElement(
+					'h2',
+					{ onClick: function onClick() {
+							return _this2.switchSectionStyling('openGrab3');
+						} },
+					'Grab All Your Playlists ',
+					_react2.default.createElement('i', { className: 'fas fa-caret-down' })
+				),
+				_react2.default.createElement(
+					'section',
+					{ style: openGrabStyle3, className: 'col-xs-12 col-md-12 ' },
+					_react2.default.createElement(
+						'div',
+						{ className: 'col-xs-4 col-xs-offset-4 col-md-4 ' },
+						_react2.default.createElement(
+							'h3',
+							null,
+							'Post Request To: /api/v1/user/playlists'
+						),
+						_react2.default.createElement(
+							'pre',
+							{ style: { width: '100%' } },
+							'{\n\t\'apiKey\': \'Insert apiKey\'\n}'
+						)
+					),
+					_react2.default.createElement(
+						'div',
+						{ className: 'col-xs-4 col-xs-offset-4 col-md-4 ' },
+						_react2.default.createElement(
+							'h5',
+							null,
+							'Response: '
+						),
+						_react2.default.createElement(
+							'pre',
+							{ style: { width: '100%' } },
+							jsonGetMyPlaylists
+						),
+						_react2.default.createElement(
+							'h5',
+							null,
+							'Alternatives to JSON coming soon'
+						)
+					)
+				),
 				_react2.default.createElement(
 					'h2',
 					{ onClick: function onClick() {
@@ -27163,6 +27293,11 @@ var API_Information = function (_Component) {
 							'h6',
 							null,
 							'Videos will be validated and in the response any that dont pass validation will be kicked back. Playlist wont save unless at least 1 video works.'
+						),
+						_react2.default.createElement(
+							'h6',
+							null,
+							'Also, name is required'
 						)
 					),
 					_react2.default.createElement(
@@ -27193,21 +27328,62 @@ var API_Information = function (_Component) {
 				_react2.default.createElement(
 					'h2',
 					{ onClick: function onClick() {
-							return _this2.switchSectionStyling('openGrab');
+							return _this2.switchSectionStyling('openUpdate');
 						} },
-					'Grab All Playlist ',
+					'Update a Playlist ',
 					_react2.default.createElement('i', { className: 'fas fa-caret-down' })
 				),
 				_react2.default.createElement(
 					'section',
-					{ style: openGrabStyle, className: 'col-xs-12 col-md-12 ' },
+					{ style: openUpdateStyle, className: 'col-xs-12 col-md-12 ' },
+					_react2.default.createElement(
+						'h3',
+						null,
+						'How To Prepare Data: '
+					),
+					_react2.default.createElement(
+						'div',
+						{ className: 'tab-content' },
+						_react2.default.createElement(
+							'div',
+							{ id: 'jsonCreate', className: 'tab-pane fade in active' },
+							_react2.default.createElement(
+								'h5',
+								{ className: 'col-xs-4 col-xs-offset-4 col-md-4 col-md-offset-4' },
+								'JSON:'
+							),
+							_react2.default.createElement(
+								'section',
+								{ className: 'col-xs-4 col-xs-offset-4 col-md-4 col-md-offset-4' },
+								_react2.default.createElement(
+									'h5',
+									{ style: { textAlign: 'left' } },
+									_react2.default.createElement(
+										'pre',
+										{ style: { width: '100%' } },
+										jsonPatch
+									)
+								)
+							)
+						)
+					),
 					_react2.default.createElement(
 						'div',
 						{ className: 'col-xs-4 col-xs-offset-4 col-md-4 ' },
 						_react2.default.createElement(
 							'h3',
 							null,
-							'Get Request To: /api/playlist/'
+							'Patch JSON Request To: /api/v1/playlist/'
+						),
+						_react2.default.createElement(
+							'h6',
+							null,
+							'If Private or sharedEdit are false, then password or editPassword respectfully will be discarded'
+						),
+						_react2.default.createElement(
+							'h6',
+							null,
+							'Videos will be validated and in the response any that dont pass validation will be kicked back. Playlist wont save unless at least 1 video works.'
 						)
 					),
 					_react2.default.createElement(
@@ -27221,7 +27397,12 @@ var API_Information = function (_Component) {
 						_react2.default.createElement(
 							'pre',
 							{ style: { textAlign: 'left' } },
-							jsonGetPlaylistIndex
+							jsonPachResponse
+						),
+						_react2.default.createElement(
+							'h5',
+							null,
+							'Response will be either a JSON Object with the new playlist object and a successful message. Or an JSON error with messages of what is missing.'
 						),
 						_react2.default.createElement(
 							'h5',
@@ -27233,21 +27414,26 @@ var API_Information = function (_Component) {
 				_react2.default.createElement(
 					'h2',
 					{ onClick: function onClick() {
-							return _this2.switchSectionStyling('openGrab2');
+							return _this2.switchSectionStyling('openDelete');
 						} },
-					'Grab Information About Single Playlist ',
+					'Delete a Playlist ',
 					_react2.default.createElement('i', { className: 'fas fa-caret-down' })
 				),
 				_react2.default.createElement(
 					'section',
-					{ style: openGrabStyle2, className: 'col-xs-12 col-md-12 ' },
+					{ style: openDeleteStyle, className: 'col-xs-12 col-md-12 ' },
 					_react2.default.createElement(
 						'div',
 						{ className: 'col-xs-4 col-xs-offset-4 col-md-4 ' },
 						_react2.default.createElement(
 							'h3',
 							null,
-							'Get Request To: /api/playlist/:slug'
+							'Delete Request To: /api/v1/playlist/:playlist_id'
+						),
+						_react2.default.createElement(
+							'h6',
+							null,
+							'Playlist ID can be found through one of the previous calls'
 						)
 					),
 					_react2.default.createElement(
@@ -27259,14 +27445,9 @@ var API_Information = function (_Component) {
 							'Response: '
 						),
 						_react2.default.createElement(
-							'pre',
-							{ style: { textAlign: 'left' } },
-							jsonGetPlaylistIndex
-						),
-						_react2.default.createElement(
 							'h5',
 							null,
-							'Alternatives to JSON coming soon'
+							'Response will either be a successful JSON string or an error message'
 						)
 					)
 				)

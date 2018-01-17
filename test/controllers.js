@@ -593,7 +593,7 @@ describe('Playlist Routes that require key', () => {
           })
           .end((err, res) => {
             playlistData = JSON.parse(res.text);
-
+1
             res.should.have.status(500);
             playlistData.should.include("You didn't");
             done();

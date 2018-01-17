@@ -265,10 +265,11 @@ describe('Testing Playlist Model Validation', () => {
 
   it('gets the 3 playlists', (done) => {
     chai.request.agent(app)
-      .get('/api/v1/user/playlists')
+      .post('/api/v1/user/playlists')
       .set('Cookie', cookie)
       .end((err, res) => {
         playlistData = JSON.parse(res.text);
+        console.log(playlistData);
         done();
       });
   });
@@ -288,10 +289,7 @@ describe('Testing Playlist Model Validation', () => {
     cP.private.should.not.equal(null)
     cP.sharedEdit.should.not.equal(null);
     cP.slug.should.not.be.empty;
-    cP.password.should.equal('Test');
-    cP.editPassword.should.equal('Test');
     cP.tags.should.not.equal(null);
-    chai.assert(cP.user != null);
     chai.assert(cP.updatedAt != null);
     chai.assert(cP.createdAt != null);
     done();

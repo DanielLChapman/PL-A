@@ -110,9 +110,9 @@ exports.logEntry = async (req, res, next) => {
 	apiModel.ipAddress = requestIp.getClientIp(req); 
 	apiModel.action = Object.keys(req.route.methods)[0];
 	if (apiModel.action === "post" || apiModel.action === "patch") {
-		if (typeof req.body.apiKey === 'undefined') {
+		if (typeof req.body.apiKey === 'undefined' && req.user == null) {
 			var error = {
-				'error': 'Something Went Wrong, either API Key was missing or we had trouble reading your data'
+				'error': 'Something Went Wrong, either API Key was missing, you werent logged in or we had trouble reading your data'
 			};
 			return 	res.status(500).json(error);
 		}
@@ -122,6 +122,8 @@ exports.logEntry = async (req, res, next) => {
 			if (req.body.slug) {
 				let playlist = await Playlist.findOne({slug: req.body.slug});
 				apiModel.name = playlist.name;
+			} else if (req.url.includes('/user/playlists') ) {
+				apiModel.name = "Grabbing All Users Playlist: " + req.user._id;
 			} else {
 				return res.status(500).json({error: 'Missing playlist name'});
 			}
@@ -217,7 +219,7 @@ exports.prepareChanges = (req, res, next) => {
 
 exports.findUser = async (req, res, next) => {
 	if (req.body.apiKey == null && req.user == null) {
-		return res.status(500).json('Missing API Key');
+		return res.status(500).json('Missing API Key Or Not Logged In');
 	}
 	const apiKey = req.body.apiKey;
 	let user;
