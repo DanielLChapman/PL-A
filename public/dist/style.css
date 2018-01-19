@@ -268,7 +268,8 @@ h2 {
   .bootstrap-override .main_content .video-card {
     border-bottom: 1px solid rgba(46, 46, 46, 0.6);
     padding-top: 5px;
-    padding-bottom: 5px; }
+    padding-bottom: 5px;
+    max-height: 175px; }
     .bootstrap-override .main_content .video-card .video-card-interactions {
       margin-top: 2px; }
     .bootstrap-override .main_content .video-card section {

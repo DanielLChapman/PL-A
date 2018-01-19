@@ -66,7 +66,7 @@ class PlayListList extends Component {
 	}
 
 	onSubmit () {
-		axios.post(`/api/v1/editVideosForPlayList/${this.props.reactID}`, {
+		axios.post(`/internal/api/v1/editVideosForPlayList/${this.props.reactID}`, {
 			updateType: 'videos',
 			videos: this.props.videos[0].videos
 		})

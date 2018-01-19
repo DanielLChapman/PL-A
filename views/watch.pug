@@ -8,6 +8,7 @@ block content
 	script(src="https://player.vimeo.com/api/player.js")
 	script(src="https://api.dmcdn.net/all.js")
 	script(src="http://www.youtube.com/player_api")
+	script(src="http://cdn.embed.ly/player-0.1.0.min.js")
 	script( type="text/javascript").
 		function nextVideo() {
 			document.querySelector('.next-video-box').click();
@@ -17,8 +18,9 @@ block content
 				nextVideo()
 			}
 		};
-		function tempFunction(type, videoID) {
-			let player = null;
+		function tempFunction(type, videoInformation) {
+			let player = null,
+				streamableDuration = 1000;
 			$('.video-switch-button').css('opacity', '0');
 			$('body').css('background-color', 'black');
 			$('.navbar').css('opacity', '0');
@@ -26,7 +28,7 @@ block content
 			switch(type) {
 				case ('dailymotion'):
 					//- player = DM.player(document.querySelector('#player'), {
-					//-     video: videoID,
+					//-     video: videoInformation,
 					//-     width: "100%",
 					//-     height: "100%",
 					//-     params: {
@@ -47,14 +49,27 @@ block content
 				case ('vimeo'):
 					var iframe = document.querySelector('iframe');
 				    player = new Vimeo.Player(iframe);
-				    /*player.on('ended', function(data) {
-				   		console.log('here');
-						nextVideo();
-					});*/
 					player.on('timeupdate', function(data) {
 					  if (data.percent === 1) {
 					    nextVideo();
 					  }
+					});
+					break;
+				case ('streamable'):
+					var isPlaying = false;
+					$('.streamable-div').html(videoInformation);
+					player = new playerjs.Player($('.streamable-div > div > iframe')[0]);
+					player.on('ready', function(){
+							 player.play();
+				    });
+					player.on('play', function() {
+						if(!isPlaying) {
+							 player.play();
+							 isPlaying = true;
+						}
+				     	else {
+				     		nextVideo();
+				     	}
 					});
 					break;
 				default:

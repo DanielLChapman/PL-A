@@ -1,11 +1,16 @@
 import React, { Component } from 'react';
 import Dailymotion from 'react-dailymotion';
+import axios from 'axios';
 
 export default class Video extends Component {
 	constructor (props) {
 		super(props);
+		this.state = {
+			streamableHTML: ""
+		};
 		this.returnVideo = this.returnVideo.bind(this);
 		this.startJS = this.startJS.bind(this);
+		this.getStreamableEmbed = this.getStreamableEmbed.bind(this);
 	}
 
 	componentWillMount () {
@@ -23,6 +28,8 @@ export default class Video extends Component {
 			case ('vimeo'):
 				window.tempFunction('vimeo', this.props.video.videoID);
 				break;
+			case ('streamable'):
+				break;
 			default:
 				return <h1>{this.props.video}</h1>;
 			}
@@ -33,6 +40,9 @@ export default class Video extends Component {
 	}
 	componentDidUpdate () {
 		this.startJS();
+	}
+	getStreamableEmbed (id) {
+
 	}
 
 	returnVideo () {
@@ -66,11 +76,28 @@ export default class Video extends Component {
 			}
 			return <iframe id="iframe" src={url} style={{width: '100%', height: '100%'}} frameBorder="0" allowFullScreen></iframe>;
 		case ('streamable'):
-			return <div dangerouslySetInnerHTML={{__html: this.props.video.videoID}} />;
+			url = 'http://streamable.com/';
+			if (!this.props.autoplay) {
+				url += 'o/'+this.props.video.videoID;
+				return <iframe id="iframe" src={url} style={{width: '100%', height: '100%'}} frameBorder="0" allowFullScreen></iframe>;
+			} else {
+				axios.get(`https://api.streamable.com/oembed.json?url=https://streamable.com/${this.props.video.videoID}`)
+					.then((resp) => {
+						window.tempFunction('streamable', resp.data.html);
+					})
+					.catch(function(err) {
+						console.log(err);
+					});
+				return <div className="empty-div streamable-div">
+							<div ><h1>Here</h1></div>
+						</div>;
+			}
+			break;
 		default:
-			return <h1>{this.props.video}</h1>;
+			return <h1>{this.props.video.videoID}</h1>;
 		}
 	}
+
 
 	render () {
 		let display = null;

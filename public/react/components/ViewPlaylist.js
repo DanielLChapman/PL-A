@@ -13,7 +13,8 @@ class ViewPlaylist extends Component {
 		super(props);
 		this.state = {
 			REACT_ID: '',
-			order: 0
+			order: 0,
+			hasError: false
 		};
 
 		this.renderPlaylist = this.renderPlaylist.bind(this);
@@ -21,6 +22,12 @@ class ViewPlaylist extends Component {
 		this.nextVideo = this.nextVideo.bind(this);
 		this.prevVideo = this.prevVideo.bind(this);
 	}
+	componentDidCatch(error, info) {
+		// You can also log the error to an error reporting service
+		//INPUT LOGGING HERE
+	    // Display fallback UI
+	    this.setState({ hasError: true });
+	  }
 
 	componentWillMount () {
 		REACT_ID = document.querySelector('.video-container').getAttribute('reactID');
@@ -47,11 +54,7 @@ class ViewPlaylist extends Component {
 	}
 
 	renderPlaylist (videos) {
-		return (
-			<div className='empty-div'>
-				<Video autoplay={true} video={videos[this.state.order]} nextVideo={this.nextVideo} />
-			</div>
-		);
+		return <Video autoplay={true} video={videos[this.state.order]} nextVideo={this.nextVideo} />
 	}
 
 	nextVideo () {
