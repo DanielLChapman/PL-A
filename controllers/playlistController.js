@@ -15,7 +15,11 @@ exports.homePage = async (req, res) => {
 }
 
 exports.newPlayList = (req, res) => {
-	res.render('editPlaylist', {title: 'New Playlist'})
+	res.render('editPlaylist', {title: 'New Playlist'});
+}
+
+exports.reddit = (req, res) => {
+	res.render('reddit', {title: 'Reddit Grabber'});
 }
 
 exports.editPlayList = async(req, res) => {

@@ -181,6 +181,15 @@ describe('GET Routes', () => {
 	    	done();
 	    });
 	});
+
+	it ('should get the reddit page but then redirect', (done) => {
+		chai.request(app)
+			.get('/reddit')
+			.end((err, res) => {
+				res.req.path.should.equal('/login');
+				done();
+			});
+	});
 });
 
 describe('GET Routes with login', () => {
@@ -214,6 +223,16 @@ describe('GET Routes with login', () => {
 	    	done();
 	    });
 	});
+
+	it ('should get the reddit page but then redirect', (done) => {
+		chai.request(app)
+			.get('/reddit')
+			.set('Cookie', cookie)
+			.end((err, res) => {
+				res.req.path.should.equal('/reddit');
+				done();
+			});
+	})
 
 	it('it should GET the addPlaylist page', (done) => {
 	chai.request(app)

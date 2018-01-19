@@ -41,6 +41,10 @@ router.get('/api',
 	authController.isLoggedIn, 
 	catchErrors(userController.apiIntroPage));
 
+router.get('/reddit', 
+	authController.isLoggedIn, 
+	catchErrors(playlistController.reddit));
+
 //Verify
 //Register
 //Login
