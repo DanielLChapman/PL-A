@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 113);
+/******/ 	return __webpack_require__(__webpack_require__.s = 119);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -1001,131 +1001,13 @@ function isPlainObject(value) {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(process) {
-
-var utils = __webpack_require__(1);
-var normalizeHeaderName = __webpack_require__(83);
-
-var DEFAULT_CONTENT_TYPE = {
-  'Content-Type': 'application/x-www-form-urlencoded'
-};
-
-function setContentTypeIfUnset(headers, value) {
-  if (!utils.isUndefined(headers) && utils.isUndefined(headers['Content-Type'])) {
-    headers['Content-Type'] = value;
-  }
-}
-
-function getDefaultAdapter() {
-  var adapter;
-  if (typeof XMLHttpRequest !== 'undefined') {
-    // For browsers use XHR adapter
-    adapter = __webpack_require__(35);
-  } else if (typeof process !== 'undefined') {
-    // For node use HTTP adapter
-    adapter = __webpack_require__(35);
-  }
-  return adapter;
-}
-
-var defaults = {
-  adapter: getDefaultAdapter(),
-
-  transformRequest: [function transformRequest(data, headers) {
-    normalizeHeaderName(headers, 'Content-Type');
-    if (utils.isFormData(data) ||
-      utils.isArrayBuffer(data) ||
-      utils.isBuffer(data) ||
-      utils.isStream(data) ||
-      utils.isFile(data) ||
-      utils.isBlob(data)
-    ) {
-      return data;
-    }
-    if (utils.isArrayBufferView(data)) {
-      return data.buffer;
-    }
-    if (utils.isURLSearchParams(data)) {
-      setContentTypeIfUnset(headers, 'application/x-www-form-urlencoded;charset=utf-8');
-      return data.toString();
-    }
-    if (utils.isObject(data)) {
-      setContentTypeIfUnset(headers, 'application/json;charset=utf-8');
-      return JSON.stringify(data);
-    }
-    return data;
-  }],
-
-  transformResponse: [function transformResponse(data) {
-    /*eslint no-param-reassign:0*/
-    if (typeof data === 'string') {
-      try {
-        data = JSON.parse(data);
-      } catch (e) { /* Ignore */ }
-    }
-    return data;
-  }],
-
-  timeout: 0,
-
-  xsrfCookieName: 'XSRF-TOKEN',
-  xsrfHeaderName: 'X-XSRF-TOKEN',
-
-  maxContentLength: -1,
-
-  validateStatus: function validateStatus(status) {
-    return status >= 200 && status < 300;
-  }
-};
-
-defaults.headers = {
-  common: {
-    'Accept': 'application/json, text/plain, */*'
-  }
-};
-
-utils.forEach(['delete', 'get', 'head'], function forEachMethodNoData(method) {
-  defaults.headers[method] = {};
-});
-
-utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
-  defaults.headers[method] = utils.merge(DEFAULT_CONTENT_TYPE);
-});
-
-module.exports = defaults;
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
-
-/***/ }),
-/* 13 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Provider__ = __webpack_require__(51);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_connectAdvanced__ = __webpack_require__(26);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__connect_connect__ = __webpack_require__(58);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Provider", function() { return __WEBPACK_IMPORTED_MODULE_0__components_Provider__["b"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createProvider", function() { return __WEBPACK_IMPORTED_MODULE_0__components_Provider__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "connectAdvanced", function() { return __WEBPACK_IMPORTED_MODULE_1__components_connectAdvanced__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "connect", function() { return __WEBPACK_IMPORTED_MODULE_2__connect_connect__["a"]; });
-
-
-
-
-
-
-/***/ }),
-/* 14 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
 
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.REGEX_OBJ = exports.DELETE_API_KEY = exports.GENERATE_API_KEY = exports.GRAB_API_KEYS = exports.SEARCH_PLAYLISTS = exports.GET_VIDEOS_TO_VIEW = exports.DELETE_VIDEO = exports.GRAB_VIDEOS = exports.VIDEO_MOVE_DOWN = exports.VIDEO_MOVE_UP = exports.VIDEO_SCRUB = undefined;
+exports.REGEX_OBJ = exports.VALIDATE_VIDEOS = exports.REDDIT_SEARCH = exports.DELETE_API_KEY = exports.GENERATE_API_KEY = exports.GRAB_API_KEYS = exports.SEARCH_PLAYLISTS = exports.GET_VIDEOS_TO_VIEW = exports.DELETE_VIDEO = exports.GRAB_VIDEOS = exports.VIDEO_MOVE_DOWN = exports.VIDEO_MOVE_UP = exports.VIDEO_SCRUB = undefined;
+exports.urlSplitter = urlSplitter;
 exports.scrubURL = scrubURL;
 exports.grabVideos = grabVideos;
 exports.searchVideos = searchVideos;
@@ -1135,6 +1017,8 @@ exports.deleteVideo = deleteVideo;
 exports.grabAPIKeys = grabAPIKeys;
 exports.generateNewAPIKey = generateNewAPIKey;
 exports.deleteAPIKey = deleteAPIKey;
+exports.grabRedditData = grabRedditData;
+exports.validateVideosFromReddit = validateVideosFromReddit;
 
 var _axios = __webpack_require__(16);
 
@@ -1152,10 +1036,12 @@ var SEARCH_PLAYLISTS = exports.SEARCH_PLAYLISTS = 'SEARCH_PLAYLISTS';
 var GRAB_API_KEYS = exports.GRAB_API_KEYS = 'GRAB_API_KEYS';
 var GENERATE_API_KEY = exports.GENERATE_API_KEY = 'GENERATE_API_KEY';
 var DELETE_API_KEY = exports.DELETE_API_KEY = 'DELETE_API_KEY';
+var REDDIT_SEARCH = exports.REDDIT_SEARCH = 'REDDIT_SEARCH';
+var VALIDATE_VIDEOS = exports.VALIDATE_VIDEOS = 'VALIDATE_VIDEOS';
 
 var REGEX_OBJ = exports.REGEX_OBJ = {
-	regYouTubeCom: /^(https?:\/\/)?(www\.)youtube.com\/(watch\?v=)\S{11}/,
-	regYoutuBe: /^(https:\/\/)(youtu)\.(be)\/\S{11}/,
+	regYouTubeCom: /^(https?:\/\/)?(www)?(m)?(\.)youtube.com\/(watch\?v=)\S{11}/,
+	regYoutuBe: /^(http(s)?:\/\/)(youtu)\.(be)\/\S{11}/,
 	VimeoCom: /^(https:\/\/)(vimeo)\.(com)\/[a-zA-Z0-9]{8}/,
 	VimeoPlayer: /^(https:\/\/)(player)\.(vimeo)\.(com)\/(video)\/[a-zA-Z0-9]{8}/,
 	DaiLy: /^(http:\/\/)(dai)\.(ly)\/[a-zA-Z0-9]{7}/,
@@ -1231,7 +1117,7 @@ function urlSplitter(ele) {
 				order: order
 			};
 		default:
-			return { error: 'Not Sure What Happened. Try Again Or Send Us An Email Here' };
+			return { error: 'Not Sure What Happened. Try Again Or Send Us An Email Here. URL: ' + ele };
 	}
 }
 
@@ -1331,6 +1217,144 @@ function deleteAPIKey(key) {
 		payload: data
 	};
 }
+
+function grabRedditData(subreddit, type, count, time) {
+	var url = 'https://www.reddit.com/r/' + subreddit + '/' + type + '/.json?limit=' + count + '&t=' + time;
+	var data = _axios2.default.get(url);
+
+	return {
+		type: REDDIT_SEARCH,
+		payload: data
+	};
+}
+
+function validateVideosFromReddit(videos) {
+	var data = videos;
+
+	return {
+		type: VALIDATE_VIDEOS,
+		payload: data
+	};
+}
+
+/***/ }),
+/* 13 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {
+
+var utils = __webpack_require__(1);
+var normalizeHeaderName = __webpack_require__(83);
+
+var DEFAULT_CONTENT_TYPE = {
+  'Content-Type': 'application/x-www-form-urlencoded'
+};
+
+function setContentTypeIfUnset(headers, value) {
+  if (!utils.isUndefined(headers) && utils.isUndefined(headers['Content-Type'])) {
+    headers['Content-Type'] = value;
+  }
+}
+
+function getDefaultAdapter() {
+  var adapter;
+  if (typeof XMLHttpRequest !== 'undefined') {
+    // For browsers use XHR adapter
+    adapter = __webpack_require__(35);
+  } else if (typeof process !== 'undefined') {
+    // For node use HTTP adapter
+    adapter = __webpack_require__(35);
+  }
+  return adapter;
+}
+
+var defaults = {
+  adapter: getDefaultAdapter(),
+
+  transformRequest: [function transformRequest(data, headers) {
+    normalizeHeaderName(headers, 'Content-Type');
+    if (utils.isFormData(data) ||
+      utils.isArrayBuffer(data) ||
+      utils.isBuffer(data) ||
+      utils.isStream(data) ||
+      utils.isFile(data) ||
+      utils.isBlob(data)
+    ) {
+      return data;
+    }
+    if (utils.isArrayBufferView(data)) {
+      return data.buffer;
+    }
+    if (utils.isURLSearchParams(data)) {
+      setContentTypeIfUnset(headers, 'application/x-www-form-urlencoded;charset=utf-8');
+      return data.toString();
+    }
+    if (utils.isObject(data)) {
+      setContentTypeIfUnset(headers, 'application/json;charset=utf-8');
+      return JSON.stringify(data);
+    }
+    return data;
+  }],
+
+  transformResponse: [function transformResponse(data) {
+    /*eslint no-param-reassign:0*/
+    if (typeof data === 'string') {
+      try {
+        data = JSON.parse(data);
+      } catch (e) { /* Ignore */ }
+    }
+    return data;
+  }],
+
+  timeout: 0,
+
+  xsrfCookieName: 'XSRF-TOKEN',
+  xsrfHeaderName: 'X-XSRF-TOKEN',
+
+  maxContentLength: -1,
+
+  validateStatus: function validateStatus(status) {
+    return status >= 200 && status < 300;
+  }
+};
+
+defaults.headers = {
+  common: {
+    'Accept': 'application/json, text/plain, */*'
+  }
+};
+
+utils.forEach(['delete', 'get', 'head'], function forEachMethodNoData(method) {
+  defaults.headers[method] = {};
+});
+
+utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
+  defaults.headers[method] = utils.merge(DEFAULT_CONTENT_TYPE);
+});
+
+module.exports = defaults;
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+
+/***/ }),
+/* 14 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Provider__ = __webpack_require__(51);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_connectAdvanced__ = __webpack_require__(26);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__connect_connect__ = __webpack_require__(58);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Provider", function() { return __WEBPACK_IMPORTED_MODULE_0__components_Provider__["b"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createProvider", function() { return __WEBPACK_IMPORTED_MODULE_0__components_Provider__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "connectAdvanced", function() { return __WEBPACK_IMPORTED_MODULE_1__components_connectAdvanced__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "connect", function() { return __WEBPACK_IMPORTED_MODULE_2__connect_connect__["a"]; });
+
+
+
+
+
 
 /***/ }),
 /* 15 */
@@ -22470,7 +22494,7 @@ function verifySubselectors(mapStateToProps, mapDispatchToProps, mergeProps, dis
 var utils = __webpack_require__(1);
 var bind = __webpack_require__(34);
 var Axios = __webpack_require__(82);
-var defaults = __webpack_require__(12);
+var defaults = __webpack_require__(13);
 
 /**
  * Create an instance of Axios
@@ -22553,7 +22577,7 @@ function isSlowBuffer (obj) {
 "use strict";
 
 
-var defaults = __webpack_require__(12);
+var defaults = __webpack_require__(13);
 var utils = __webpack_require__(1);
 var InterceptorManager = __webpack_require__(91);
 var dispatchRequest = __webpack_require__(92);
@@ -23094,7 +23118,7 @@ module.exports = InterceptorManager;
 var utils = __webpack_require__(1);
 var transformData = __webpack_require__(93);
 var isCancel = __webpack_require__(37);
-var defaults = __webpack_require__(12);
+var defaults = __webpack_require__(13);
 var isAbsoluteURL = __webpack_require__(94);
 var combineURLs = __webpack_require__(95);
 
@@ -23903,7 +23927,8 @@ module.exports = isArray;
 
 /***/ }),
 /* 104 */,
-/* 105 */
+/* 105 */,
+/* 106 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23919,7 +23944,7 @@ var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactDailymotion = __webpack_require__(106);
+var _reactDailymotion = __webpack_require__(107);
 
 var _reactDailymotion2 = _interopRequireDefault(_reactDailymotion);
 
@@ -24082,7 +24107,7 @@ var Video = function (_Component) {
 exports.default = Video;
 
 /***/ }),
-/* 106 */
+/* 107 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -24091,7 +24116,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(15);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_load_script2__ = __webpack_require__(107);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_load_script2__ = __webpack_require__(108);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_load_script2___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_load_script2__);
 
 
@@ -24735,7 +24760,7 @@ Dailymotion.propTypes = process.env.NODE_ENV !== "production" ? {
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(0)))
 
 /***/ }),
-/* 107 */
+/* 108 */
 /***/ (function(module, exports) {
 
 module.exports = load
@@ -24764,12 +24789,17 @@ function load (src, cb) {
 
 
 /***/ }),
-/* 108 */,
 /* 109 */,
 /* 110 */,
 /* 111 */,
 /* 112 */,
-/* 113 */
+/* 113 */,
+/* 114 */,
+/* 115 */,
+/* 116 */,
+/* 117 */,
+/* 118 */,
+/* 119 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24783,7 +24813,7 @@ var _reactDom = __webpack_require__(42);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _reactRedux = __webpack_require__(13);
+var _reactRedux = __webpack_require__(14);
 
 var _redux = __webpack_require__(5);
 
@@ -24791,11 +24821,11 @@ var _reduxPromise = __webpack_require__(98);
 
 var _reduxPromise2 = _interopRequireDefault(_reduxPromise);
 
-var _EditVideosApp = __webpack_require__(114);
+var _EditVideosApp = __webpack_require__(120);
 
 var _EditVideosApp2 = _interopRequireDefault(_EditVideosApp);
 
-var _editVideos = __webpack_require__(118);
+var _editVideos = __webpack_require__(124);
 
 var _editVideos2 = _interopRequireDefault(_editVideos);
 
@@ -24810,7 +24840,7 @@ _reactDom2.default.render(_react2.default.createElement(
 ), document.querySelector('.editVideos'));
 
 /***/ }),
-/* 114 */
+/* 120 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24826,23 +24856,23 @@ var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _video_bar = __webpack_require__(115);
+var _video_bar = __webpack_require__(121);
 
 var _video_bar2 = _interopRequireDefault(_video_bar);
 
-var _playlist_list = __webpack_require__(116);
+var _playlist_list = __webpack_require__(122);
 
 var _playlist_list2 = _interopRequireDefault(_playlist_list);
 
-var _edit_form = __webpack_require__(117);
+var _edit_form = __webpack_require__(123);
 
 var _edit_form2 = _interopRequireDefault(_edit_form);
 
-var _reactRedux = __webpack_require__(13);
+var _reactRedux = __webpack_require__(14);
 
 var _redux = __webpack_require__(5);
 
-var _index = __webpack_require__(14);
+var _index = __webpack_require__(12);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -25070,7 +25100,7 @@ function mapStateToProps(_ref) {
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(EditVideosApp);
 
 /***/ }),
-/* 115 */
+/* 121 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25086,11 +25116,11 @@ var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRedux = __webpack_require__(13);
+var _reactRedux = __webpack_require__(14);
 
 var _redux = __webpack_require__(5);
 
-var _index = __webpack_require__(14);
+var _index = __webpack_require__(12);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -25195,7 +25225,7 @@ function mapDispatchToProps(dispatch) {
 exports.default = (0, _reactRedux.connect)(null, mapDispatchToProps)(VideoBar);
 
 /***/ }),
-/* 116 */
+/* 122 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25211,13 +25241,13 @@ var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRedux = __webpack_require__(13);
+var _reactRedux = __webpack_require__(14);
 
 var _redux = __webpack_require__(5);
 
-var _index = __webpack_require__(14);
+var _index = __webpack_require__(12);
 
-var _Video = __webpack_require__(105);
+var _Video = __webpack_require__(106);
 
 var _Video2 = _interopRequireDefault(_Video);
 
@@ -25426,7 +25456,7 @@ function mapDispatchToProps(dispatch) {
 exports.default = (0, _reactRedux.connect)(null, mapDispatchToProps)(PlayListList);
 
 /***/ }),
-/* 117 */
+/* 123 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25637,7 +25667,7 @@ var EditForm = function (_Component) {
 exports.default = EditForm;
 
 /***/ }),
-/* 118 */
+/* 124 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25649,7 +25679,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _redux = __webpack_require__(5);
 
-var _reducer_video = __webpack_require__(119);
+var _reducer_video = __webpack_require__(125);
 
 var _reducer_video2 = _interopRequireDefault(_reducer_video);
 
@@ -25662,7 +25692,7 @@ var rootReducer = (0, _redux.combineReducers)({
 exports.default = rootReducer;
 
 /***/ }),
-/* 119 */
+/* 125 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25734,7 +25764,7 @@ exports.default = function () {
 	}
 };
 
-var _index = __webpack_require__(14);
+var _index = __webpack_require__(12);
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 

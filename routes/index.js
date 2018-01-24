@@ -43,7 +43,7 @@ router.get('/api',
 
 router.get('/reddit', 
 	authController.isLoggedIn, 
-	catchErrors(playlistController.reddit));
+	playlistController.reddit);
 
 //Verify
 //Register

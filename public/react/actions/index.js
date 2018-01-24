@@ -10,10 +10,12 @@ export const SEARCH_PLAYLISTS = 'SEARCH_PLAYLISTS';
 export const GRAB_API_KEYS = 'GRAB_API_KEYS';
 export const GENERATE_API_KEY = 'GENERATE_API_KEY';
 export const DELETE_API_KEY = 'DELETE_API_KEY';
+export const REDDIT_SEARCH = 'REDDIT_SEARCH';
+export const VALIDATE_VIDEOS = 'VALIDATE_VIDEOS';
 
 export const REGEX_OBJ = {
-	regYouTubeCom: /^(https?:\/\/)?(www\.)youtube.com\/(watch\?v=)\S{11}/,
-	regYoutuBe: /^(https:\/\/)(youtu)\.(be)\/\S{11}/,
+	regYouTubeCom: /^(https?:\/\/)?(www)?(m)?(\.)youtube.com\/(watch\?v=)\S{11}/,
+	regYoutuBe: /^(http(s)?:\/\/)(youtu)\.(be)\/\S{11}/,
 	VimeoCom: /^(https:\/\/)(vimeo)\.(com)\/[a-zA-Z0-9]{8}/,
 	VimeoPlayer: /^(https:\/\/)(player)\.(vimeo)\.(com)\/(video)\/[a-zA-Z0-9]{8}/,
 	DaiLy: /^(http:\/\/)(dai)\.(ly)\/[a-zA-Z0-9]{7}/,
@@ -22,7 +24,7 @@ export const REGEX_OBJ = {
 };
 
 var test = null;
-function urlSplitter (ele, order = 0) {
+export function urlSplitter (ele, order = 0) {
 	switch (true) {
 	case REGEX_OBJ.regYouTubeCom.test(ele):
 		test = ele.split('v=')[1];
@@ -87,7 +89,7 @@ function urlSplitter (ele, order = 0) {
 			order
 		};
 	default:
-		return {error: 'Not Sure What Happened. Try Again Or Send Us An Email Here'};
+		return {error: 'Not Sure What Happened. Try Again Or Send Us An Email Here. URL: ' + ele};
 	}
 }
 
@@ -184,6 +186,25 @@ export function deleteAPIKey (key) {
 
 	return {
 		type: DELETE_API_KEY,
+		payload: data
+	}
+}
+
+export function grabRedditData (subreddit, type, count, time) {
+	const url = `https://www.reddit.com/r/${subreddit}/${type}/.json?limit=${count}&t=${time}`;
+	const data = axios.get(url);
+
+	return {
+		type: REDDIT_SEARCH,
+		payload: data
+	}
+}
+
+export function validateVideosFromReddit(videos) {
+	const data = videos;
+
+	return {
+		type: VALIDATE_VIDEOS,
 		payload: data
 	}
 }

@@ -88,6 +88,31 @@ h4, h5, h6, p, label, a, th {
   height: auto;
   min-height: 600px;
   width: 100%; }
+  .bootstrap-override .inner .reddit-container .reddit-left {
+    width: 400px;
+    height: auto;
+    float: left;
+    padding-left: 15px;
+    clear: both; }
+    .bootstrap-override .inner .reddit-container .reddit-left button {
+      width: 125px;
+      height: 45px;
+      position: relative;
+      margin-top: 15px;
+      margin-right: 5px; }
+  .bootstrap-override .inner .reddit-container .reddit-right {
+    float: right;
+    vertical-align: top;
+    width: 600px;
+    padding-right: 15px;
+    margin-top: 2px; }
+    @media screen and (max-width: 800px) {
+      .bootstrap-override .inner .reddit-container .reddit-right {
+        width: 90%;
+        padding-right: 0;
+        left: 5%;
+        position: relative;
+        float: left; } }
 
 .bootstrap-override .search-container {
   padding-left: 15px;
@@ -328,5 +353,34 @@ iframe {
   @media screen and (min-width: 640px) {
     .rt-tr div:nth-child(even) {
       width: 100px !important; } }
+
+.Loader {
+  border: 16px solid #f3f3f3;
+  /* Light grey */
+  border-top: 16px solid #3498db;
+  /* Blue */
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 2s linear infinite;
+          animation: spin 2s linear infinite;
+  margin-top: 25px;
+  margin-left: calc(50% - 120px); }
+
+@-webkit-keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg); }
+  100% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg); } }
+
+@keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg); }
+  100% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg); } }
 
 /*# sourceMappingURL=style.css.map*/

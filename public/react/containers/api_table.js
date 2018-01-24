@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import ReactTable from 'react-table'
+import ReactTable from 'react-table';
 
 import {deleteAPIKey} from '../actions/index';
 

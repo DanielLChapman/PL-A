@@ -58,7 +58,8 @@ const config = {
     View: './public/react/viewPlaylist.js',
     Search: './public/react/Search.js',
     Popular: './public/react/Popular.js',
-    Api: './public/react/API.js'
+    Api: './public/react/API.js',
+    Reddit: './public/react/Reddit.js'
   },
   // we're using sourcemaps and here is where we specify which kind of sourcemap to use
   devtool: 'source-map',
