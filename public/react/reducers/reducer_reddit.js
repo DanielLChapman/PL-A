@@ -1,4 +1,4 @@
-import { REDDIT_SEARCH, VALIDATE_VIDEOS, urlSplitter, REGEX_OBJ } from '../actions/index';
+import { REDDIT_SEARCH, REMOVE_FROM_STATE, VALIDATE_VIDEOS, DELETE_REDDIT_DATA, urlSplitter, REGEX_OBJ } from '../actions/index';
 
 let count = 0; 
 
@@ -44,6 +44,15 @@ export default function (state = [], action) {
 			return temp;
 		};
 		return state;
+		break;
+	case DELETE_REDDIT_DATA:
+		state = [];
+		return state;
+		break;
+	case REMOVE_FROM_STATE:
+		let tempState = state;
+		tempState.splice(action.payload, 1);
+		return tempState;
 		break;
 	default:
 		return state;

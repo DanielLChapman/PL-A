@@ -229,6 +229,8 @@ exports.findUser = async (req, res, next) => {
 				$search: apiKey
 			}
 		});
+	} else {
+		user = req.user;
 	}
 	try {
 		req.body.playlist.user = user;

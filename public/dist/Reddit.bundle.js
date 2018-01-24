@@ -901,6 +901,25 @@ module.exports = ReactPropTypesSecret;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Provider__ = __webpack_require__(51);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_connectAdvanced__ = __webpack_require__(26);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__connect_connect__ = __webpack_require__(58);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Provider", function() { return __WEBPACK_IMPORTED_MODULE_0__components_Provider__["b"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createProvider", function() { return __WEBPACK_IMPORTED_MODULE_0__components_Provider__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "connectAdvanced", function() { return __WEBPACK_IMPORTED_MODULE_1__components_connectAdvanced__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "connect", function() { return __WEBPACK_IMPORTED_MODULE_2__connect_connect__["a"]; });
+
+
+
+
+
+
+/***/ }),
+/* 11 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
 /* harmony export (immutable) */ __webpack_exports__["a"] = warning;
 /**
  * Prints a warning in the console if it exists.
@@ -925,7 +944,7 @@ function warning(message) {
 }
 
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -997,7 +1016,7 @@ function isPlainObject(value) {
 
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1006,7 +1025,7 @@ function isPlainObject(value) {
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.REGEX_OBJ = exports.VALIDATE_VIDEOS = exports.REDDIT_SEARCH = exports.DELETE_API_KEY = exports.GENERATE_API_KEY = exports.GRAB_API_KEYS = exports.SEARCH_PLAYLISTS = exports.GET_VIDEOS_TO_VIEW = exports.DELETE_VIDEO = exports.GRAB_VIDEOS = exports.VIDEO_MOVE_DOWN = exports.VIDEO_MOVE_UP = exports.VIDEO_SCRUB = undefined;
+exports.REGEX_OBJ = exports.REMOVE_FROM_STATE = exports.DELETE_REDDIT_DATA = exports.VALIDATE_VIDEOS = exports.REDDIT_SEARCH = exports.DELETE_API_KEY = exports.GENERATE_API_KEY = exports.GRAB_API_KEYS = exports.SEARCH_PLAYLISTS = exports.GET_VIDEOS_TO_VIEW = exports.DELETE_VIDEO = exports.GRAB_VIDEOS = exports.VIDEO_MOVE_DOWN = exports.VIDEO_MOVE_UP = exports.VIDEO_SCRUB = undefined;
 exports.urlSplitter = urlSplitter;
 exports.scrubURL = scrubURL;
 exports.grabVideos = grabVideos;
@@ -1019,6 +1038,8 @@ exports.generateNewAPIKey = generateNewAPIKey;
 exports.deleteAPIKey = deleteAPIKey;
 exports.grabRedditData = grabRedditData;
 exports.validateVideosFromReddit = validateVideosFromReddit;
+exports.deleteRedditData = deleteRedditData;
+exports.removeFromStateIndex = removeFromStateIndex;
 
 var _axios = __webpack_require__(16);
 
@@ -1038,6 +1059,8 @@ var GENERATE_API_KEY = exports.GENERATE_API_KEY = 'GENERATE_API_KEY';
 var DELETE_API_KEY = exports.DELETE_API_KEY = 'DELETE_API_KEY';
 var REDDIT_SEARCH = exports.REDDIT_SEARCH = 'REDDIT_SEARCH';
 var VALIDATE_VIDEOS = exports.VALIDATE_VIDEOS = 'VALIDATE_VIDEOS';
+var DELETE_REDDIT_DATA = exports.DELETE_REDDIT_DATA = 'DELETE_REDDIT_DATA';
+var REMOVE_FROM_STATE = exports.REMOVE_FROM_STATE = 'REMOVE_FROM_STATE';
 
 var REGEX_OBJ = exports.REGEX_OBJ = {
 	regYouTubeCom: /^(https?:\/\/)?(www)?(m)?(\.)youtube.com\/(watch\?v=)\S{11}/,
@@ -1237,8 +1260,26 @@ function validateVideosFromReddit(videos) {
 	};
 }
 
+function deleteRedditData() {
+	var data = undefined;
+
+	return {
+		type: DELETE_REDDIT_DATA,
+		payload: data
+	};
+}
+
+function removeFromStateIndex(index) {
+	var data = index;
+
+	return {
+		type: REMOVE_FROM_STATE,
+		payload: data
+	};
+}
+
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1336,25 +1377,6 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 module.exports = defaults;
 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
-
-/***/ }),
-/* 14 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Provider__ = __webpack_require__(51);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_connectAdvanced__ = __webpack_require__(26);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__connect_connect__ = __webpack_require__(58);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Provider", function() { return __WEBPACK_IMPORTED_MODULE_0__components_Provider__["b"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createProvider", function() { return __WEBPACK_IMPORTED_MODULE_0__components_Provider__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "connectAdvanced", function() { return __WEBPACK_IMPORTED_MODULE_1__components_connectAdvanced__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "connect", function() { return __WEBPACK_IMPORTED_MODULE_2__connect_connect__["a"]; });
-
-
-
-
-
 
 /***/ }),
 /* 15 */
@@ -2233,7 +2255,7 @@ selectorFactory) {
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ActionTypes; });
 /* harmony export (immutable) */ __webpack_exports__["b"] = createStore;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash_es_isPlainObject__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash_es_isPlainObject__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_symbol_observable__ = __webpack_require__(69);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_symbol_observable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_symbol_observable__);
 
@@ -2677,8 +2699,8 @@ function wrapMapToPropsFunc(mapToProps, methodName) {
 
 "use strict";
 /* harmony export (immutable) */ __webpack_exports__["a"] = verifyPlainObject;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash_es_isPlainObject__ = __webpack_require__(11);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__warning__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash_es_isPlainObject__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__warning__ = __webpack_require__(11);
 
 
 
@@ -20493,7 +20515,7 @@ module.exports = camelize;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(15);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_PropTypes__ = __webpack_require__(25);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__utils_warning__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__utils_warning__ = __webpack_require__(11);
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -22023,7 +22045,7 @@ function symbolObservablePonyfill(root) {
 "use strict";
 /* WEBPACK VAR INJECTION */(function(process) {/* harmony export (immutable) */ __webpack_exports__["a"] = combineReducers;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__createStore__ = __webpack_require__(27);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_lodash_es_isPlainObject__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_lodash_es_isPlainObject__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_warning__ = __webpack_require__(30);
 
 
@@ -22465,7 +22487,7 @@ function finalPropsSelectorFactory(dispatch, _ref2) {
 
 "use strict";
 /* harmony export (immutable) */ __webpack_exports__["a"] = verifySubselectors;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utils_warning__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utils_warning__ = __webpack_require__(11);
 
 
 function verify(selector, methodName, displayName) {
@@ -22494,7 +22516,7 @@ function verifySubselectors(mapStateToProps, mapDispatchToProps, mergeProps, dis
 var utils = __webpack_require__(1);
 var bind = __webpack_require__(34);
 var Axios = __webpack_require__(82);
-var defaults = __webpack_require__(13);
+var defaults = __webpack_require__(14);
 
 /**
  * Create an instance of Axios
@@ -22577,7 +22599,7 @@ function isSlowBuffer (obj) {
 "use strict";
 
 
-var defaults = __webpack_require__(13);
+var defaults = __webpack_require__(14);
 var utils = __webpack_require__(1);
 var InterceptorManager = __webpack_require__(91);
 var dispatchRequest = __webpack_require__(92);
@@ -23118,7 +23140,7 @@ module.exports = InterceptorManager;
 var utils = __webpack_require__(1);
 var transformData = __webpack_require__(93);
 var isCancel = __webpack_require__(37);
-var defaults = __webpack_require__(13);
+var defaults = __webpack_require__(14);
 var isAbsoluteURL = __webpack_require__(94);
 var combineURLs = __webpack_require__(95);
 
@@ -26728,7 +26750,7 @@ var _reactDom = __webpack_require__(42);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _reactRedux = __webpack_require__(14);
+var _reactRedux = __webpack_require__(10);
 
 var _redux = __webpack_require__(5);
 
@@ -26775,11 +26797,11 @@ var _axios = __webpack_require__(16);
 
 var _axios2 = _interopRequireDefault(_axios);
 
-var _reactRedux = __webpack_require__(14);
+var _reactRedux = __webpack_require__(10);
 
 var _redux = __webpack_require__(5);
 
-var _index = __webpack_require__(12);
+var _index = __webpack_require__(13);
 
 var _reddit_form = __webpack_require__(143);
 
@@ -26810,13 +26832,18 @@ var RedditPage = function (_Component) {
 			isReadyToSubmit: false,
 			formFinished: false,
 			hasAtleastOneVideo: false,
-			urls: []
+			urls: [],
+			formData: {},
+			successfullyCreatedAPlaylist: false,
+			mostRecentlyCreatedPlaylist: {},
+			watchURL: ''
 		};
-		_this.handleButtonClick = _this.handleButtonClick.bind(_this);
 		_this.isLoadingInfo = _this.isLoadingInfo.bind(_this);
 		_this.renderRedditRight = _this.renderRedditRight.bind(_this);
 		_this.resetPage = _this.resetPage.bind(_this);
 		_this.finishForm = _this.finishForm.bind(_this);
+		_this.editForm = _this.editForm.bind(_this);
+		_this.submitInformation = _this.submitInformation.bind(_this);
 		return _this;
 	}
 
@@ -26828,106 +26855,199 @@ var RedditPage = function (_Component) {
 			});
 		}
 	}, {
-		key: 'handleButtonClick',
-		value: function handleButtonClick(e) {
-			//this.props.generateNewAPIKey();
-		}
-	}, {
 		key: 'isLoadingInfo',
 		value: function isLoadingInfo() {
 			this.setState({
-				isLoading: true
+				isLoading: true,
+				shouldDisplayPlayListForm: true
 			});
 		}
 	}, {
 		key: 'renderRedditRight',
 		value: function renderRedditRight() {
-			return _react2.default.createElement(
-				'div',
-				{ className: 'reddit-right' },
-				_react2.default.createElement(_reddit_display2.default, { data: this.state.urls })
-			);
-		}
-	}, {
-		key: 'resetPage',
-		value: function resetPage() {
-			this.setState({
-				isLoading: false
-			});
-		}
-	}, {
-		key: 'finishForm',
-		value: function finishForm(name, description, tags, privatePassword, password, sharedEdit, editPassword) {
-			if (this.state.hasAtleastOneVideo) {
-				this.setState({
-					formFinished: true,
-					isReadyToSubmit: true
-				});
-			} else {
-				this.setState({
-					formFinished: true
-				});
-			}
-		}
-	}, {
-		key: 'returnValidVideos',
-		value: function returnValidVideos() {
-			if (videoArray.length > 0) {
-				if (this.state.formFinished) {
-					this.setState({
-						urls: videoArray,
-						hasAtleastOneVideo: true
-					});
-				}
-				this.setState({
-					urls: videoArray,
-					hasAtleastOneVideo: true
-				});
-			}
-		}
-	}, {
-		key: 'render',
-		value: function render() {
-			var _this2 = this;
-
-			var display = null,
-			    submitButton = null;
+			var toReturn = null;
 			if (this.state.isLoading) {
-				display = _react2.default.createElement(
+				toReturn = _react2.default.createElement(
 					'div',
 					{ className: 'reddit-right' },
 					_react2.default.createElement('div', { className: 'Loader' })
 				);
 			}
 			if (this.state.isLoading && this.props.videos != null && this.props.videos.length > 0) {
-				display = this.renderRedditRight();
-			}
-			if (this.state.isReadyToSubmit) {
-				submitButton = _react2.default.createElement(
-					'button',
-					{ className: 'btn btn-primary', onClick: function onClick() {
-							_this2.resetPage();
-						} },
-					'Submit'
+				toReturn = _react2.default.createElement(
+					'div',
+					{ className: 'reddit-right' },
+					_react2.default.createElement(_reddit_display2.default, { data: this.state.urls, reset: this.resetPage })
 				);
 			}
-			return _react2.default.createElement(
-				'div',
-				{ className: 'empty-div' },
-				_react2.default.createElement(
+			return toReturn;
+		}
+	}, {
+		key: 'resetPage',
+		value: function resetPage() {
+			this.props.deleteRedditData();
+			this.setState({
+				isLoading: false,
+				shouldDisplayPlayListForm: false,
+				isReadyToSubmit: false,
+				formFinished: false,
+				hasAtleastOneVideo: false,
+				urls: [],
+				formData: {},
+				successfullyCreatedAPlaylist: false
+			});
+		}
+	}, {
+		key: 'finishForm',
+		value: function finishForm(name, description, tags, privatePassword, password, sharedEdit, editPassword) {
+			var tempVideos = this.props.videos[0].map(function (x) {
+				return x.url;
+			});
+			this.setState({
+				formFinished: true,
+				formData: {
+					name: name,
+					description: description,
+					tags: tags,
+					private: privatePassword,
+					password: password,
+					sharedEdit: sharedEdit,
+					editPassword: editPassword,
+					videos: tempVideos
+				}
+			});
+		}
+	}, {
+		key: 'editForm',
+		value: function editForm() {
+			this.setState({
+				formFinished: false
+			});
+		}
+	}, {
+		key: 'submitInformation',
+		value: function submitInformation() {
+			var _this2 = this;
+
+			_axios2.default.post('/api/v1/playlist', {
+				playlist: this.state.formData
+			}).then(function (response) {
+				console.log(response);
+				_this2.setState({
+					successfullyCreatedAPlaylist: true,
+					mostRecentlyCreatedPlaylist: response.data.playlist,
+					watchURL: response.data.url
+				});
+			}).catch(function (error) {
+				console.log(error);
+			});
+		}
+	}, {
+		key: 'render',
+		value: function render() {
+			var _this3 = this;
+
+			var displayRightHandInformation = null,
+			    additionalRedditLeft = null,
+			    displayRedditLeft = null,
+			    submitButton = null,
+			    formDisplay = { display: 'block' };
+
+			if (this.state.formData.name && this.state.formFinished && this.props.videos && this.props.videos[0].length > 0) {
+				submitButton = _react2.default.createElement(
+					'button',
+					{ className: 'btn btn-primary', style: { width: '100%', margin: '0 auto', marginTop: '20px' }, onClick: function onClick() {
+							_this3.submitInformation();
+						} },
+					'Save Playlist'
+				);
+			}
+			if (this.state.formFinished) {
+				formDisplay = { display: 'none' };
+				additionalRedditLeft = _react2.default.createElement(
 					'div',
 					{ className: 'reddit-left' },
-					_react2.default.createElement(_reddit_form2.default, { loading: this.isLoadingInfo, submit: this.finishForm }),
+					_react2.default.createElement(
+						'h4',
+						null,
+						'Information Is Saved. Click the button below to edit the information.'
+					),
+					_react2.default.createElement(
+						'h4',
+						null,
+						'Or Click the reset button to start over'
+					),
+					_react2.default.createElement(
+						'h4',
+						null,
+						'Otherwise when the videos are ready, you can save the playlist'
+					),
 					_react2.default.createElement(
 						'button',
 						{ className: 'btn btn-primary', onClick: function onClick() {
-								_this2.resetPage();
+								_this3.editForm();
+							} },
+						'Edit'
+					),
+					_react2.default.createElement(
+						'button',
+						{ className: 'btn btn-primary', onClick: function onClick() {
+								_this3.resetPage();
 							} },
 						'Reset'
 					),
 					submitButton
+				);
+			}
+
+			displayRedditLeft = _react2.default.createElement(
+				'div',
+				{ className: 'reddit-left', style: formDisplay },
+				_react2.default.createElement(_reddit_form2.default, { displayPlayList: this.state.shouldDisplayPlayListForm, loading: this.isLoadingInfo, submit: this.finishForm }),
+				_react2.default.createElement(
+					'button',
+					{ className: 'btn btn-primary', onClick: function onClick() {
+							_this3.resetPage();
+						} },
+					'Reset'
+				)
+			);
+
+			displayRightHandInformation = this.renderRedditRight();
+
+			if (!this.state.successfullyCreatedAPlaylist) {
+				return _react2.default.createElement(
+					'div',
+					{ className: 'empty-div' },
+					displayRedditLeft,
+					additionalRedditLeft,
+					displayRightHandInformation
+				);
+			};
+			return _react2.default.createElement(
+				'div',
+				{ className: 'empty-div', style: { textAlign: 'center' } },
+				_react2.default.createElement(
+					'h3',
+					null,
+					'Successfully Created A New Playlist'
 				),
-				display
+				_react2.default.createElement(
+					'a',
+					{ href: this.state.watchURL },
+					_react2.default.createElement(
+						'h3',
+						null,
+						'Click here to watch'
+					)
+				),
+				_react2.default.createElement(
+					'h3',
+					{ onClick: function onClick() {
+							_this3.resetPage();
+						}, style: { cursor: 'pointer' } },
+					'Click Here To Start Over'
+				)
 			);
 		}
 	}]);
@@ -26936,7 +27056,7 @@ var RedditPage = function (_Component) {
 }(_react.Component);
 
 function mapDispatchToProps(dispatch) {
-	return (0, _redux.bindActionCreators)({ grabRedditData: _index.grabRedditData }, dispatch);
+	return (0, _redux.bindActionCreators)({ grabRedditData: _index.grabRedditData, deleteRedditData: _index.deleteRedditData }, dispatch);
 }
 
 function mapStateToProps(_ref) {
@@ -26964,11 +27084,11 @@ var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRedux = __webpack_require__(14);
+var _reactRedux = __webpack_require__(10);
 
 var _redux = __webpack_require__(5);
 
-var _index = __webpack_require__(12);
+var _index = __webpack_require__(13);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -26984,7 +27104,8 @@ var errorSyling = {
 	subreddit: { color: 'black' },
 	count: { color: 'black' },
 	type: { color: 'black' },
-	time: { color: 'black' }
+	time: { color: 'black' },
+	name: { color: 'black' }
 };
 
 var RedditForm = function (_Component) {
@@ -27017,6 +27138,26 @@ var RedditForm = function (_Component) {
 	}
 
 	_createClass(RedditForm, [{
+		key: 'componentWillReceiveProps',
+		value: function componentWillReceiveProps(nextProps) {
+			if (!this.displayPlayList) {
+				this.setState({
+					subreddit: 'videos',
+					type: 'top',
+					count: 1,
+					time: 'day',
+					view: 'initial',
+					name: '',
+					description: '',
+					private: false,
+					password: '',
+					sharedEdit: false,
+					editPassword: '',
+					tags: []
+				});
+			}
+		}
+	}, {
 		key: 'onInputChange',
 		value: function onInputChange(event) {
 			var target = event.target;
@@ -27034,44 +27175,66 @@ var RedditForm = function (_Component) {
 			event.preventDefault();
 			var errors = [];
 			//validation
-			if (this.state.subreddit.length <= 0 || typeof this.state.subreddit == 'undefined') {
-				errors.push('Subreddit is invalid');
-				errorSyling.subreddit = { color: 'red' };
-			} else {
-				errorSyling.subreddit = { color: 'black' };
-			};
-			if (['new', 'top', 'hot'].indexOf(this.state.type) === -1) {
-				errors.push('invalid type');
-				errorSyling.type = { color: 'red' };
-			} else {
-				errorSyling.type = { color: 'black' };
-			};
-			if (isNaN(this.state.count) || parseInt(this.state.count) <= 0 || parseInt(this.state.count) > 100) {
-				errors.push('Count is invalid');
-				errorSyling.count = { color: 'red' };
-			} else {
-				errorSyling.count = { color: 'black' };
-			};
-			if (['hour', 'day', 'week', 'month', 'year', 'all'].indexOf(this.state.time) === -1) {
-				errors.push('Invalid Time');
-				errorSyling.time = { color: 'red' };
-			} else {
-				errorSyling.time = { color: 'black' };
-			};
+			if (event.target.name === "reddit-form") {
 
-			if (errors.length) {
-				alert(errors.map(function (x) {
-					return x;
-				}));
-				this.setState({
-					view: 'initial'
-				});
+				//validation
+				if (this.state.subreddit.length <= 0 || typeof this.state.subreddit == 'undefined') {
+					errors.push('Subreddit is invalid');
+					errorSyling.subreddit = { color: 'red' };
+				} else {
+					errorSyling.subreddit = { color: 'black' };
+				};
+				if (['new', 'top', 'hot'].indexOf(this.state.type) === -1) {
+					errors.push('invalid type');
+					errorSyling.type = { color: 'red' };
+				} else {
+					errorSyling.type = { color: 'black' };
+				};
+				if (isNaN(this.state.count) || parseInt(this.state.count) <= 0 || parseInt(this.state.count) > 100) {
+					errors.push('Count is invalid');
+					errorSyling.count = { color: 'red' };
+				} else {
+					errorSyling.count = { color: 'black' };
+				};
+				if (['hour', 'day', 'week', 'month', 'year', 'all'].indexOf(this.state.time) === -1) {
+					errors.push('Invalid Time');
+					errorSyling.time = { color: 'red' };
+				} else {
+					errorSyling.time = { color: 'black' };
+				};
+
+				//if errors
+				if (errors.length) {
+					alert(errors.map(function (x) {
+						return x;
+					}));
+					this.setState({
+						view: 'initial'
+					});
+				} else {
+					this.props.loading();
+					this.props.grabRedditData(this.state.subreddit, this.state.type, this.state.count, this.state.time);
+					this.setState({
+						view: "submitted"
+					});
+				}
 			} else {
-				this.props.loading();
-				this.props.grabRedditData(this.state.subreddit, this.state.type, this.state.count, this.state.time);
-				this.setState({
-					view: "submitted"
-				});
+				if (this.state.name == null || this.state.name == '') {
+					errors.push('Name is invalid');
+					errorSyling.name = { color: 'red' };
+				} else {
+					errorSyling.name = { color: 'black' };
+				}
+				if (errors.length) {
+					alert(errors.map(function (x) {
+						return x;
+					}));
+					this.setState({
+						view: 'submitted'
+					});
+				} else {
+					this.props.submit(this.state.name, this.state.description, this.state.tags, this.state.private, this.state.password, this.state.sharedEdit, this.state.editPassword);
+				}
 			}
 		}
 	}, {
@@ -27248,7 +27411,7 @@ var RedditForm = function (_Component) {
 						{ className: 'form-group' },
 						_react2.default.createElement(
 							'label',
-							{ htmlFor: 'name' },
+							{ htmlFor: 'name', style: errorSyling.name },
 							'Name'
 						),
 						_react2.default.createElement('input', { className: 'form-control', type: 'text', name: 'name', onChange: this.onInputChange, value: this.state.name })
@@ -27325,7 +27488,7 @@ var RedditForm = function (_Component) {
 					_react2.default.createElement(
 						'button',
 						{ type: 'submit', className: 'btn btn-primary', style: { marginTop: '10px' } },
-						'Submit'
+						'Save'
 					)
 				)
 			);
@@ -27334,9 +27497,10 @@ var RedditForm = function (_Component) {
 		key: 'render',
 		value: function render() {
 			var display = null;
-			if (this.state.view == "initial") {
+
+			if (!this.props.displayPlayList) {
 				display = this.redditForm();
-			} else if (this.state.view == "submitted") {
+			} else {
 				display = this.submitted();
 			}
 			return display;
@@ -27373,11 +27537,11 @@ var _reactTable = __webpack_require__(111);
 
 var _reactTable2 = _interopRequireDefault(_reactTable);
 
-var _reactRedux = __webpack_require__(14);
+var _reactRedux = __webpack_require__(10);
 
 var _redux = __webpack_require__(5);
 
-var _index = __webpack_require__(12);
+var _index = __webpack_require__(13);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -27399,11 +27563,11 @@ var RedditDisplay = function (_Component) {
 		var _this = _possibleConstructorReturn(this, (RedditDisplay.__proto__ || Object.getPrototypeOf(RedditDisplay)).call(this, props));
 
 		_this.state = {
-			data: null
+			data: null,
+			tempData: ''
 		};
 		_this.handleButtonClick = _this.handleButtonClick.bind(_this);
 		_this.renderEditable = _this.renderEditable.bind(_this);
-		_this.checkTableValues = _this.checkTableValues.bind(_this);
 		return _this;
 	}
 
@@ -27424,19 +27588,17 @@ var RedditDisplay = function (_Component) {
 			});
 		}
 	}, {
-		key: 'checkTableValues',
-		value: function checkTableValues() {
-			// console.log(this.state.data);
-			// const data = this.state.data.map((i) => {
-			// 	return this.validateUrl(i.url);
-			// });
-			// this.setState({
-			// 	data: data
-			// });
-		}
-	}, {
 		key: 'handleButtonClick',
-		value: function handleButtonClick(e, r) {}
+		value: function handleButtonClick(e, k) {
+			this.props.removeFromStateIndex(k.index);
+			if (this.state.data.length <= 0) {
+				alert('No more videos, resetting the page so you can try again');
+				this.props.reset();
+			}
+			this.setState({
+				tempData: 'Need to do this to refresh page'
+			});
+		}
 	}, {
 		key: 'renderEditable',
 		value: function renderEditable(cellInfo) {
@@ -27472,7 +27634,6 @@ var RedditDisplay = function (_Component) {
 				accessor: 'validUrl',
 				Cell: function Cell(row) {
 					if (!row.original.validUrl) {
-						console.log('here');
 						return _react2.default.createElement(
 							'div',
 							{ onClick: function onClick(e) {
@@ -27519,7 +27680,7 @@ var RedditDisplay = function (_Component) {
 ;
 
 function mapDispatchToProps(dispatch) {
-	return (0, _redux.bindActionCreators)({ validateVideosFromReddit: _index.validateVideosFromReddit }, dispatch);
+	return (0, _redux.bindActionCreators)({ validateVideosFromReddit: _index.validateVideosFromReddit, removeFromStateIndex: _index.removeFromStateIndex }, dispatch);
 }
 
 exports.default = (0, _reactRedux.connect)(null, mapDispatchToProps)(RedditDisplay);
@@ -27587,12 +27748,21 @@ exports.default = function () {
 			};
 			return state;
 			break;
+		case _index.DELETE_REDDIT_DATA:
+			state = [];
+			return state;
+			break;
+		case _index.REMOVE_FROM_STATE:
+			var tempState = state;
+			tempState.splice(action.payload, 1);
+			return tempState;
+			break;
 		default:
 			return state;
 	}
 };
 
-var _index = __webpack_require__(12);
+var _index = __webpack_require__(13);
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 

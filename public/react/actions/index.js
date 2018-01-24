@@ -12,6 +12,8 @@ export const GENERATE_API_KEY = 'GENERATE_API_KEY';
 export const DELETE_API_KEY = 'DELETE_API_KEY';
 export const REDDIT_SEARCH = 'REDDIT_SEARCH';
 export const VALIDATE_VIDEOS = 'VALIDATE_VIDEOS';
+export const DELETE_REDDIT_DATA = 'DELETE_REDDIT_DATA';
+export const REMOVE_FROM_STATE = 'REMOVE_FROM_STATE';
 
 export const REGEX_OBJ = {
 	regYouTubeCom: /^(https?:\/\/)?(www)?(m)?(\.)youtube.com\/(watch\?v=)\S{11}/,
@@ -205,6 +207,24 @@ export function validateVideosFromReddit(videos) {
 
 	return {
 		type: VALIDATE_VIDEOS,
+		payload: data
+	}
+}
+
+export function deleteRedditData() {
+	const data = undefined;
+
+	return {
+		type: DELETE_REDDIT_DATA,
+		payload: data
+	}
+}
+
+export function removeFromStateIndex(index) {
+	const data = index;
+
+	return {
+		type: REMOVE_FROM_STATE,
 		payload: data
 	}
 }

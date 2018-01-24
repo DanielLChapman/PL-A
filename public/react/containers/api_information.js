@@ -289,7 +289,7 @@ export default class API_Information extends Component {
 						
 					</div>
 					<div className="col-xs-4 col-xs-offset-4 col-md-4 " >
-						<h3>Post JSON To: /api/playlist/</h3>
+						<h3>Post JSON To: /api/v1/playlist/</h3>
 						<h6>If Private or sharedEdit are false, then password or editPassword respectfully will be discarded</h6>
 						<h6>Videos will be validated and in the response any that dont pass validation will be kicked back. Playlist wont save unless at least 1 video works.</h6>
 						<h6>Also, name is required</h6>

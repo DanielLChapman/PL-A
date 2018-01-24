@@ -7,13 +7,13 @@ let errorSyling = {
 	subreddit: {color: 'black'},
 	count: {color: 'black'},
 	type: {color: 'black'},
-	time: {color: 'black'}
+	time: {color: 'black'},
+	name: {color: 'black'}
 }
 
 class RedditForm extends Component {
 	constructor (props) {
 		super(props);
-
 		this.state = {
 			subreddit: 'videos',
 			type: 'top',
@@ -34,6 +34,25 @@ class RedditForm extends Component {
 		this.submitted = this.submitted.bind(this);
 	}
 
+	componentWillReceiveProps (nextProps) {
+		if (!this.displayPlayList) {
+			this.setState({
+				subreddit: 'videos',
+				type: 'top',
+				count: 1,
+				time: 'day',
+				view: 'initial',
+				name: '',
+				description: '',
+				private: false,
+				password: '',
+				sharedEdit: false,
+				editPassword: '',
+				tags: []
+			});
+		}
+	}
+
 	onInputChange (event) {
 		const target = event.target;
 		const name = target.name;
@@ -45,46 +64,68 @@ class RedditForm extends Component {
 		this.setState({
 			[name]: target.value
 		});
+
 	}
 
 	onFormSubmit (event) {
 		event.preventDefault();
 		var errors = [];
 		//validation
-		if (this.state.subreddit.length <= 0 || typeof this.state.subreddit == 'undefined') {
-			errors.push('Subreddit is invalid');
-			errorSyling.subreddit = {color: 'red'};
-		} else { errorSyling.subreddit = {color: 'black'}; };
-		if (['new', 'top', 'hot'].indexOf(this.state.type) === -1) {
-			errors.push('invalid type');
-			errorSyling.type = {color: 'red'};
-		} else { 
-			errorSyling.type = {color: 'black'}; 
-		};
-		if (isNaN(this.state.count) || parseInt(this.state.count) <= 0 || parseInt(this.state.count) > 100) {
-			errors.push('Count is invalid');
-			errorSyling.count = {color: 'red'};
-		} else { 
-			errorSyling.count = {color: 'black'}; 
-		};
-		if (['hour', 'day', 'week', 'month', 'year', 'all'].indexOf(this.state.time) === -1) {
-			errors.push('Invalid Time');
-			errorSyling.time = {color: 'red'};
-		} else { errorSyling.time = {color: 'black'}; };
+		if (event.target.name === "reddit-form") {
 
-		if (errors.length) {
-			alert(errors.map((x) => {
-				return x
-			}));
-			this.setState({
-				view: 'initial'
-			});
+			//validation
+			if (this.state.subreddit.length <= 0 || typeof this.state.subreddit == 'undefined') {
+				errors.push('Subreddit is invalid');
+				errorSyling.subreddit = {color: 'red'};
+			} else { errorSyling.subreddit = {color: 'black'}; };
+			if (['new', 'top', 'hot'].indexOf(this.state.type) === -1) {
+				errors.push('invalid type');
+				errorSyling.type = {color: 'red'};
+			} else { 
+				errorSyling.type = {color: 'black'}; 
+			};
+			if (isNaN(this.state.count) || parseInt(this.state.count) <= 0 || parseInt(this.state.count) > 100) {
+				errors.push('Count is invalid');
+				errorSyling.count = {color: 'red'};
+			} else { 
+				errorSyling.count = {color: 'black'}; 
+			};
+			if (['hour', 'day', 'week', 'month', 'year', 'all'].indexOf(this.state.time) === -1) {
+				errors.push('Invalid Time');
+				errorSyling.time = {color: 'red'};
+			} else { errorSyling.time = {color: 'black'}; };
+
+			//if errors
+			if (errors.length) {
+				alert(errors.map((x) => {
+					return x
+				}));
+				this.setState({
+					view: 'initial'
+				});
+			} else {
+				this.props.loading();
+				this.props.grabRedditData(this.state.subreddit, this.state.type, this.state.count, this.state.time);
+				this.setState({
+					view: "submitted"
+				});
+			}
 		} else {
-			this.props.loading();
-			this.props.grabRedditData(this.state.subreddit, this.state.type, this.state.count, this.state.time);
-			this.setState({
-				view: "submitted"
-			});
+			if (this.state.name == null || this.state.name == '' ) {
+				errors.push('Name is invalid');
+				errorSyling.name = {color: 'red'};
+			} else { errorSyling.name = {color: 'black'}}
+			if (errors.length) {
+				alert(errors.map((x) => {
+					return x
+				}));
+				this.setState({
+					view: 'submitted'
+				});
+			} else {
+				this.props.submit(this.state.name, this.state.description, this.state.tags, this.state.private, this.state.password, this.state.sharedEdit, this.state.editPassword)
+			}
+
 		}
 	}
 
@@ -165,7 +206,7 @@ class RedditForm extends Component {
 				<h3>Loading Content From Reddit<br />In the meantime <br />Fill out the following information:</h3>
 				<form onSubmit={this.onFormSubmit} name="information" className="card" style={{color: 'white'}}>
 					<div className="form-group">
-						<label htmlFor="name">Name</label>
+						<label htmlFor="name" style={errorSyling.name}>Name</label>
 						<input className="form-control" type="text" name="name" onChange={this.onInputChange} value={this.state.name}/>
 					</div>
 					<div className="form-group">
@@ -196,7 +237,7 @@ class RedditForm extends Component {
 							{editPassword}
 						</div>
 					</div>
-					<button type="submit" className="btn btn-primary" style={{marginTop: '10px'}}>Submit</button>
+					<button type="submit" className="btn btn-primary" style={{marginTop: '10px'}}>Save</button>
 				</form>
 			</div>
 		)
@@ -204,9 +245,10 @@ class RedditForm extends Component {
 
 	render () {
 		let display = null;
-		if (this.state.view == "initial") {
+
+		if (!this.props.displayPlayList) {
 			display = this.redditForm();
-		} else if (this.state.view == "submitted") {
+		} else {
 			display = this.submitted();
 		}
 		return (

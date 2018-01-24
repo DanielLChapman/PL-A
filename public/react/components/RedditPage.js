@@ -4,7 +4,7 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { grabRedditData } from '../actions/index';
+import { grabRedditData, deleteRedditData } from '../actions/index';
 
 import RedditForm from '../containers/reddit_form';
 import RedditDisplay from '../containers/reddit_display';
@@ -17,13 +17,18 @@ class RedditPage extends Component {
 			isReadyToSubmit: false,
 			formFinished: false,
 			hasAtleastOneVideo: false,
-			urls: []
+			urls: [],
+			formData: {},
+			successfullyCreatedAPlaylist: false,
+			mostRecentlyCreatedPlaylist: {},
+			watchURL: ''
 		};
-		this.handleButtonClick = this.handleButtonClick.bind(this);
 		this.isLoadingInfo = this.isLoadingInfo.bind(this);
 		this.renderRedditRight = this.renderRedditRight.bind(this);
 		this.resetPage = this.resetPage.bind(this);
 		this.finishForm = this.finishForm.bind(this);
+		this.editForm = this.editForm.bind(this);
+		this.submitInformation = this.submitInformation.bind(this);
 	}
 
 	componentWillReceiveProps(nextProps) {
@@ -31,84 +36,133 @@ class RedditPage extends Component {
 			urls: nextProps.videos
 		})
 	}
- 
-	handleButtonClick (e) {
-		//this.props.generateNewAPIKey();
-	}
 
 	isLoadingInfo() {
 		this.setState({
-			isLoading: true
+			isLoading: true,
+			shouldDisplayPlayListForm: true
 		});
 	};
+
 	renderRedditRight() {
-		return (
-			<div className='reddit-right'>
-				<RedditDisplay data={this.state.urls} />
+		let toReturn = null;
+		if (this.state.isLoading) {
+			toReturn = <div className="reddit-right"><div className="Loader"></div></div>
+		}
+		if (this.state.isLoading && this.props.videos != null && this.props.videos.length > 0) {
+			toReturn = <div className='reddit-right'>
+				<RedditDisplay data={this.state.urls} reset={this.resetPage}/>
 			</div>
-		)
+		}
+		return toReturn;
 	}
 	resetPage() {
+		this.props.deleteRedditData();
 		this.setState({
-			isLoading: false
+			isLoading: false,
+			shouldDisplayPlayListForm: false,
+			isReadyToSubmit: false,
+			formFinished: false,
+			hasAtleastOneVideo: false,
+			urls: [],
+			formData: {},
+			successfullyCreatedAPlaylist: false
 		});
 	}
 
 	finishForm(name, description, tags, privatePassword, password, sharedEdit, editPassword) {
-		if (this.state.hasAtleastOneVideo) {
-			this.setState({
-				formFinished: true,
-				isReadyToSubmit: true
-			});
-		} else {
-			this.setState({
-				formFinished: true
-			});
-		}
-	}
-
-	returnValidVideos() {
-		if (videoArray.length > 0) {
-			if (this.state.formFinished) {
-				this.setState({
-					urls: videoArray,
-					hasAtleastOneVideo: true
-				});
+		let tempVideos = this.props.videos[0].map((x) => {
+			return x.url;
+		});
+		this.setState({
+			formFinished: true,
+			formData: {
+				name,
+				description,
+				tags,
+				private: privatePassword,
+				password,
+				sharedEdit,
+				editPassword,
+				videos: tempVideos
 			}
-			this.setState({
-				urls: videoArray,
-				hasAtleastOneVideo: true
-			});
-		} 
+		});
+	}
+	editForm() {
+		this.setState({
+			formFinished: false
+		})
+	};
+
+	submitInformation() {
+		axios.post(`/api/v1/playlist`, {
+			playlist: this.state.formData
+			})
+			.then((response) => {
+				console.log(response);
+				this.setState({
+					successfullyCreatedAPlaylist: true,
+					mostRecentlyCreatedPlaylist: response.data.playlist,
+					watchURL: response.data.url
+				})
+			})
+			.catch(function (error) {
+				console.log(error);
+			 });
 	}
 
 	render () {
-		let display = null, submitButton = null;
-		if (this.state.isLoading) {
-			display = <div className="reddit-right"><div className="Loader"></div></div>
+		let displayRightHandInformation = null, 
+			additionalRedditLeft = null,
+			displayRedditLeft = null, 
+			submitButton = null, 
+			formDisplay = {display: 'block'};
+
+		if (this.state.formData.name && this.state.formFinished && this.props.videos && this.props.videos[0].length > 0) {
+			submitButton = <button className="btn btn-primary" style={{width: '100%', margin: '0 auto', marginTop: '20px'}} onClick={() => {this.submitInformation()}}>Save Playlist</button>
 		}
-		if (this.state.isLoading && this.props.videos != null && this.props.videos.length > 0) {
-			display = this.renderRedditRight();
-		}
-		if (this.state.isReadyToSubmit) {
-			submitButton = <button className="btn btn-primary" onClick={() => {this.resetPage()}}>Submit</button>;
-		}
-		return (
-			<div className="empty-div">
+		if (this.state.formFinished) {
+			formDisplay = {display: 'none'};
+			additionalRedditLeft =
 				<div className="reddit-left">
-					<RedditForm loading={this.isLoadingInfo} submit={this.finishForm}/>
+					<h4>Information Is Saved. Click the button below to edit the information.</h4>
+					<h4>Or Click the reset button to start over</h4>
+					<h4>Otherwise when the videos are ready, you can save the playlist</h4>
+					<button className="btn btn-primary" onClick={() => {this.editForm()}}>Edit</button>
 					<button className="btn btn-primary" onClick={() => {this.resetPage()}}>Reset</button>
 					{submitButton}
-				</div>
-				{display}
+				</div>;
+		}
+		
+		displayRedditLeft = 
+				<div className="reddit-left" style={formDisplay}>
+					<RedditForm displayPlayList={this.state.shouldDisplayPlayListForm} loading={this.isLoadingInfo} submit={this.finishForm} />
+					<button className="btn btn-primary" onClick={() => {this.resetPage()}}>Reset</button>
+				</div>;
 
+		displayRightHandInformation = this.renderRedditRight();
+
+		if (!this.state.successfullyCreatedAPlaylist) {
+			return (
+				<div className="empty-div">
+					{displayRedditLeft}
+					{additionalRedditLeft}
+					{displayRightHandInformation}
+				</div>
+			)
+		};
+		return (
+			<div className="empty-div" style={{textAlign: 'center'}}>
+				<h3>Successfully Created A New Playlist</h3>
+				<a href={this.state.watchURL}><h3>Click here to watch</h3></a>
+				<h3 onClick={() => {this.resetPage()}} style={{cursor: 'pointer'}}>Click Here To Start Over</h3>
 			</div>
-		);
+		)
 	}
 }
 
 function mapDispatchToProps (dispatch) {
-	return bindActionCreators({ grabRedditData }, dispatch);
+	return bindActionCreators({ grabRedditData, deleteRedditData }, dispatch);
 }
 
 function mapStateToProps ({ videos }) {

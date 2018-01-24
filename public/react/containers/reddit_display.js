@@ -3,7 +3,7 @@ import ReactTable from 'react-table';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { scrubURL, REGEX_OBJ, validateVideosFromReddit } from '../actions/index';
+import { scrubURL, REGEX_OBJ, validateVideosFromReddit, removeFromStateIndex } from '../actions/index';
 
 let t = null,
 	numErrors = 0;
@@ -12,11 +12,11 @@ class RedditDisplay extends Component {
 	constructor (props) {
 		super(props);
 		this.state = {
-			data: null
+			data: null,
+			tempData: ''
 		}
 		this.handleButtonClick = this.handleButtonClick.bind(this);
 		this.renderEditable = this.renderEditable.bind(this);
-		this.checkTableValues = this.checkTableValues.bind(this);
 	}
 	componentDidMount() {
 		if (this.props.data != null && this.props.data.length > 0) {
@@ -30,17 +30,18 @@ class RedditDisplay extends Component {
 			data: nextProps.data
 		});
 	}
-	checkTableValues() {
-		// console.log(this.state.data);
-		// const data = this.state.data.map((i) => {
-		// 	return this.validateUrl(i.url);
-		// });
-		// this.setState({
-		// 	data: data
-		// });
+
+	handleButtonClick(e, k) {
+		this.props.removeFromStateIndex(k.index);
+		if (this.state.data.length <= 0) {
+			alert('No more videos, resetting the page so you can try again');
+			this.props.reset();
+		} 
+		this.setState({
+			tempData: 'Need to do this to refresh page'
+		});
 	}
-	handleButtonClick(e, r) {
-	}
+
 	renderEditable(cellInfo) {
 	    return (
 		    <div
@@ -72,7 +73,6 @@ class RedditDisplay extends Component {
 				accessor: 'validUrl',
 				Cell: (row) => {
 					if (!row.original.validUrl) {
-						console.log('here');
 						return (<div onClick={(e) => this.handleButtonClick(e, row)} style={{color: 'red', float: 'left', marginLeft: '5px', marginTop: '-2px'}}>
 									!
 									&nbsp;Remove
@@ -104,7 +104,7 @@ class RedditDisplay extends Component {
 };
 
 function mapDispatchToProps (dispatch) {
-	return bindActionCreators({ validateVideosFromReddit }, dispatch);
+	return bindActionCreators({ validateVideosFromReddit, removeFromStateIndex }, dispatch);
 }
 
 export default connect(null, mapDispatchToProps)(RedditDisplay);

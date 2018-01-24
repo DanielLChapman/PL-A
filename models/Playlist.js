@@ -12,7 +12,8 @@ const playlistSchema = new mongoose.Schema({
 	slug: String,
 	description: {
 		type: String,
-		trim: true
+		trim: true,
+		default: 'No Description Given'
 	},
 	views: {
 		type: Number,
