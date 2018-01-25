@@ -430,10 +430,15 @@ exports.getPopularPlaylistsAPI = async(req, res) => {
 		}).limit(parseInt(limiter)).populate('user');
 
 	playlists.map(x => {
-		x.user._id = undefined;
-		x.user.email = undefined;
-		x.user.apiKeys = undefined;
-	})
+		try {
+			x.user._id = null;
+			x.user.email = undefined;
+			x.user.apiKeys = undefined;
+		}
+		catch(err) {
+			console.log(err + " " + x.slug);
+		}
+	});
 	res.json(playlists);
 
 }

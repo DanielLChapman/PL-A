@@ -17,6 +17,7 @@ coverage
 # API keys
 .env
 variables.env
+variables.env.now
 env
 
 # Dependency directory
