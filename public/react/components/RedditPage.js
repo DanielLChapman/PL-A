@@ -129,7 +129,7 @@ class RedditPage extends Component {
 					<h4>Or Click the reset button to start over</h4>
 					<h4>Otherwise when the videos are ready, you can save the playlist</h4>
 					<button className="btn btn-primary" onClick={() => {this.editForm()}}>Edit</button>
-					<button className="btn btn-primary" onClick={() => {this.resetPage()}}>Reset</button>
+					<button className="btn btn-primary no-reddit-reset" onClick={() => {this.resetPage()}}>Reset</button>
 					{submitButton}
 				</div>;
 		}
@@ -137,7 +137,7 @@ class RedditPage extends Component {
 		displayRedditLeft = 
 				<div className="reddit-left" style={formDisplay}>
 					<RedditForm displayPlayList={this.state.shouldDisplayPlayListForm} loading={this.isLoadingInfo} submit={this.finishForm} />
-					<button className="btn btn-primary" onClick={() => {this.resetPage()}}>Reset</button>
+					<button className="btn btn-primary reddit-reset-button" onClick={() => {this.resetPage()}}>Reset</button>
 				</div>;
 
 		displayRightHandInformation = this.renderRedditRight();

@@ -52,6 +52,9 @@ h4, h5, h6, p, label, a, th {
     position: relative;
     margin: 0 auto;
     margin-top: 0px;
+    @media screen and (max-width: 400px ) {
+      width: 100%;
+    }
   }
   .navbar {
     background: $white !important;
@@ -86,6 +89,9 @@ h4, h5, h6, p, label, a, th {
     margin: 0 auto;
     text-align: center;
     margin-top: 75px;
+    @media screen and (max-width: 420px) {
+      width: 100%;
+    }
   }
   .title-text-of-page {
     width: 100%; 
@@ -114,6 +120,10 @@ h4, h5, h6, p, label, a, th {
         float: left;
         padding-left: 15px;
         clear: both;
+        @media screen and (max-width: 400px) {
+          width: 95%;
+          position: relative;
+        }
         button {
           width:125px;
           height:45px;
@@ -121,19 +131,49 @@ h4, h5, h6, p, label, a, th {
           margin-top:15px;
           margin-right:5px;
         }
+        .reddit-reset-button {
+            @media screen and (max-width: 350px) {
+              margin-left: 6px;
+            }
+          }
+        .reddit-form {
+          display: inline-block;
+          width: 300px;
+          top: 7px; 
+          position: relative;
+          @media screen and (max-width: 350px) {
+            width: 95%;
+            position: relative;
+            left: 2.5%;
+          }
+        }
+        .reddit-form-loader + button {
+          @media screen and (max-width: 350px) {
+            margin-left: 0px !important;
+          }
+        }
       }
       .reddit-right {
         float: right;
         vertical-align: top;
-        width:600px;
+        width:400px;
         padding-right:15px;
         margin-top: 2px;
+        @media screen and (min-width: 1380px) {
+          width: 700px;
+        }
         @media screen and (max-width: 800px) {
           width: 90%;
           padding-right: 0;
-          left: 5%;
+          left: 15px;
           position: relative;
           float: left;
+          margin-top: 25px;
+        }
+        @media screen and (max-width: 400px) {
+          width: 90%;
+          position: relative;
+          left: 15px
         }
       }
     }
@@ -146,6 +186,15 @@ h4, h5, h6, p, label, a, th {
     /*width: 100%;*/
     height: 100%;
     position: relative;
+    .search-input-bar {
+      display: inline-block;
+      width: 300px;
+      top: 7px; 
+      position: relative;
+      @media screen and (max-width: 400px) {
+        width: 100%;
+      }
+    }
     .search-area {
       vertical-align: top;
       
@@ -205,6 +254,7 @@ h4, h5, h6, p, label, a, th {
     height: 100%;
     min-height: 95vh;
     overflow: overlay;
+    overflow-y: hidden;
   }
 }
 
@@ -332,6 +382,10 @@ h2 {
     overflow-y:auto;
     overflow-x: hidden;
     top: 15px;
+    @media screen and (max-width: 650px) {
+      width: 95%;
+      left: 2.5%;
+    }
     h1, h2, h3, h4, h5, h6 {
       color: black;
     }
@@ -342,6 +396,10 @@ h2 {
       border-top: 1px solid rgba(46,46,46,0.4);
       display: inline-block;
       padding-left: 15px;
+      @media screen and (max-width: 650px) {
+        width: 95%;
+        left: 2.5%;
+      }
     }
     @media screen and (max-width: 629px) {
       width: 98%;

@@ -39,6 +39,9 @@ h4, h5, h6, p, label, a, th {
   position: relative;
   margin: 0 auto;
   margin-top: 0px; }
+  @media screen and (max-width: 400px) {
+    .bootstrap-override .logo {
+      width: 100%; } }
 
 .bootstrap-override .navbar {
   background: #FEFEFE !important;
@@ -71,6 +74,9 @@ h4, h5, h6, p, label, a, th {
   margin: 0 auto;
   text-align: center;
   margin-top: 75px; }
+  @media screen and (max-width: 420px) {
+    .bootstrap-override .info-main-text {
+      width: 100%; } }
 
 .bootstrap-override .title-text-of-page {
   width: 100%;
@@ -94,31 +100,68 @@ h4, h5, h6, p, label, a, th {
     float: left;
     padding-left: 15px;
     clear: both; }
+    @media screen and (max-width: 400px) {
+      .bootstrap-override .inner .reddit-container .reddit-left {
+        width: 95%;
+        position: relative; } }
     .bootstrap-override .inner .reddit-container .reddit-left button {
       width: 125px;
       height: 45px;
       position: relative;
       margin-top: 15px;
       margin-right: 5px; }
+    @media screen and (max-width: 350px) {
+      .bootstrap-override .inner .reddit-container .reddit-left .reddit-reset-button {
+        margin-left: 6px; } }
+    .bootstrap-override .inner .reddit-container .reddit-left .reddit-form {
+      display: inline-block;
+      width: 300px;
+      top: 7px;
+      position: relative; }
+      @media screen and (max-width: 350px) {
+        .bootstrap-override .inner .reddit-container .reddit-left .reddit-form {
+          width: 95%;
+          position: relative;
+          left: 2.5%; } }
+    @media screen and (max-width: 350px) {
+      .bootstrap-override .inner .reddit-container .reddit-left .reddit-form-loader + button {
+        margin-left: 0px !important; } }
   .bootstrap-override .inner .reddit-container .reddit-right {
     float: right;
     vertical-align: top;
-    width: 600px;
+    width: 400px;
     padding-right: 15px;
     margin-top: 2px; }
+    @media screen and (min-width: 1380px) {
+      .bootstrap-override .inner .reddit-container .reddit-right {
+        width: 700px; } }
     @media screen and (max-width: 800px) {
       .bootstrap-override .inner .reddit-container .reddit-right {
         width: 90%;
         padding-right: 0;
-        left: 5%;
+        left: 15px;
         position: relative;
-        float: left; } }
+        float: left;
+        margin-top: 25px; } }
+    @media screen and (max-width: 400px) {
+      .bootstrap-override .inner .reddit-container .reddit-right {
+        width: 90%;
+        position: relative;
+        left: 15px; } }
 
 .bootstrap-override .search-container {
   padding-left: 15px;
   /*width: 100%;*/
   height: 100%;
   position: relative; }
+  .bootstrap-override .search-container .search-input-bar {
+    display: inline-block;
+    width: 300px;
+    top: 7px;
+    position: relative; }
+    @media screen and (max-width: 400px) {
+      .bootstrap-override .search-container .search-input-bar {
+        width: 100%; } }
   .bootstrap-override .search-container .search-area {
     vertical-align: top;
     min-height: 600px; }
@@ -165,7 +208,8 @@ h4, h5, h6, p, label, a, th {
   width: 100%;
   height: 100%;
   min-height: 95vh;
-  overflow: overlay; }
+  overflow: overlay;
+  overflow-y: hidden; }
 
 .bootstrap-override .menu-icon {
   font-family: 'Open Sans', sans-serif;
@@ -271,6 +315,10 @@ h2 {
     overflow-y: auto;
     overflow-x: hidden;
     top: 15px; }
+    @media screen and (max-width: 650px) {
+      .bootstrap-override .main_content .popular-playlist-display {
+        width: 95%;
+        left: 2.5%; } }
     .bootstrap-override .main_content .popular-playlist-display h1, .bootstrap-override .main_content .popular-playlist-display h2, .bootstrap-override .main_content .popular-playlist-display h3, .bootstrap-override .main_content .popular-playlist-display h4, .bootstrap-override .main_content .popular-playlist-display h5, .bootstrap-override .main_content .popular-playlist-display h6 {
       color: black; }
     .bootstrap-override .main_content .popular-playlist-display .popular-card {
@@ -280,6 +328,10 @@ h2 {
       border-top: 1px solid rgba(46, 46, 46, 0.4);
       display: inline-block;
       padding-left: 15px; }
+      @media screen and (max-width: 650px) {
+        .bootstrap-override .main_content .popular-playlist-display .popular-card {
+          width: 95%;
+          left: 2.5%; } }
     @media screen and (max-width: 629px) {
       .bootstrap-override .main_content .popular-playlist-display {
         width: 98%;

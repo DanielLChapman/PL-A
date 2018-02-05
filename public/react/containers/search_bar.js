@@ -30,7 +30,7 @@ class VideoBar extends Component {
 
 	render () {
 		return (
-			<form onSubmit={this.onFormSubmit} className="input-group" style={{display: "inline-block", width: "300px", top: "7px", position: "relative"}}>
+			<form onSubmit={this.onFormSubmit} className="input-group search-input-bar">
 				<input
 					placeholder="Enter Search Here"
 					className="form-control"

@@ -24228,7 +24228,7 @@ var VideoBar = function (_Component) {
 		value: function render() {
 			return _react2.default.createElement(
 				'form',
-				{ onSubmit: this.onFormSubmit, className: 'input-group', style: { display: "inline-block", width: "300px", top: "7px", position: "relative" } },
+				{ onSubmit: this.onFormSubmit, className: 'input-group search-input-bar' },
 				_react2.default.createElement('input', {
 					placeholder: 'Enter Search Here',
 					className: 'form-control',

@@ -150,7 +150,7 @@ class RedditForm extends Component {
 	}
 
 	redditForm() {
-		return (<form onSubmit={this.onFormSubmit} name="reddit-form" className="input-group" style={{display: "inline-block", width: "300px", top: "7px", position: "relative"}}>
+		return (<form onSubmit={this.onFormSubmit} name="reddit-form" className="input-group reddit-form">
 				<div className="form-group">
 					<label htmlFor="subreddit" style={errorSyling.subreddit}>Which Subreddit</label>
 					<input

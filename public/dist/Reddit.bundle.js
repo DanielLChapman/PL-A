@@ -26991,7 +26991,7 @@ var RedditPage = function (_Component) {
 					),
 					_react2.default.createElement(
 						'button',
-						{ className: 'btn btn-primary', onClick: function onClick() {
+						{ className: 'btn btn-primary no-reddit-reset', onClick: function onClick() {
 								_this3.resetPage();
 							} },
 						'Reset'
@@ -27006,7 +27006,7 @@ var RedditPage = function (_Component) {
 				_react2.default.createElement(_reddit_form2.default, { displayPlayList: this.state.shouldDisplayPlayListForm, loading: this.isLoadingInfo, submit: this.finishForm }),
 				_react2.default.createElement(
 					'button',
-					{ className: 'btn btn-primary', onClick: function onClick() {
+					{ className: 'btn btn-primary reddit-reset-button', onClick: function onClick() {
 							_this3.resetPage();
 						} },
 					'Reset'
@@ -27271,7 +27271,7 @@ var RedditForm = function (_Component) {
 		value: function redditForm() {
 			return _react2.default.createElement(
 				'form',
-				{ onSubmit: this.onFormSubmit, name: 'reddit-form', className: 'input-group', style: { display: "inline-block", width: "300px", top: "7px", position: "relative" } },
+				{ onSubmit: this.onFormSubmit, name: 'reddit-form', className: 'input-group reddit-form' },
 				_react2.default.createElement(
 					'div',
 					{ className: 'form-group' },
@@ -27628,7 +27628,9 @@ var RedditDisplay = function (_Component) {
 			var columns = [{
 				Header: 'URL',
 				accessor: 'url',
-				Cell: this.renderEditable
+				Cell: this.renderEditable,
+				maxWidth: 350,
+				width: 350
 			}, {
 				Header: 'Valid',
 				accessor: 'validUrl',
@@ -27648,7 +27650,8 @@ var RedditDisplay = function (_Component) {
 							'\u2713'
 						);
 					}
-				}
+				},
+				maxWidth: 100
 			}];
 
 			var reactTable = null;

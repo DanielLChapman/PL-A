@@ -67,7 +67,9 @@ class RedditDisplay extends Component {
 			{
 				Header: 'URL',
 				accessor: 'url',
-				Cell: this.renderEditable
+				Cell: this.renderEditable,
+				maxWidth: 350,
+				width: 350
 			}, {
 				Header: 'Valid',
 				accessor: 'validUrl',
@@ -82,7 +84,8 @@ class RedditDisplay extends Component {
 							✓
 						</div>);
 					}
-				}
+				},
+				maxWidth: 100
 			}
 		];
 
