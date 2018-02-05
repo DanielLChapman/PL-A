@@ -26,6 +26,7 @@ class PlayListList extends Component {
 					numTimesUpdated: parseInt(this.state.numTimesUpdated) + 1
 				});
 			} else {
+				this.props.submit(true);
 				this.setState({
 					saved: true,
 					numTimesUpdated: parseInt(this.state.numTimesUpdated) + 1
@@ -66,11 +67,13 @@ class PlayListList extends Component {
 	}
 
 	onSubmit () {
-		axios.post(`/internal/api/v1/editVideosForPlayList/${this.props.reactID}`, {
-			updateType: 'videos',
-			videos: this.props.videos[0].videos
-		})
+		if (this.props.videos[0].videos.length > 0) {
+			axios.post(`/internal/api/v1/editVideosForPlayList/${this.props.reactID}`, {
+				updateType: 'videos',
+				videos: this.props.videos[0].videos
+			})
 			.then((response) => {
+				this.props.submit(true);
 				this.setState({
 					saved: true
 				})
@@ -78,6 +81,9 @@ class PlayListList extends Component {
 			.catch(function (error) {
 				console.log(error);
 			});
+		} else {
+			alert('Cant save a playlist with 0 videos, at least 1 is required.');
+		}
 		/* if (this.state.validUrl) {
 			this.props.scrubURL(this.state.url);
 			this.setState({ url: '', validUrl: false });

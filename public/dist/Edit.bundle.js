@@ -24917,7 +24917,8 @@ var EditVideosApp = function (_Component) {
 		_this.state = {
 			view: 'Video',
 			checkURLS: false,
-			count: 0
+			count: 0,
+			isSubmitted: false
 		};
 		_this.renderTextInformation = _this.renderTextInformation.bind(_this);
 		_this.renderVideoInformation = _this.renderVideoInformation.bind(_this);
@@ -24925,6 +24926,7 @@ var EditVideosApp = function (_Component) {
 		_this.viewVideoInformation = _this.viewVideoInformation.bind(_this);
 		_this.viewVideos = _this.viewVideos.bind(_this);
 		_this.checkUrls = _this.checkUrls.bind(_this);
+		_this.isSubmitted = _this.isSubmitted.bind(_this);
 		return _this;
 	}
 
@@ -24933,6 +24935,13 @@ var EditVideosApp = function (_Component) {
 		value: function componentWillMount() {
 			REACT_ID = document.querySelector('.editVideos').getAttribute('reactID');
 			this.props.grabVideos(REACT_ID, 'edit');
+		}
+	}, {
+		key: 'isSubmitted',
+		value: function isSubmitted(boolean) {
+			this.setState({
+				isSubmitted: boolean
+			});
 		}
 	}, {
 		key: 'renderPasswordInformation',
@@ -24998,10 +25007,12 @@ var EditVideosApp = function (_Component) {
 	}, {
 		key: 'renderVideoInformation',
 		value: function renderVideoInformation() {
-			var url = null;
+			var url = '/',
+			    watchDisplay = { display: 'none' };
 			var urlDisplay = { display: 'none' };
-			if (this.props.playlist[0] != null) {
+			if (this.props.playlist[0] != null && (this.state.isSubmitted || this.props.playlist[0].videos.length > 0)) {
 				url = '/watch/' + this.props.playlist[0].slug;
+				watchDisplay = { display: 'initial' };
 			}
 			if (this.state.checkURLS) {
 				urlDisplay = { display: 'block' };
@@ -25019,7 +25030,7 @@ var EditVideosApp = function (_Component) {
 					),
 					_react2.default.createElement(
 						'a',
-						{ href: url, className: 'btn btn-default' },
+						{ href: url, className: 'btn btn-default', style: watchDisplay },
 						'View Playlist'
 					)
 				),
@@ -25081,7 +25092,7 @@ var EditVideosApp = function (_Component) {
 							)
 						)
 					),
-					_react2.default.createElement(_playlist_list2.default, { reactID: REACT_ID, videos: this.props.playlist, view: this.state.count })
+					_react2.default.createElement(_playlist_list2.default, { reactID: REACT_ID, videos: this.props.playlist, view: this.state.count, submit: this.isSubmitted })
 				)
 			);
 		}
@@ -25315,6 +25326,7 @@ var PlayListList = function (_Component) {
 						numTimesUpdated: parseInt(this.state.numTimesUpdated) + 1
 					});
 				} else {
+					this.props.submit(true);
 					this.setState({
 						saved: true,
 						numTimesUpdated: parseInt(this.state.numTimesUpdated) + 1
@@ -25410,16 +25422,21 @@ var PlayListList = function (_Component) {
 		value: function onSubmit() {
 			var _this3 = this;
 
-			_axios2.default.post('/internal/api/v1/editVideosForPlayList/' + this.props.reactID, {
-				updateType: 'videos',
-				videos: this.props.videos[0].videos
-			}).then(function (response) {
-				_this3.setState({
-					saved: true
+			if (this.props.videos[0].videos.length > 0) {
+				_axios2.default.post('/internal/api/v1/editVideosForPlayList/' + this.props.reactID, {
+					updateType: 'videos',
+					videos: this.props.videos[0].videos
+				}).then(function (response) {
+					_this3.props.submit(true);
+					_this3.setState({
+						saved: true
+					});
+				}).catch(function (error) {
+					console.log(error);
 				});
-			}).catch(function (error) {
-				console.log(error);
-			});
+			} else {
+				alert('Cant save a playlist with 0 videos, at least 1 is required.');
+			}
 			/* if (this.state.validUrl) {
    	this.props.scrubURL(this.state.url);
    	this.setState({ url: '', validUrl: false });

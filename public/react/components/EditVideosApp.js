@@ -18,7 +18,8 @@ class EditVideosApp extends Component {
 		this.state = {
 			view: 'Video',
 			checkURLS: false,
-			count: 0
+			count: 0,
+			isSubmitted: false
 		};
 		this.renderTextInformation = this.renderTextInformation.bind(this);
 		this.renderVideoInformation = this.renderVideoInformation.bind(this);
@@ -26,12 +27,19 @@ class EditVideosApp extends Component {
 		this.viewVideoInformation = this.viewVideoInformation.bind(this);
 		this.viewVideos = this.viewVideos.bind(this);
 		this.checkUrls = this.checkUrls.bind(this);
+		this.isSubmitted = this.isSubmitted.bind(this);
 	}
 
 	componentWillMount () {
 		REACT_ID = document.querySelector('.editVideos').getAttribute('reactID');
 		this.props.grabVideos(REACT_ID, 'edit');
 	}
+
+	isSubmitted ( boolean ) {
+		this.setState({
+			isSubmitted: boolean
+		})
+	};
 
 	renderPasswordInformation () {
 		return (
@@ -72,11 +80,13 @@ class EditVideosApp extends Component {
 	}
 
 	renderVideoInformation () {
-		let url = null;
+		let url = '/',
+			watchDisplay = {display: 'none'};
 		let urlDisplay = {display: 'none'};
-		if (this.props.playlist[0] != null) {
+		if (this.props.playlist[0] != null && (this.state.isSubmitted || this.props.playlist[0].videos.length > 0) ) {
 			url = '/watch/' + this.props.playlist[0].slug;
-		}
+			watchDisplay = {display: 'initial'};
+		} 
 		if (this.state.checkURLS) {
 			urlDisplay = {display: 'block'};
 		}
@@ -84,7 +94,7 @@ class EditVideosApp extends Component {
 			<div>
 				<section className="row editPageButtons">
 					<button className="btn btn-default" onClick={ this.viewVideoInformation }>Edit Information About Playlist</button>
-					<a href={url} className="btn btn-default">View Playlist</a>
+					<a href={url} className="btn btn-default" style={watchDisplay}>View Playlist</a>
 				</section>
 				<div>
 					<h2>Add Videos To Playlist</h2>
@@ -103,7 +113,7 @@ class EditVideosApp extends Component {
 							<li style={urlDisplay}>https://streamable.com/XXXXX</li>
 						</ul>
 					</section>
-					<PlayListList reactID={REACT_ID} videos={this.props.playlist} view={this.state.count}/>
+					<PlayListList reactID={REACT_ID} videos={this.props.playlist} view={this.state.count} submit={this.isSubmitted}/>
 					
 				</div>
 			</div>

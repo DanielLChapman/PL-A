@@ -80,7 +80,8 @@ exports.grabMyPlaylistsAPI = async(req, res) => {
 exports.watchPlaylist = async(req, res) => {
 	const playlist = await Playlist.findOneAndUpdate({slug: req.params.slug}, { $inc: {views: 1}} );
 	var order = req.query.order || 0;
-	if (playlist == null) {
+	if (playlist == null || playlist.videos.length <= 0) {
+		req.flash('error', 'Playlist is invalid or doesnt have any videos to watch!');
 		return res.redirect('/');
 	}
 	res.render('watch', {title: playlist.name, id: playlist._id, order});
