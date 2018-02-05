@@ -7,10 +7,10 @@
 - **CSS Preprocessor**: sass
 - **JavaScript Framework**: react
 - **Build Tool**: webpack
-- **Unit Testing**: none
+- **Unit Testing**: Chai + Mocha 
 - **Database**: mongodb
 - **Authentication**: passport
-- **Deployment**: none
+- **Deployment**: Heroku : https://playlist-aggregator.herokuapp.com/
 
 
 Requires a variables.env file with the following: 
