@@ -3,6 +3,7 @@ const crypto = require('crypto');
 const mongoose = require('mongoose');
 const User = mongoose.model('User');
 const promisify = require('es6-promisify');
+const axios = require('axios');
 
 exports.login = passport.authenticate('local', {
 	failureRedirect: '/login',
@@ -38,7 +39,19 @@ exports.forgot = async(req, res) => {
 	user.resetPasswordExpires = Date.now() + 3600000; //1 hour
 	await user.save();
 	//Send Email
-	const resetURL = `http://#{req.headers.host}/account/reset/${user.resetPasswordToken}`;
+	const url = `https://api:${process.env.MAILGUN_API_KEY}@api.mailgun.net/v3/${process.env.MAILGUN_DOMAIN}/messages`;
+	const resetURL = `http://${req.headers.host}/account/reset/${user.resetPasswordToken}`;
+	const mailgun = await axios.post(url, {
+		from: "",
+		to: user.email,
+		subject: "PL-A Forgot Password",
+		text: `Reset Password at this url: ${resetURL}`,
+		html: `<h4>Click <a href="${resetURL}">here </a> to reset your password for PL-A</h4>. <br />
+		<h4>Ignore this email if you didnt request this.</h4> <br />
+		<h4>If the link doesnt work, copy and paste this into your url: ${resetURL}</h4>`
+	});
+	console.log(mailgun);
+
 
 	//Redirect to login page
 	req.flash('Success', 'A password reset has been sent! `${resetURL}`');
