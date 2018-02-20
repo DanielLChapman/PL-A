@@ -52,9 +52,6 @@ exports.forgot = async(req, res) => {
 	}}
 	).then(function (response) {
 	    console.log(response);
-	    //Redirect to login page
-		req.flash('Success', 'A password reset has been sent! `${resetURL}`');
-		return res.redirect('/login');
 	  })
 	  .catch(function (error) {
 	    console.log(error);
