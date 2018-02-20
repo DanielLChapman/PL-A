@@ -41,16 +41,24 @@ exports.forgot = async(req, res) => {
 	//Send Email
 	const url = `https://api:${process.env.MAILGUN_API_KEY}@api.mailgun.net/v3/${process.env.MAILGUN_DOMAIN}/messages`;
 	const resetURL = `http://${req.headers.host}/account/reset/${user.resetPasswordToken}`;
-	const mailgun = await axios.post(url, {
-		from: "",
+	axios.post(url, "", { params: {
+		from: `noreply@${process.env.MAILGUN_DOMAIN}`,
 		to: user.email,
 		subject: "PL-A Forgot Password",
 		text: `Reset Password at this url: ${resetURL}`,
 		html: `<h4>Click <a href="${resetURL}">here </a> to reset your password for PL-A</h4>. <br />
 		<h4>Ignore this email if you didnt request this.</h4> <br />
 		<h4>If the link doesnt work, copy and paste this into your url: ${resetURL}</h4>`
-	});
-	console.log(mailgun);
+	}}
+	).then(function (response) {
+	    console.log(response);
+	    //Redirect to login page
+		req.flash('Success', 'A password reset has been sent! `${resetURL}`');
+		return res.redirect('/login');
+	  })
+	  .catch(function (error) {
+	    console.log(error);
+	  });
 
 
 	//Redirect to login page
